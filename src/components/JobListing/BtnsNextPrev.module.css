@@ -1,0 +1,30 @@
+.pageBtns{
+    text-align: center;
+    margin: 1%;
+}
+.pageBtns .btn{
+    margin: 0px 6px;
+    background-color: #3dabe7;
+    border: none;
+    padding: 4px 8px ;
+    color: white;
+}
+.pageBtns .btnsList{
+    border: none;
+    padding: 4px 16px ;
+}
+.pageBtns .numberedBtns{
+    padding: 2p 4px ;
+    display: inline-flex;
+}
+
+.pageBtns .numberedBtns .active{
+    color: #3dabe7;
+    border: 2px solid #3dabe7;
+}
+.pageBtns .disabled{
+    color: white;
+    border: none;
+    background-color: lightgray;
+    cursor: not-allowed;
+}

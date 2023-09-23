@@ -1,0 +1,39 @@
+.jobContainer{
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: .5% 2%;
+    margin-bottom: 1%;
+    cursor: pointer;
+}
+.jobContainer:hover{
+    border-color: #3dabe7;
+}
+.jobContainer .remoteJob{
+	font-size: 10px;
+	background-color: red;
+	color: white;
+	border-radius: 20px;
+	padding: 5px 1%;
+    position: relative;
+}
+.jobContainer .company span,
+.jobContainer .company a{
+    margin-right: 2%;
+    text-decoration: none;
+}
+.jobContainer .company .companyLink{
+    color: #0d6efd;
+}
+.jobContainer .datePosted{
+    margin-bottom: 7px;
+}
+.jobContainer .datePosted span{
+    margin-right: 2%;
+    text-decoration: none;
+}
+.jobContainer .datePosted span:nth-child(2){
+    color: red;
+}
+.jobContainer .datePosted span:nth-child(3){
+    color: #3dabe7;
+}

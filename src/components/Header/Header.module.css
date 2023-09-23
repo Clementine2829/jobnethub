@@ -1,0 +1,32 @@
+.navLogo{
+    width: 180px;
+    margin: 5px;
+    
+}
+.nav{
+    background-color: #3dabe7;
+    padding: 2% 6%;
+}
+/* .navLinks{
+    
+} */
+.navLinkItem{
+    margin: 1% 0%;
+    font-weight: bold;
+}
+.btnHeader{
+    margin: 0% 2%;
+    padding: 0% 3%;
+    border: 2px solid white;
+    background-color: #3dabe7;
+    color: white;
+    font-weight: bold;
+}
+.btnHeader a{
+    text-decoration: none;
+    color: white;
+}
+.btnHeader:hover{
+    background-color: skyblue;
+}
+
