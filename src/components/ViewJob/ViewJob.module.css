@@ -1,0 +1,115 @@
+.otherJobContainer{
+    /*	width: 30%;
+        float: left;
+    */	
+    margin-top: 5%;
+    text-align: left;
+}
+.mainJobContainerAtServer{
+/*	width: 70%;
+    float: left;
+*/	margin-top: 5%;
+    text-align: left;
+}
+.otherJobContainer .container .subContainer {
+    margin-bottom: 2%; 
+
+}
+.otherJobContainer .container .subContainer:nth-child(1) {
+    border: 1px solid #1b9ce3;
+    padding: 4%;
+}
+.otherJobContainer .container .subContainer:nth-child(1) .body{
+    border-top: 1px solid #1b9ce3;
+    padding-top: 4%;
+}
+.otherJobContainer .container .subContainer:nth-child(1) .body input{
+    width: 100%;
+    border: 2px solid #1b9ce3;
+    padding: 2% 4%;
+    border-radius: 45px;
+}
+.otherJobContainer .container .subContainer:nth-child(1) .body input:active, 
+.otherJobContainer .container .subContainer:nth-child(1) .body input:focus{
+    outline: none;
+}
+.otherJobContainer .container .subContainer:nth-child(1) .body button{
+    margin-top: 2%;
+    width: 100%;
+    border: 2px solid #1b9ce3;
+    background-color: #1b9ce3;
+    color: white;
+    padding: 2% 4%;
+    border-radius: 45px;
+}
+.otherJobContainer .container .subContainer:nth-child(1) .body button:hover{
+    color: #1b9ce3;
+    background-color: white;
+}
+.errorEmailMsgs{color: red;}
+.otherJobContainer .container .subContainer:nth-child(2),
+.otherJobContainer .container .subContainer:nth-child(3) {
+    border: 1px solid #1b9ce3;
+    padding: 4%;
+}
+.otherJobContainer .container .subContainer:nth-child(2) .jobs,
+.otherJobContainer .container .subContainer:nth-child(3) .jobs {
+
+}
+.otherJobContainer .container .subContainer:nth-child(2) .jobs .jobList,
+.otherJobContainer .container .subContainer:nth-child(3) .jobs .jobList {
+    border-top: 1px solid #1b9ce3;
+    padding-top: 4%;
+}
+.otherJobContainer .container .subContainer:nth-child(2) .jobs .jobList .job,
+.otherJobContainer .container .subContainer:nth-child(3) .jobs .jobList .job {
+    border-top: 1px solid #1b9ce3;
+    padding-top: 5%;
+}
+.otherJobContainer .container .subContainer:nth-child(2) .jobs .jobList .job:nth-child(1),
+.otherJobContainer .container .subContainer:nth-child(3) .jobs .jobList .job:nth-child(1) { 
+    border-top: none;
+}
+.otherJobContainer .container .subContainer:nth-child(2) .jobs .jobList .job .remote,
+.otherJobContainer .container .subContainer:nth-child(3) .jobs .jobList .job .remote, 
+.mainJobContainer .container .description h4 .remote{
+    font-size: 10px;
+    background-color: red;
+    color: white;
+    border-radius: 7px;
+    padding: 5px;
+}
+
+.mainJobContainer {
+
+}
+.mainJobContainer .container {
+	padding: 0px 2%;
+}
+.mainJobContainer .container .job {
+	width: 100%;
+	height: 200px;
+}
+.mainJobContainer .container .job .image {
+	max-width: 100%;
+	height: 100%;
+    text-align: center;
+}
+.mainJobContainer .container .description {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 5%; 
+}
+.share span{
+    cursor: pointer;
+}
+.btnJobApply{
+    border: 2px solid gray;
+    background-color: gray;
+    color: white;
+    padding: 1% 10%;
+    border-radius: 45px;
+    margin-top: 1%;
+}
+
+

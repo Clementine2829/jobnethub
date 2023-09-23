@@ -37,6 +37,11 @@ class JobListing extends Component{
         return jobs.slice(startIndex, startIndex + numberOfItems);
     }
 
+    viewJob(jobId){
+        const newUrl = '/home';
+        window.location.href = newUrl
+        
+    }
     render(){
         return(
             <>

@@ -8,7 +8,9 @@ function CheckDescription(description){
 }
 function JobItem(props){  
     return(
-        <div className={`${jobs.jobContainer}`}>
+        <div
+            onClick={()=> window.location.href="./jobs/" + props.id}  
+            className={`${jobs.jobContainer}`}>
             <input type="hidden" value={props.id} />
             <h3>{props.jobTitle} {props.remoteJob && <span className={`${jobs.remoteJob}`}>Remote</span>}</h3>
             <p className={`${jobs.company}`}>
