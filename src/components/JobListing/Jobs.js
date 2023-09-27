@@ -23,7 +23,7 @@ export default [
         company:"Transnet",
         location:"Pretoria",
         description:"Quisque iaculis ex vel quam sodales, a maximus enim aliquet. Mauris euismod diam eu ex gravida, ac pellentesque ipsum suscipit. In pellentesque elit ero",
-        datePosted:"Today"
+        datePosted:"2023-09-25"
     },
     {
         id:"4",
@@ -32,7 +32,7 @@ export default [
         company:"M & I finances",
         location:"Johannesburg",
         description:"Praesent non tellus id quam blandit posuere. Praesent nec ultricies dolor. Integer eu urna et enim tincidunt lacinia sit amet egestas justo. Suspendisse dictum mauris a varius tempor",
-        datePosted:"Yesterday"
+        datePosted:"2023-08-15"
     },
     {
         id:"5",
@@ -40,7 +40,7 @@ export default [
         company:"M & I Finances ",
         location:"Johannesburg",
         description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in viverra lorem, eu interdum ante. Pellentesque faucibus erat egestas imperdiet tincidunt. ",
-        datePosted:"Yesterday"
+        datePosted:"2023-09-15"
     },
     {
         id:"6",
@@ -48,7 +48,7 @@ export default [
         company:"WishMish",
         location:"Johannesburg",
         description:"Consectetur adipiscing elit. Vestibulum in viverra lorem, eu interdum ante. Pellentesque faucibus erat egestas imperdiet tincidunt. ",
-        datePosted:"Yesterday"
+        datePosted:"2023-08-02"
     },
     {
         id:"7",
@@ -57,6 +57,6 @@ export default [
         company:"African Bank",
         location:"Johannesburg",
         description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in viverra lorem, eu interdum ante. Pellentesque faucibus erat egestas imperdiet tincidunt. ",
-        datePosted:"Yesterday"
+        datePosted:"2023-08-30"
     }
 ]

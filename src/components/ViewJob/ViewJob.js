@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import job from './ViewJob.module.css'
-import RelatedJobs from "./RelatedJobs";
+import jobs from '../JobListing/Jobs'
+import JobsFunction from "./JobsFunction";
 
 class ViewJob extends Component{
     render(){
@@ -32,7 +33,7 @@ class ViewJob extends Component{
                                 <div className={`${job.jobs}`}>
                                     <h4>Jobs available in this company</h4>
                                     <div className={`${job.jobList}`}>
-                                        < RelatedJobs />
+                                        < JobsFunction jobs={jobs} />
                                     </div>
                                 </div>
                             </div>
@@ -40,7 +41,7 @@ class ViewJob extends Component{
                             <div className={`${job.jobs}`}>
                                     <h4>Related jobs</h4>
                                     <div className={`${job.jobList}`}>
-                                        <p>Loading jobs...</p>
+                                        < JobsFunction jobs={jobs.slice(4, 6)} />
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +59,7 @@ class ViewJob extends Component{
                                 </h4>
                                 <p>
                                     <span className={`fas fa-building`} style={{"margin-right":" 5px"}}></span>                                
-                                    African Bank
+                                    <a href="#" style={{"text-decoration":"none"}}>African Bank</a>
                                 </p>
                                 <p>
                                     <span className={`fa fa-map-marker`} style={{"margin-right":" 5px"}}></span>

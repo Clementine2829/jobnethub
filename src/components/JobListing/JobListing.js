@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from "../Header/Header";
-import Searcher from "./Searcher";
+import Searcher from "../Searcher/Searcher";
 import Footer from "../Footer/Footer";
 import container from './JobListing.module.css'
 import Jobs from './JobsFunction'
@@ -46,7 +46,7 @@ class JobListing extends Component{
         return(
             <>
                 <Header />
-                <Searcher />
+                <Searcher variant="JobListing"/>
 
                 <div className={`row`}>
                     <div className={`col-sm-1`}></div>
