@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import job from './ViewJob.module.css'
+import RelatedJobs from "./RelatedJobs";
 
 class ViewJob extends Component{
     render(){
@@ -21,14 +22,17 @@ class ViewJob extends Component{
                                     <label for="email">Email address</label>
                                     <span> * </span>
                                     <input type="email" placeholder="Enter your email" />
-                                    <button>Create a new job alert</button>
+                                    <button>
+                                        <span className={`fas fa-bell`} style={{"margin-right":"5%"}}></span>
+                                        Create a new job alert
+                                    </button>
                                 </div>
                             </div>
                             <div className={`${job.subContainer}`}>
                                 <div className={`${job.jobs}`}>
                                     <h4>Jobs available in this company</h4>
                                     <div className={`${job.jobList}`}>
-                                        <p>Loading jobs...</p>
+                                        < RelatedJobs />
                                     </div>
                                 </div>
                             </div>

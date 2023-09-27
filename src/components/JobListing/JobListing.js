@@ -32,7 +32,7 @@ class JobListing extends Component{
     }
 
     filterJobs(){
-        const startIndex = 0;
+        const startIndex = 5;
         const numberOfItems = this.state.jobsPerPage;
         return jobs.slice(startIndex, startIndex + numberOfItems);
     }
