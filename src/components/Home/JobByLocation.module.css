@@ -1,0 +1,33 @@
+.heading{
+    text-align: center;
+    margin: 5% 1% 1% 1%;
+}
+.mainContainer{
+    width: 100%;
+    height: 200px;
+}
+.mainContainer .container a{
+    text-decoration: none;
+}
+.mainContainer .container {
+    padding: .8%;
+    width: 24%;
+    height: 100%;
+    float: left;
+    margin: .5%;
+    position: relative;
+    border-radius: 14px;
+}
+.mainContainer .container img{
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+}
+.mainContainer .container .textOnImage{
+    color: white;
+    text-align: center;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 1% 4%;
+}

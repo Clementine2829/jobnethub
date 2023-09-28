@@ -29,7 +29,7 @@ class Header extends Component{
                 <nav className={`${header.nav} navbar navbar-expand-sm navbar-dark`}>
                     <div className="container-fluid">
                         <div>
-                            <a className="navbar-brand" href="#">
+                            <a className="navbar-brand" onClick={()=> window.location.href="./"} href="#">
                                 <img src={logo} className={header.navLogo} alt="logo" />                            
                             </a>
                         </div>
@@ -39,19 +39,19 @@ class Header extends Component{
                         <div className="collapse navbar-collapse" id="navbarlinks">
                             <ul className={`navbar-nav mx-auto ${header.navLinks}`}>
                                 <li className={`nav-item ${header.navLinkItem}`}>
-                                    <a className={`nav-link active`} href="#">HOME</a>
+                                    <a className={`nav-link active`} onClick={()=> window.location.href="./"} href="#">HOME</a>
                                 </li>
                                 <li className={`nav-item ${header.navLinkItem}`}>
-                                    <a className="nav-link" href="#">JOBS LISTING</a>
+                                    <a className="nav-link" onClick={()=> window.location.href="./jobs"} href="#">JOBS LISTING</a>
                                 </li>
                                 <li className={`nav-item ${header.navLinkItem}`}>
-                                    <a className="nav-link" href="#">POST A JOB</a>
+                                    <a className="nav-link" onClick={()=> window.location.href="./post"}href="#">POST A JOB</a>
                                 </li>
                                 <li className={`nav-item ${header.navLinkItem}`}>
-                                    <a className="nav-link" href="#">ABOUT US</a>
+                                    <a className="nav-link" onClick={()=> window.location.href="./about"} href="#">ABOUT US</a>
                                 </li>
                                 <li className={`nav-item ${header.navLinkItem}`}>
-                                    <a className="nav-link" href="#">CONTACT US</a>
+                                    <a className="nav-link" onClick={()=> window.location.href="./contact"} href="#">CONTACT US</a>
                                 </li>
                             </ul>
                             <form className="d-flex">

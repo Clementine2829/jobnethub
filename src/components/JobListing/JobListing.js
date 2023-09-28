@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from "../Header/Header";
-import Searcher from "./Searcher";
+import Searcher from "../Searcher/Searcher";
 import Footer from "../Footer/Footer";
 import container from './JobListing.module.css'
 import Jobs from './JobsFunction'
@@ -46,7 +46,7 @@ class JobListing extends Component{
         return(
             <>
                 <Header />
-                <Searcher />
+                <Searcher variant="JobListing"/>
 
                 <div className={`row`}>
                     <div className={`col-sm-1`}></div>
@@ -85,12 +85,28 @@ class JobListing extends Component{
                                             <span className={`fas fa-angle-down`}></span>
                                         </p>
                                         <select>
-                                            <option value="any">Any</option>
+                                            <option value="any">All times</option>
                                             <option value="any">Today</option>
                                             <option value="any">Yesterday</option>
                                             <option value="any">Last 7 days</option>
                                             <option value="any">Last 14 days</option>
-                                            <option value="any">All times</option>
+                                        </select>
+                                    </div>
+                                    <div className={`${container.subFilter}`}>
+                                        <p>
+                                            <strong>Category</strong>
+                                            <span className={`fas fa-angle-down`}></span>
+                                        </p>
+                                        <select>
+                                            <option value="any">All Categories</option>
+                                            <option value="any">IT</option>
+                                            <option value="any">Media</option>
+                                            <option value="any">Finance</option>
+                                            <option value="any">Sales</option>
+                                            <option value="any">Engineering</option>
+                                            <option value="any">Accounting</option>
+                                            <option value="any">Insurance</option>
+                                            <option value="any">Admin</option>
                                         </select>
                                     </div>
                                     <div className={`${container.subFilter}`}>

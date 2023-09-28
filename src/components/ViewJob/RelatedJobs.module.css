@@ -1,0 +1,12 @@
+.container{
+    border-top: 1px dashed #1b9ce3;
+    padding: 4% 0%;
+    margin: 2px 4%;
+}
+.container a{
+    text-decoration: none;
+}
+.container p{
+    margin-bottom: 0px;
+    margin-right: 2%;
+}

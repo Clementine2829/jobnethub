@@ -1,0 +1,14 @@
+.backgroundContainer {
+    height: 300px;
+    background-image: url('../../asserts/image1.jpg'); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* background-position: center center;       */
+}
+.createResume{
+    margin: 4% 1%;
+}
+.createResume a{
+    text-decoration: none;
+}
