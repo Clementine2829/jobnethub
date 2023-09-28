@@ -6,3 +6,9 @@
     background-attachment: fixed;
     /* background-position: center center;       */
 }
+.createResume{
+    margin: 4% 1%;
+}
+.createResume a{
+    text-decoration: none;
+}

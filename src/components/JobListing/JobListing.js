@@ -32,7 +32,7 @@ class JobListing extends Component{
     }
 
     filterJobs(){
-        const startIndex = 5;
+        const startIndex = 0;
         const numberOfItems = this.state.jobsPerPage;
         return jobs.slice(startIndex, startIndex + numberOfItems);
     }
@@ -85,12 +85,28 @@ class JobListing extends Component{
                                             <span className={`fas fa-angle-down`}></span>
                                         </p>
                                         <select>
-                                            <option value="any">Any</option>
+                                            <option value="any">All times</option>
                                             <option value="any">Today</option>
                                             <option value="any">Yesterday</option>
                                             <option value="any">Last 7 days</option>
                                             <option value="any">Last 14 days</option>
-                                            <option value="any">All times</option>
+                                        </select>
+                                    </div>
+                                    <div className={`${container.subFilter}`}>
+                                        <p>
+                                            <strong>Category</strong>
+                                            <span className={`fas fa-angle-down`}></span>
+                                        </p>
+                                        <select>
+                                            <option value="any">All Categories</option>
+                                            <option value="any">IT</option>
+                                            <option value="any">Media</option>
+                                            <option value="any">Finance</option>
+                                            <option value="any">Sales</option>
+                                            <option value="any">Engineering</option>
+                                            <option value="any">Accounting</option>
+                                            <option value="any">Insurance</option>
+                                            <option value="any">Admin</option>
                                         </select>
                                     </div>
                                     <div className={`${container.subFilter}`}>

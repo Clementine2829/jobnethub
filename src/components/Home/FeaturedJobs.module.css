@@ -1,0 +1,28 @@
+.container{
+    border: 1px solid #3dabe7;
+    padding: .8%;
+    width: 32%;
+    float: left;
+    margin: .5%;
+    border-radius: 10px;
+}
+.container .line1{
+    /* text-align: left; */
+}
+.container .line1 span{
+    border: 1px solid darkgray;
+    padding: 2px 1%;
+    margin-right: 2%;
+    border-radius: 7px;
+
+}
+.container button{
+    background-color: #3dabe7;
+    width: 96%;
+    text-align: center;
+    border: 2px dotted gray;
+    border-radius: 10px;
+    color: white;
+    padding: 1%;
+    margin: 0px;
+}

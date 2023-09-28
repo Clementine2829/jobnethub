@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import listing from './Searcher.module.css'
 
 class Searcher extends Component{
-    render(props){
+    render(){
         const { variant } = this.props;
 
         let containerStyles = {};
@@ -13,7 +13,7 @@ class Searcher extends Component{
                 "border": "none"
             };
             containerStyles = {
-                "margin-top": "5%",
+                "marginTop": "5%",
                 "color": "white" 
             };
         } 
