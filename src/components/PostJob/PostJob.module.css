@@ -1,0 +1,80 @@
+.job_title{
+
+}
+.container{
+    width: 100%;
+    text-align: left;
+}
+h5{
+    margin-top: 3%;
+}
+.container:nth-child(2) {
+    margin-top: 0%;
+}
+.container .form{
+    width: 100%;
+    float: left;
+    margin-top: 3%;
+}
+.container {
+	width: 100%;
+}
+.container .form .label{
+    margin-bottom: 2%;
+    margin-left: 3%;
+}
+.container .form .label input {
+	width: 45%;
+    border: 1px solid #1b9ce3;
+    padding: 10px 15px;
+}
+.container .form .label input[type=checkbox],
+.container .form .label input[type=radio] {
+	width: auto;
+    margin-right: 1%;
+}
+.container .form .label .salary {
+	width: 22%;
+}
+.container .form .label select {
+	border: 1px solid #1b9ce3;
+	padding: 10px 15px;
+	width: 45%;
+}
+.container .form .label textarea {
+	width: 80%;
+	height: 200px;
+	border: 1px solid #1b9ce3;
+	padding: 10px 15px;
+}
+.container .form .last .add_more {
+	border: 2px solid gray;
+	margin-bottom: 1%;
+	border-radius: 7px;
+}
+.container .form .last input {
+	width: 50%;
+	border: 1px solid #1b9ce3;
+	padding: 5px 10px;
+}
+.container .form .last .btn_delete {
+	margin: .5%;
+	background-color: rgb(235, 235, 235);
+	color: red;
+	border: 2px solid rgb(235, 235, 235);
+	border-radius: 7px;
+}
+.container .form .last{
+	border-top: 1px solid #1b9ce3;
+	margin-top: 5%;
+	padding-top: 2%;
+}
+.submit_job_update{
+	padding: 2% 6%;
+	background-color: green;
+	color: white;
+	border-radius: 7px;
+	border: none;
+	float: right;
+	margin-top: 3%;
+}

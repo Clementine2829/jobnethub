@@ -1,0 +1,8 @@
+.err{
+    color: red;
+}
+.add_more{
+    border: 2px solid gray;
+    margin-left: 1%;
+    border-radius: 7px;
+}
