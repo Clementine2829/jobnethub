@@ -3,9 +3,69 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import job from './PostJob.module.css'
 import './PostJob.css'
+import ListItem from './ListItem'
 
 class PostJob extends Component{
+
+    constructor(props){
+        super(props)
+
+        const { job } = props
+
+        this.state = {
+            companyId: job?.companyId || "",
+            jobTitle: job?.jobTitle || "",
+            jobDescription: job?.jobDescription || "",
+            remoteWork: job?.remoteWork || false,
+            jobType: job?.jobType || "",
+            jobSalary: job?.jobSalary || 0,
+            jobCategory: job?.jobCategory || "",
+            jobLocation: job?.jobLocation || "",
+            closingDate: job?.closingDate || "",
+
+            items: [],
+            newItemValue: ''
+        }    
+    }
+    
+    handleInputChange = (index, event) => {
+        const { value } = event.target.value;
+        this.setState((prevState) => {
+            const updatedItems = [...prevState.items];
+            updatedItems[index].text = value;
+            return { items: updatedItems };
+        });
+    };
+    
+    // handleAddItem = () => {
+    //     const { newItemValue, items } = this.state;
+    //     if (newItemValue) {
+    //         this.setState((prevState) => ({
+    //             items: [...prevState.items, newItemValue],
+    //             newItemValue: '',
+    //         }));
+    //     }
+    // }
+    handleAddItem = () => {
+        this.setState((prevState) => ({
+            items: [...prevState.items, { text: '', placeholder: 'Requirement '}],
+        }));
+    };
+
+    handleRemoveItem = (value) => {
+        this.setState({
+            items: this.state.items.filter(item => item !== value),
+        });
+    }
+
+    handleChangeItem = (value) => {
+        this.setState({
+            items: this.state.items.filter(item => item !== value),
+        });
+    }
+
     render(){
+        const { items, newItemValue } = this.state;
         return(
             <>
                 <Header />
@@ -92,9 +152,25 @@ class PostJob extends Component{
                                     <small><strong>NB: </strong>Here you can state all the requirements needed, skills and more</small>
                                     <ul>
                                         <li>
-                                            <input type="text" placeholder="Requirement 1" />
-                                            <button className={`add_more`}><span className="fas fa-plus"></span></button><br />
+                                            <input
+                                                type="text"
+                                                placeholder="Requirement 1"
+                                                value={newItemValue}
+                                                onChange={(e) => this.setState({ newItemValue: e.target.value })}
+                                                />
+                                            <button className={`add_more`} onClick={this.handleAddItem}>
+                                                <span className="fas fa-plus"></span>
+                                            </button>
                                         </li>
+                                        {items.map((item, index) => (
+                                            <ListItem
+                                                key={index}
+                                                index={index + 2}
+                                                value={item}
+                                                onRemove={this.handleRemoveItem}
+                                                onChange={this.handleChangeItem}
+                                            />
+                                        ))}
                                     </ul>
                                 </div><br />
                                 <div className={`last ${job.label}`}>

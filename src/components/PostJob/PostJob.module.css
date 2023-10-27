@@ -57,13 +57,7 @@ h5{
 	border: 1px solid #1b9ce3;
 	padding: 5px 10px;
 }
-.container .form .last .btn_delete {
-	margin: .5%;
-	background-color: rgb(235, 235, 235);
-	color: red;
-	border: 2px solid rgb(235, 235, 235);
-	border-radius: 7px;
-}
+
 .container .form .last{
 	border-top: 1px solid #1b9ce3;
 	margin-top: 5%;

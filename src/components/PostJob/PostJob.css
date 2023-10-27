@@ -6,3 +6,10 @@
     margin-left: 1%;
     border-radius: 7px;
 }
+.btn_delete {
+	margin: .5%;
+	background-color: rgb(235, 235, 235);
+	color: red;
+	border: 2px solid rgb(235, 235, 235);
+	border-radius: 7px;
+}

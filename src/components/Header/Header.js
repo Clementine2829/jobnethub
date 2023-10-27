@@ -9,10 +9,9 @@ class Header extends Component{
 
         const { user } = props
 
-        if(user == null)
         this.state = ({
-            userId: "", 
-            firstName: ""
+            userId: user?.userId || "",
+            firstName: user?.firstName || "",
         })
     }
 

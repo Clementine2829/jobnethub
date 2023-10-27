@@ -19,7 +19,7 @@ function App() {
         <Route path="/listing" element={ <JobListing/> } />
         <Route path="/jobs" element={ <JobListing/> } />
         <Route path="/jobs/:jobId" element={ <ViewJob/> } />
-        <Route path="/post" element={ <PostJob/> } />
+        <Route path="/jobs/update" element={ <PostJob/> } />
         <Route path="/about" element={ <About/> } />
         <Route path="/contact" element={ <Contact/> } />
         <Route path="/login" element={ <Login/> } />
