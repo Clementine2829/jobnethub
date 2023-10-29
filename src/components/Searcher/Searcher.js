@@ -40,6 +40,7 @@ class Searcher extends Component{
                                 <div className={`subForm ${listing.subForm}`}>
                                     <button className={`${listing.search}`}> 
                                         <span className={`fas fa-search`}></span>
+                                        <span className={`${listing.search}`}> Find job </span>
                                     </button>
                                 </div>						
                                 <div className={`subForm ${listing.subForm}`}>

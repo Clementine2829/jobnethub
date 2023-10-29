@@ -29,4 +29,20 @@
 .btnHeader:hover{
     background-color: skyblue;
 }
+@media screen and (max-width: 499px){
+    .nav{
+        background-color: #3dabe7;
+        padding: 2% 0px;
+    }
+    .navLinkItem{
+        text-align: right;
+    }
+    .btnHeader{
+        border-radius: 10px;
+    }
+    .btnLogin{
+        float: right;
+        text-align: right;
+    } 
+}
 

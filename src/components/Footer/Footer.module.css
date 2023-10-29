@@ -105,6 +105,10 @@
 .footer2SubFooter .social a:nth-child(5){
 	background-color: #4cc85a;
 }
+.footer2SubFooter .social a:nth-child(6){
+	padding: 8px 6px;
+	background-color: #262626;
+}
 .footer2SubFooter .social a:hover{
 	padding-top: 13px;
 	padding-bottom: 13px;
@@ -116,3 +120,50 @@
 .footer1 .err{
 	color:red;
 } 
+@media screen and (max-width: 499px){
+	.footer1SubFooter{
+		width: 44%;
+		float: left;
+		padding: 2%;
+		margin-right: 4%;
+		margin-top: 2%;
+	}
+	.footer1SubFooter:nth-child(1){
+		width: 100%;
+		padding-right: 0%;
+	}
+	.footer1SubFooter:nth-child(4) h4,
+	.footer1SubFooter:nth-child(5) h4{
+		display: none;
+	}
+	.footer1SubFooter:nth-child(5){
+		width: 100%;
+		padding-right: 0%;
+	}
+	.footer1SubFooter:nth-child(5) p{
+		padding: 0px 1%;
+	}
+	.footer1SubFooter div input[type=email]{
+		padding: 5px 15px;
+		border: none;
+		border: 1px solid lightblue;
+		width: 98%;
+	}
+	.footer2SubFooter{
+		width: 100%;
+		float: left;
+		text-align: center;
+	}
+	.footer2SubFooter:nth-child(1){
+		margin: 4% 1%;
+		/* float: right; */
+	}
+	.footer2SubFooter:nth-child(2){
+		margin-bottom: 6%;
+		/* float: right; */
+	}
+	.footer2SubFooter .social{
+		text-align: center;
+		padding-right: 0%;
+	}
+}

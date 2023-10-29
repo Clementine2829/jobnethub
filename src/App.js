@@ -15,11 +15,12 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={ <Home /> } />
+        <Route path="/" exact element={ <Home /> } />
+        <Route path="/home" exact element={ <Home /> } />
         <Route path="/listing" element={ <JobListing/> } />
         <Route path="/jobs" element={ <JobListing/> } />
         <Route path="/jobs/:jobId" element={ <ViewJob/> } />
-        <Route path="/post" element={ <PostJob/> } />
+        <Route path="/jobs/update" element={ <PostJob/> } />
         <Route path="/about" element={ <About/> } />
         <Route path="/contact" element={ <Contact/> } />
         <Route path="/login" element={ <Login/> } />
