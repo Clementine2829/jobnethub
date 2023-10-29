@@ -14,6 +14,9 @@
     margin: 0% .5% 2% .5%; 
     padding: 1%;
 }
+.listingContainer .subContainer .subForm .search {
+    display: none;
+}
 .listingContainer .subContainer .subForm:nth-child(1) span,
 .listingContainer .subContainer .subForm:nth-child(2) span,
 .listingContainer .subContainer .subForm:nth-child(3) span {
@@ -60,4 +63,26 @@
 }
 .listingContainer .subContainer .subForm:nth-child(4) .jobType {
     margin-right: 2%;
+}
+@media screen and (max-width: 499px){
+    .listingContainer .subContainer .subForm:nth-child(1),
+    .listingContainer .subContainer .subForm:nth-child(2),
+    .listingContainer .subContainer .subForm:nth-child(3) {
+        width: 96%;
+        padding: 4% 2%;
+        margin: 2%;
+        border-radius: 10px;
+    }
+    .listingContainer .subContainer .subForm:nth-child(3) {
+        background-color: #1b9ce3;
+    }
+    .listingContainer .subContainer .subForm:nth-child(3) button span:first-child {
+        display: none;
+    }
+    .listingContainer .subContainer .subForm .search {
+        display: inline;
+    }
+    .listingContainer .subContainer .subForm:nth-child(4) {
+        padding: 4% 12%;
+    }
 }

@@ -12,3 +12,11 @@
 .createResume a{
     text-decoration: none;
 }
+@media screen and (max-width: 499px){
+    .backgroundContainer{
+        height: 470px; 
+    }
+    .createResume{
+        margin: 8%;
+    }
+}

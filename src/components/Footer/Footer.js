@@ -134,6 +134,7 @@ class Footer extends Component{
                                     <a hre="#"><span className="fa fa-linkedin"></span></a>
                                     <a hre="#"><span className="fa fa-instagram"></span></a>
                                     <a hre="#"><span className="fa fa-whatsapp"></span></a>
+                                    <a hre="#"><span className="fa fa-github"></span></a>
                                 </div>
                             </div>			
                         </div>		

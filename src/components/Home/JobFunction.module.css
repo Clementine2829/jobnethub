@@ -5,9 +5,27 @@
 }
 .container h5{
     display:inline;
-    float:left
+    float:left;
 }
 .container a{
     float:right;
     text-decoration: none;
+    margin-top: 12px;
+}
+@media screen and (max-width: 499px){
+    .container{
+        width: 100%;
+        float: left;
+        padding: 0px 2% 0px 1%;
+    }
+    .container h5{
+        display:inline;
+        float:left
+    }
+    .container a{
+        display:inline;
+        float:right;
+        text-decoration: none;
+    }
+    
 }

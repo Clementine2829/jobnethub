@@ -31,3 +31,19 @@
     left: 15px;
     padding: 1% 4%;
 }
+@media screen and (max-width: 499px){
+    .mainContainer .container{
+        width: 48%;
+        float: left;
+        margin: 1%;
+        padding-bottom: 2%;
+    }
+    .mainContainer .container .textOnImage{
+        color: white;
+        text-align: center;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        padding: 1% 4%;
+    }
+}
