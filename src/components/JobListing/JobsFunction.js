@@ -5,18 +5,19 @@ function Jobs(props){
     const {jobs} = props 
     const tempjobs = jobs.map(job => {
         return <JobList
-            key={job.id}
-            id={job.id}
-            remoteJob={job.remoteJob}
-            category={job.category}
-            jobTitle={job.jobTitle}
-            company={job.company}
-            jobType={job.jobType}
-            location={job.location}
-            description={job.description}
-            datePosted={job.datePosted} />
-
-    })
+        key={job.job_id}
+        id={job.job_id}
+        remoteJob={job.remote_work}
+        category={job.category}
+        jobTitle={job.job_title}
+        company={job.company}
+        jobType={job.job_type}
+        location={job.job_location}
+        salary={job.job_salary}
+        description={job.job_description}
+        likes={job.likes}
+        datePosted={job.date_updated} />
+})
 
     return(<>{tempjobs}</>)
 }

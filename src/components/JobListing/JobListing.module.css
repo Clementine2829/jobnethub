@@ -160,3 +160,15 @@
 	background-color: white;
 	color: #1b9ce3;
 }
+@media screen and (max-width: 499px){
+    .browseJobs .browseJobs{
+		display: none;
+		
+	} 
+    .browseJobs .browseJobs:nth-child(3){
+		display: inline-block;
+		width: 100%;
+		padding: 2%;
+
+	} 
+}

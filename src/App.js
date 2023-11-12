@@ -19,7 +19,7 @@ function App() {
         <Route path="/home" exact element={ <Home /> } />
         <Route path="/listing" element={ <JobListing/> } />
         <Route path="/jobs" element={ <JobListing/> } />
-        <Route path="/jobs/:jobId" element={ <ViewJob/> } />
+        <Route path="/jobs/:job" element={ <ViewJob/> } />
         <Route path="/jobs/update" element={ <PostJob/> } />
         <Route path="/about" element={ <About/> } />
         <Route path="/contact" element={ <Contact/> } />

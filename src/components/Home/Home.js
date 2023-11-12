@@ -4,20 +4,42 @@ import Footer from '../Footer/Footer';
 import Searcher from "../Searcher/Searcher";
 import JobFunctions from "./JobFunction"
 import home from './Home.module.css'
-import jobs from "../JobListing/Jobs";
+import JobsFetcher from "../Server/Jobs";
 import "./searcher.css"
 import JobByLocation from "./JobByLocation";
 
-class Home extends Component{
-    constructor(props){
-        super(props)
+class Home extends Component {
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            jobs: [],
+            startIndex: 0,
+            numberOfItems: 6,
+        };
     }
+  
+    onDataFetched = (data) => {
+    
+        const parsedData = data.map(item => ({
+            ...item,
+            company: JSON.parse(item.company),
+            category: JSON.parse(item.category)
+        }));
+    
+        this.setState({
+            jobs: parsedData,
+        });
+
+        this.filterJobs();
+    };
 
     filterJobs(){
-        const startIndex = 0;
-        const numberOfItems = 6;
-        return jobs.slice(startIndex, numberOfItems);
-    }
+        console.log(this.state.jobs)
+        const startIndex = this.state.startIndex;
+        const numberOfItems = this.state.numberOfItems;
+        return this.state.jobs.slice(startIndex, numberOfItems);
+    }    
 
     render(){        
         return(
@@ -26,7 +48,7 @@ class Home extends Component{
 
                 <div className={`${home.backgroundContainer}`}>
                     < Searcher variant="Home" />
-                </div>                
+                </div>       
 
                 <div>
                     <p className={`${home.createResume}`}>
@@ -38,6 +60,12 @@ class Home extends Component{
                 <div className={`row`}>
                     <div className={`col-sm-1`}></div>
                     <div className={`col-sm-10`}>
+
+                        <div>
+                            {/* <pre>{JSON.stringify(this.state.jobs, null, 2)}</pre> */}
+                        </div>
+                        <JobsFetcher onDataFetched={this.onDataFetched} />
+
                         {/* <div style={{"float":"left", "width":"100%"}}> */}
                             < JobFunctions jobs={this.filterJobs()}/>
                         {/* </div> */}

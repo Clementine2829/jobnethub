@@ -1,15 +1,73 @@
 import React, {Component} from "react";
+
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import job from './ViewJob.module.css'
-import jobs from '../JobListing/Jobs'
 import JobsFunction from "./JobsFunction";
+import DataFetcher, { getJobById } from "../Server/Jobs";
 
 class ViewJob extends Component{
+    constructor(props){
+        super(props)
+
+        // const job = props.match.params.job;
+        // console.log(job)
+        
+        this.state = ({
+            jobId: '488ac397f25165d172966e13936285245b5ed2b4c5b4',
+            jobData: null,
+            isLoading: false,
+            companyJobs: [],
+            relatedJobs: [],
+        })
+    }
+
+    onCompanyJobFetched = (data) => {
+        const parsedData = {
+          ...data,
+          company: JSON.parse(data.company),
+          category: JSON.parse(data.category)
+        };
+        this.setState({
+          relatedJob: parsedData,
+        });
+        this.filterJobs();        
+    };
+
+    filterJobs(){
+        console.log(this.state.job)
+        return this.state.job
+    }
+    
+      
+    onRelatedJobsFetched = (data) => {    
+        const parsedData = data.map(item => ({
+            ...item,
+            company: JSON.parse(item.company),
+            category: JSON.parse(item.category)
+        }));
+        this.setState({
+            relatedJobs: parsedData,
+        });
+    };
+
+    onCompanyJobsFetched = (data) => {    
+        const parsedData = data.map(item => ({
+            ...item,
+            company: JSON.parse(item.company),
+            category: JSON.parse(item.category)
+        }));
+        this.setState({
+            relatedJobs: parsedData,
+        });
+    };
+
     render(){
         return(
             <>
                 <Header />
+
+                <DataFetcher fetchFunction={() => getJobById(this.state.jobId)} onDataFetched={this.onCompanyJobFetched} />
 
                 <div className={`row`}>
                     <div className={`col-sm-1`}></div>
@@ -33,7 +91,7 @@ class ViewJob extends Component{
                                 <div className={`${job.jobs}`}>
                                     <h4>Jobs available in this company</h4>
                                     <div className={`${job.jobList}`}>
-                                        < JobsFunction jobs={jobs} />
+                                        {/* < JobsFunction jobs={jobs} /> */}
                                     </div>
                                 </div>
                             </div>
@@ -41,7 +99,7 @@ class ViewJob extends Component{
                             <div className={`${job.jobs}`}>
                                     <h4>Related jobs</h4>
                                     <div className={`${job.jobList}`}>
-                                        < JobsFunction jobs={jobs.slice(4, 6)} />
+                                        {/* < JobsFunction jobs={jobs.slice(4, 6)} /> */}
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +112,10 @@ class ViewJob extends Component{
                             </div>
                             <div className={`${job.description}`}>
                                 <h4>
-                                    Software developer (mid-senior) 
+                                    {/* {job.state.job.jobTitle} */}
+                                    {
+                                        console.log("this.state.job")
+                                    }
                                     <span className={`${job.remote}`}>Remote</span>    
                                 </h4>
                                 <p>
