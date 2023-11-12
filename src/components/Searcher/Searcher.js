@@ -1,13 +1,31 @@
 import React, { Component } from "react";
 import listing from './Searcher.module.css'
+import "./SearcherGlobal.css"
 
 class Searcher extends Component{
+
+    constructor(props) {
+        super(props);
+        console.log("Searcher " + props)
+        this.state = {
+           isDivHidden: true,
+           deviceSize: 499,
+        };
+    }
+    
+    filterSearch = () => {  
+        if(this.state.isDivHidden){
+            this.setState({ isDivHidden: !this.state.isDivHidden });
+        }
+    }
+
     render(){
-        const { variant } = this.props;
+        const { variant } = this.props
+        const device  = window.innerWidth
 
         let containerStyles = {};
         let devs = {};
-        if (variant == "Home") {
+        if (variant === "Home") {
             devs = {
                 "backgroundColor": "white",
                 "border": "none"
@@ -16,14 +34,16 @@ class Searcher extends Component{
                 "marginTop": "5%",
                 "color": "white" 
             };
-        } 
-
+        }
+        
         return(
             <>
                 <div className={`row`}>
                     <div className={`col-sm-1`}></div>
                     <div className={`col-sm-10`}>
-                        <div style={containerStyles} className={`${listing.listingContainer}`}>
+                        <div style={containerStyles} 
+                            className={`${listing.listingContainer} 
+                                        ${(device >= this.state.deviceSize) ? 'visible' : 'hidden'}`}>
                             <div className={`${listing.subContainer}`}>
                                 <h4>Your new job is waiting for you</h4>
                                 <p>Thousands of job opportunities available in South Africa</p>
@@ -65,6 +85,26 @@ class Searcher extends Component{
                     </div>
                     <div className="col-sm-1"></div>
                 </div>   
+
+                <div className={`${listing.displayForSmallScreen}
+                                ${(device < this.state.deviceSize) ? 'visible' : 'hidden'}`}>
+                    <button className={`${listing.openFilterBtn}`}>
+                        <span className={`fas fa-filter`}></span>   
+                        <span> Filter </span>
+                    </button> 
+                    <button 
+                        className={`${listing.openSearchBtn}`}
+                        onClick={this.filterSearch()}> 
+                        <span className={`fas fa-search`}></span>
+                    </button>
+                    <select className={`${listing.sortBy}`}>
+                        <option value="relevance">Relevance</option>
+                        <option value="date">Date Posted</option>
+                        <option value="company">Company</option>
+                        <option value="location">Location</option>
+                        <option value="salary">Salary</option>
+                    </select>                     
+                </div>
             </>
         )
     }

@@ -3,11 +3,12 @@ import job from './FeaturedJobs.module.css'
 
 function FeaturedJob (props) {
     let styleThisSpan = {}
-    if(props.jobType == null || props.jobType == ""){
+    if(props.job_type == null || props.job_type == ""){
         styleThisSpan = {
             "display":"none"
         }
     }
+    console.log(props)
     return(
         <div className={`${job.container}`}>
             <input type="hidden" value={props.id} />
@@ -20,8 +21,8 @@ function FeaturedJob (props) {
                 <h5>{props.jobTitle}</h5>
             </div>
             <p>
-                <span>{props.category}</span>
-                <span> {props.salary && " | " + props.salary}</span>
+                <span>{props.category.category_name}</span>
+                <span> {props.jobSalary && " | " + props.jobSalary}</span>
             </p>
             <button>Apply for Job</button>
         </div>

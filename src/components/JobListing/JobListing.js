@@ -3,41 +3,84 @@ import Header from "../Header/Header";
 import Searcher from "../Searcher/Searcher";
 import Footer from "../Footer/Footer";
 import container from './JobListing.module.css'
+import "./jobListingStyles.css"
 import Jobs from './JobsFunction'
 import CreateIndexedBtns from "./BtnsNextPrev";
-import jobs from './Jobs'
+import DataFetcher, {getJobs} from "../Server/Jobs";
+// import jobs from './Jobs'
 
 class JobListing extends Component{
     constructor(props){
         super(props)
 
         this.state = ({
+            jobs: [],
             activePage: 1,
             pagesCounter: 0,
-            jobsPerPage: 5
+            jobsPerPage: 5,
         })
         this.resetValues()
     }
 
-    resetValues(){
-        if(jobs.length > this.state.jobsPerPage){
-            const remainder = jobs % this.state.jobsPerPage
-            if (remainder === 0) {
-                this.state.pagesCounter = jobs.length / this.state.jobsPerPage
+    onDataFetched = (data) => {    
+        const parsedJobs = data.map(item => ({
+            ...item,
+            company: JSON.parse(item.company),
+            category: JSON.parse(item.category)
+        }));
+        let counter = 0;
+        let tempJopsPerPage = this.state.jobsPerPage;
+        let buttons = 0;
+        for (let i = 0; i < parsedJobs.length; i++) {
+            if (counter === tempJopsPerPage - 1) {
+                counter = 0;
+                buttons++;
             } else {
-                const decimalValue = jobs.length / this.state.jobsPerPage;
+                counter++;
+            }
+        }
+        buttons = (parsedJobs % tempJopsPerPage === 0) ? buttons : buttons + 1;
+        this.setState({
+            jobs: parsedJobs,
+            activePage: 1,
+            pagesCounter: buttons,
+        });
+        this.filterJobs()
+    };
+
+    filterJobs = () => {
+        const startIndex = (this.state.activePage - 1) * this.state.jobsPerPage;
+        const endIndex = startIndex + this.state.jobsPerPage;
+        console.log(startIndex + " - " + endIndex);
+        return this.state.jobs.slice(startIndex, endIndex);
+    };
+    jobsCounter = () => {
+        const startIndex = (this.state.activePage - 1) * this.state.jobsPerPage;
+        const endIndex = startIndex + this.state.jobsPerPage;
+        const displayedJobs = this.state.jobs.slice(startIndex, endIndex);
+        return `${startIndex + 1} - ${startIndex + displayedJobs.length} of ${this.state.jobs.length} jobs`;
+    };
+    
+    nextOrPrevPage = (newPage) => {
+        this.setState({
+            activePage: newPage
+        });
+    }
+
+    resetValues = () => {
+        if(this.state.jobs.length > this.state.jobsPerPage){
+            const remainder = this.state.jobs % this.state.jobsPerPage
+            if (remainder === 0) {
+                this.state.pagesCounter = this.state.jobs.length / this.state.jobsPerPage
+            } else {
+                const decimalValue = this.state.jobs.length / this.state.jobsPerPage;
                 this.state.pagesCounter = Math.floor(decimalValue) + 1;
             }
         }
     }
+    
 
-    filterJobs(){
-        const startIndex = 0;
-        const numberOfItems = this.state.jobsPerPage;
-        return jobs.slice(startIndex, startIndex + numberOfItems);
-    }
-
-    viewJob(jobId){
+    viewJob = (jobId) => {
         const newUrl = '/home';
         window.location.href = newUrl
         
@@ -46,7 +89,7 @@ class JobListing extends Component{
         return(
             <>
                 <Header />
-                <Searcher variant="JobListing"/>
+                <Searcher variant="JobListing" device="mobile"/>
 
                 <div className={`row`}>
                     <div className={`col-sm-1`}></div>
@@ -54,7 +97,7 @@ class JobListing extends Component{
                         <div className={`${container.browseJobs}`}>
                             <div className={`${container.browseJobs}`}>
                                 <h4 className={`${container.heading}`}>Browse for jobs: </h4>
-                                <button className={`${container.btnFilter}`}>Default</button>
+                                <button className={`${container.btnFilter}`}>Relevant</button>
                                 <button className={`${container.btnFilter}`}>Most recent</button>
                                 <button className={`${container.btnFilter}`}>Most Viewed</button>
                                 <button className={`${container.btnFilter}`}>Longest</button>
@@ -179,12 +222,17 @@ class JobListing extends Component{
                                 </div>
                             </div>
                             <div className={`${container.browseJobs}`}>
-                                <p>Showing {jobs.length} available jobs</p>
+                                <p>Showing {this.jobsCounter()} </p>
                                 <Jobs jobs={this.filterJobs()} />
+                                {/* <JobsFetcher onDataFetched={this.onDataFetched} /> */}
+                                <DataFetcher fetchFunction={getJobs} onDataFetched={this.onDataFetched} />
                                 <CreateIndexedBtns 
-                                    jobs={jobs.length} 
+                                    key={ Math.floor(Math.random() * 10000)}
+                                    jobs={this.state.jobs.length} 
                                     activePage={this.state.activePage} 
                                     pagesCounter={this.state.pagesCounter} 
+                                    jobsPerPage={this.state.jobsPerPage} 
+                                    nextOrPrevPage={this.nextOrPrevPage}
                                     // activePage="2" 
                                     // pagesCounter="4" 
                                 />    
