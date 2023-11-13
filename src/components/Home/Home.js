@@ -4,7 +4,7 @@ import Footer from '../Footer/Footer';
 import Searcher from "../Searcher/Searcher";
 import JobFunctions from "./JobFunction"
 import home from './Home.module.css'
-import JobsFetcher from "../Server/Jobs";
+import DataFetcher, { getJobs } from "../Server/Jobs";
 import "./searcher.css"
 import JobByLocation from "./JobByLocation";
 
@@ -64,7 +64,7 @@ class Home extends Component {
                         <div>
                             {/* <pre>{JSON.stringify(this.state.jobs, null, 2)}</pre> */}
                         </div>
-                        <JobsFetcher onDataFetched={this.onDataFetched} />
+                        <DataFetcher fetchFunction={getJobs} onDataFetched={this.onDataFetched} />
 
                         {/* <div style={{"float":"left", "width":"100%"}}> */}
                             < JobFunctions jobs={this.filterJobs()}/>

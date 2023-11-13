@@ -51,7 +51,6 @@ class JobListing extends Component{
     filterJobs = () => {
         const startIndex = (this.state.activePage - 1) * this.state.jobsPerPage;
         const endIndex = startIndex + this.state.jobsPerPage;
-        console.log(startIndex + " - " + endIndex);
         return this.state.jobs.slice(startIndex, endIndex);
     };
     jobsCounter = () => {
