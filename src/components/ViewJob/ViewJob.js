@@ -21,28 +21,27 @@ class ViewJob extends Component{
         const job_id = fullURLArray[fullURLArray.length - 1];
         this.state = {
             job: {job_id: job_id},
-            isLoading: false,
+            dataFetched: false,
             companyJobs: [],
             relatedJobs: [],
         }
     }
 
     onJobFetched = (data) => {
-        alert("Job fetched")
+        if(this.state.dataFetched) return;
         const job = {
           ...data,
           company: JSON.parse(data.company),
           category: JSON.parse(data.category)
         };
+        this.setState({
+            job,
+            dataFetched: true,
+        });
         this.returnJob(job)
     };
 
     returnJob = (job) => {
-        // this.setState((prevState) => ({
-        //     ...prevState,
-        //     job: job,
-        //     isLoading: false,
-        // }));
         return this.state.job
     }
     
@@ -72,9 +71,36 @@ class ViewJob extends Component{
         alert("Applying for job " + this.state.job.job_id)
     }
 
+    datePosted = (date) => {
+        const datePosted = new Date(date);
+        const datePostedDay = datePosted.getDate();
+        const datePostedMonth = datePosted.toLocaleString('default', { month: 'short' });;
+        const datePostedYear = datePosted.getFullYear();
+        const datePostedString = `${datePostedDay} ${datePostedMonth} ${datePostedYear}`;
+        return datePostedString;
+    }
+
+    closingDate = (date) => {
+        const closingDate = new Date(date);
+        const currentDate = new Date();
+        
+        const closingDateDay = closingDate.getDate();
+        const closingDateMonth = closingDate.toLocaleString('default', { month: 'short' });
+        const closingDateYear = closingDate.getFullYear();
+        const closingDateString = `${closingDateDay} ${closingDateMonth} ${closingDateYear}`;
+        
+        // Calculate days left
+        const timeDifference = closingDate - currentDate;
+        const daysLeft = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+      
+        return `(Closing date: ${closingDateString}, ${daysLeft} day${daysLeft !== 1 ? 's' : ''} left)`;
+      }
+      
+    
+
     render(){
         const { job } = this.state;
-        console.log("job")
+        // console.log("job")
         console.log(job)
         return(
             <>
@@ -131,21 +157,23 @@ class ViewJob extends Component{
                                 </h4>
                                 <p>
                                     <span className={`fas fa-building`} style={{"marginRight":" 5px"}}></span>                                
-                                    {/* <a href="#" style={{"textDecoration":"none"}}>{job.company.company_name}</a> */}
+                                    <a href="#" style={{"textDecoration":"none"}}>
+                                        {job.company != null ? job.company.company_name : ""}
+                                    </a>
                                 </p>
                                 <p>
                                     <span className={`fa fa-map-marker`} style={{"marginRight":" 5px"}}></span>
                                     {job.job_location}
                                 </p>
                                 <p>
-                                    Job Type: <span> {job.job_type}</span>
+                                    {job.job_type != null ? `Job Type: ${job.job_type}` : ""}
                                 </p>
                                 <p>
                                     Salary: <span>{job.job_salary}</span>
                                 </p>
                                 <p>
-                                    Date posted: {job.date_updated} 
-                                    {/* 15 Aug 2023 (Closing date: 12 Sep 2023, 25 days left) */}
+                                    Date posted: {this.datePosted(job.date_updated)} 
+                                    {job.closing_date != null ? ` ${this.closingDate(job.closing_date, job.date_updated)}` : ""}
                                 </p>
                                 <p>
                                     Reference: <span>{job.job_ref}</span> 
@@ -162,8 +190,9 @@ class ViewJob extends Component{
                             <div className={`${styleJob.description}`}>
                                 <h4 style={{"marginTop":" 1.5%"}}>About</h4>
                                 <p>
-                                    {/* {job.company.about_company}  */}
-                                    {/* {job.company.about_company != null ? "<br/><br/>": ""} */}
+                                    {job.company != null ? job.company.company_description : ""} 
+                                    <br /><br />
+                                    <strong>Job Description: </strong><br />
                                     {job.job_description}
                                 </p>
                                 <p>
