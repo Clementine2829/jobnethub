@@ -15,9 +15,7 @@ export async function getJobs() {
 }
 
 export async function getJobById(jobId) {
-  console.log("jobId " + jobId)
   const url = `${getJobByIdAPI}/${jobId}`;
-  console.log("url " + url)
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Network response was not ok');
