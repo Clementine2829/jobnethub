@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import forgotPasswordStyles from "./ForgotPassword.module.css"; // Create a new CSS module for the forgot password styles
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import { performForgotPassword } from "../Server/UsersFetcher";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -16,18 +17,16 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Perform additional email validation if needed
-
     if (email) {
       try {
-        // Call the forgot password API function or perform necessary logic
-        // For simplicity, we'll just set a success message here
-        setSuccessMessage("Password reset instructions sent to your email.");
+        const response = await performForgotPassword(email);
+        if (response.id) {
+          setErrorMessage("");
+          setSuccessMessage("Password reset instructions sent to your email.");
+        }
       } catch (error) {
-        console.error("Forgot password error:", error);
-        // Handle error
         setErrorMessage("Failed to reset password. Please try again.");
+        setSuccessMessage("");
       }
     } else {
       setErrorMessage("Please enter your email address.");
