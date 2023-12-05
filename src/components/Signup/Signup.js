@@ -6,6 +6,7 @@ import { performRegistration } from "../Server/UsersFetcher";
 
 const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [firstname, setFirstname] = useState("");
   const [errorFirstNameMessage, setErrorFirstNameMessage] = useState(" * ");
   const [lastname, setLastname] = useState("");
@@ -19,11 +20,11 @@ const Register = () => {
     useState(" * ");
 
   const validateFirstname = (event) => {
-    setUsername(event.target.value);
+    setFirstname(event.target.value);
   };
 
   const validateLastname = (event) => {
-    setUsername(event.target.value);
+    setLastname(event.target.value);
   };
 
   const validateUsername = (event) => {
@@ -40,23 +41,25 @@ const Register = () => {
 
   const handleSubmitRegistration = async (event) => {
     event.preventDefault();
-
-    // Perform additional validation if needed
-
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match");
     } else {
       try {
-        // Call the registration API function (performRegistration)
-        const response = await performRegistration(username, password);
+        const response = await performRegistration(
+          firstname,
+          lastname,
+          username,
+          password
+        );
 
-        // Handle the registration response as needed
-        console.log("Registration response:", response);
-
-        // Redirect or perform other actions after successful registration
+        if (response.id) {
+          setErrorMessage("");
+          setSuccessMessage(
+            "Registration successful. Please check your email for verification link."
+          );
+        }
       } catch (error) {
-        console.error("Registration error:", error);
-        // Handle registration error
+        setSuccessMessage("");
         setErrorMessage("Registration failed. Please try again.");
       }
     }
@@ -77,6 +80,9 @@ const Register = () => {
               <div className={`${registerStyles.sub_container}`}>
                 <span className={`${registerStyles.error_register_message}`}>
                   {errorMessage}
+                </span>
+                <span className={`${registerStyles.success_register_message}`}>
+                  {successMessage}
                 </span>
               </div>
               <div className={`${registerStyles.sub_container}`}>
@@ -170,7 +176,7 @@ const Register = () => {
             </form>
             <div className={`${registerStyles.last_container}`}>
               <div>
-                <a href="#">Already have an account? Login</a>
+                <a href="./login">Already have an account? Login</a>
               </div>
             </div>
           </div>
