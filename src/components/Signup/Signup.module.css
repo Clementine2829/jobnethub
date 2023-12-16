@@ -8,6 +8,9 @@
 .row h2{
     margin-top:  8%;
 }
+.success_register_message {
+    color: blue;
+  }
 .error_register_message {
     color: red;
   }

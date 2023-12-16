@@ -1,4 +1,4 @@
-import { loginAPI, signupAPI } from "./apiConstants";
+import { loginAPI, signupAPI, forgotPasswordAPI } from "./apiConstants";
 
 const performLogin = async (username, password) => {
   const response = await fetch(loginAPI, {
@@ -9,16 +9,34 @@ const performLogin = async (username, password) => {
     body: JSON.stringify({ email: username, password }),
   });
 
-  // console.log('response ok', response.ok)
   if (!response.ok) {
-    throw new Error("Login failed");
+    throw new Error("Login failed. Invalid credentials.");
   }
 
-  const data = await response.json();
-  // console.log('response data', data)
-  return data.token; // returns token
+  const { refreshToken, success, userId, firstname, lastname, email } =
+    await response.json();
+  return { refreshToken, success, userId, firstname, lastname, email };
 };
+const getRefreshToken = async () => {
+  const response = await fetch(loginAPI, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
 
+  if (!response.ok) {
+    throw new Error("Refresh token failed. Please log in again.");
+  }
+
+  const { accessToken } = await response.json();
+  return { accessToken };
+};
+export const logout = () => {
+  // Dispatch a logout action
+  return { type: "LOGOUT" };
+};
 const performRegistration = async (firstname, lastname, username, password) => {
   const response = await fetch(signupAPI, {
     method: "POST",

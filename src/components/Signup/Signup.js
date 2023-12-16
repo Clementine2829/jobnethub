@@ -28,11 +28,17 @@ const Register = () => {
   };
 
   const validateUsername = (event) => {
-    setUsername(event.target.value);
+    const emailRegex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
+    if (emailRegex.test(event.target.value)) {
+      setUsername(event.target.value);
+    }
   };
 
   const validatePasswords = (event) => {
-    setPassword(event.target.value);
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    if (passwordRegex.test(event.target.value)) {
+      setPassword(event.target.value);
+    }
   };
 
   const validateConfirmPassword = (event) => {

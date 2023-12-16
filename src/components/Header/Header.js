@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../asserts/logo2.png";
 import header from "./Header.module.css";
 import Paths from "./PathConstants";
+import { useSelector } from "react-redux";
 
 const Header = (props) => {
   const navigate = useNavigate();
   const [activeWindow, setActiveWindow] = useState(getAbsolutePath());
   const [loggedIn, setLoggedIn] = useState(!!props.user);
 
+  const { userId, username, firstname, email } = useSelector((state) => {
+    return state.auth;
+  });
+
   useEffect(() => {
     setActiveWindow(getAbsolutePath());
-    setLoggedIn(!!props.user);
-  }, [props.user]);
+    setLoggedIn(!!userId);
+  }, [userId]);
 
   function getAbsolutePath() {
     const absoluteURL = window.location.href;
@@ -33,30 +38,30 @@ const Header = (props) => {
   };
 
   const renderAuthButtons = () => {
-    if (!loggedIn) {
+    if (loggedIn) {
       return (
         <div className="d-flex">
-          <li class={`nav-item dropdown ${header.navListItems}`}>
+          <li className={`nav-item dropdown ${header.navListItems}`}>
             <a
-              class="nav-link dropdown-toggle"
+              className="nav-link dropdown-toggle"
               data-bs-toggle="dropdown"
               href="#"
             >
               <span className={`fas fa-user-alt`}></span>
             </a>
-            <ul class={`dropdown-menu ${header.navListItems}`}>
+            <ul className={`dropdown-menu ${header.navListItems}`}>
               <li>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   View Profile
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   Edit Profile
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   Change Password
                 </a>
               </li>
@@ -65,7 +70,7 @@ const Header = (props) => {
                   paddingTop: "4%",
                 }}
               >
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   Logout
                 </a>
               </li>
