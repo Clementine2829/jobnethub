@@ -30,6 +30,22 @@
 .btnHeader:hover{
     background-color: skyblue;
 }
+.navListItems{
+    list-style-type: none;
+    color: white;
+    font-weight: bold;
+    text-align: end;
+}
+.navListItems span{
+    color: white;
+    font-weight: bold;
+}
+.navListItems ul{
+    margin-left: -100px;
+}
+.navListItems li{
+    text-align: start;
+}
 @media screen and (max-width: 499px){
     .nav{
         background-color: #3dabe7;

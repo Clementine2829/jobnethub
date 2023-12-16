@@ -1,6 +1,7 @@
 import React from "react";
 import job from './FeaturedJobs.module.css'
 
+
 function FeaturedJob (props) {
     let styleThisSpan = {}
     if(props.job_type == null || props.job_type == ""){
@@ -8,7 +9,11 @@ function FeaturedJob (props) {
             "display":"none"
         }
     }
-    console.log(props)
+    const viewJob = (jobId) =>{
+        window.location.href = `/jobs/${jobId}`
+    }
+    // let salary =  props.salary && " | R" + props.salary.split("-")[0] + " R" +  props.salary.split("-")[1]
+    let salary =  props.salary && " | R" + props.salary
     return(
         <div className={`${job.container}`}>
             <input type="hidden" value={props.id} />
@@ -22,9 +27,9 @@ function FeaturedJob (props) {
             </div>
             <p>
                 <span>{props.category.category_name}</span>
-                <span> {props.jobSalary && " | " + props.jobSalary}</span>
+                <span> {salary}</span>
             </p>
-            <button>Apply for Job</button>
+            <button onClick={() => viewJob(props.id)}>Apply for Job</button>
         </div>
     )
 }
