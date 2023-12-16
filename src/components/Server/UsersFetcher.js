@@ -13,9 +13,24 @@ const performLogin = async (username, password) => {
     throw new Error("Login failed. Invalid credentials.");
   }
 
-  const { refreshToken, success, userId, firstname, lastname, email } =
-    await response.json();
-  return { refreshToken, success, userId, firstname, lastname, email };
+  const {
+    refreshToken,
+    success,
+    userId,
+    firstname,
+    lastname,
+    email,
+    userRole,
+  } = await response.json();
+  return {
+    refreshToken,
+    success,
+    userId,
+    firstname,
+    lastname,
+    email,
+    userRole,
+  };
 };
 const getRefreshToken = async () => {
   const response = await fetch(loginAPI, {

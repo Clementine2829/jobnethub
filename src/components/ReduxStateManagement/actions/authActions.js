@@ -5,9 +5,9 @@ import {
   SET_USER_DATA,
 } from "../constants";
 
-export const setUser = (userId, firstname, lastname, email) => ({
+export const setUser = (userId, firstname, lastname, email, userRole) => ({
   type: SET_USER_DATA,
-  payload: { userId, firstname, lastname, email },
+  payload: { userId, firstname, lastname, email, userRole },
 });
 
 export const setToken = (accessToken, refreshToken) => ({

@@ -23,6 +23,7 @@ const authReducer = (state = initialState, action) => {
         firstname: action.payload.firstname,
         lastname: action.payload.lastname,
         email: action.payload.email,
+        userRole: action.payload.userRole,
       };
       return newState;
     case "LOGIN_FAILURE":

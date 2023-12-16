@@ -52,11 +52,18 @@ const Login = () => {
 
     // if (emailRegex.test(username) && passwordRegex.test(password)) {
     try {
-      const { refreshToken, success, userId, firstname, lastname, email } =
-        await performLogin(username, password);
+      const {
+        refreshToken,
+        success,
+        userId,
+        firstname,
+        lastname,
+        email,
+        userRole,
+      } = await performLogin(username, password);
       if (success) {
         dispatch(setRefreshToken(refreshToken));
-        dispatch(setUser(userId, firstname, lastname, email));
+        dispatch(setUser(userId, firstname, lastname, email, userRole));
         redirectToHref();
       } else {
         setErrorMessage("Invalid credentials.");

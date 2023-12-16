@@ -10,16 +10,20 @@ const Header = (props) => {
   const navigate = useNavigate();
   const [activeWindow, setActiveWindow] = useState(getAbsolutePath());
   const [loggedIn, setLoggedIn] = useState(!!props.user);
+  const [userType, setUserType] = useState("");
 
   const dispatch = useDispatch();
-  const { userId, username, firstname, email } = useSelector((state) => {
-    return state.auth;
-  });
+  const { userId, username, firstname, email, userRole } = useSelector(
+    (state) => {
+      return state.auth;
+    }
+  );
 
   useEffect(() => {
     setActiveWindow(getAbsolutePath());
     setLoggedIn(!!userId || !!username || !!firstname || !!email);
-  }, [userId, username, firstname, email]);
+    setUserType(userRole);
+  }, [userId, username, firstname, email, userRole]);
 
   function getAbsolutePath() {
     const absoluteURL = window.location.href;
@@ -43,6 +47,14 @@ const Header = (props) => {
     dispatch(logout());
     window.location.href = "./login";
   };
+
+  let stylePostJob = { display: "none" };
+
+  if (userType === "manager") {
+    stylePostJob = {
+      display: "inline",
+    };
+  }
 
   const renderAuthButtons = () => {
     if (loggedIn) {
@@ -156,7 +168,10 @@ const Header = (props) => {
                   JOBS LISTING
                 </a>
               </li>
-              <li className={`nav-item ${header.navLinkItem}`}>
+              <li
+                style={stylePostJob}
+                className={`nav-item ${header.navLinkItem}`}
+              >
                 <a
                   className={`nav-link 
                                     ${
