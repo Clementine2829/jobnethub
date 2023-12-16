@@ -4,6 +4,10 @@ const initialState = {
   accessToken: null,
   refreshToken: null,
   error: null,
+  userId: null,
+  firstname: null,
+  lastname: null,
+  email: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -30,10 +34,7 @@ const authReducer = (state = initialState, action) => {
       };
     case "LOGOUT":
       return {
-        ...state,
-        accessToken: null,
-        refreshToken: null,
-        error: null,
+        user: null,
       };
     default:
       return state;

@@ -3,21 +3,23 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../asserts/logo2.png";
 import header from "./Header.module.css";
 import Paths from "./PathConstants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../ReduxStateManagement/actions/authActions";
 
 const Header = (props) => {
   const navigate = useNavigate();
   const [activeWindow, setActiveWindow] = useState(getAbsolutePath());
   const [loggedIn, setLoggedIn] = useState(!!props.user);
 
+  const dispatch = useDispatch();
   const { userId, username, firstname, email } = useSelector((state) => {
     return state.auth;
   });
 
   useEffect(() => {
     setActiveWindow(getAbsolutePath());
-    setLoggedIn(!!userId);
-  }, [userId]);
+    setLoggedIn(!!userId || !!username || !!firstname || !!email);
+  }, [userId, username, firstname, email]);
 
   function getAbsolutePath() {
     const absoluteURL = window.location.href;
@@ -35,6 +37,11 @@ const Header = (props) => {
 
   const navigateToRegister = () => {
     navigate(Paths.REGISTER);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    window.location.href = "./login";
   };
 
   const renderAuthButtons = () => {
@@ -70,7 +77,7 @@ const Header = (props) => {
                   paddingTop: "4%",
                 }}
               >
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="#" onClick={handleLogout}>
                   Logout
                 </a>
               </li>
