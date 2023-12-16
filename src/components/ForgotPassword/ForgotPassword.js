@@ -25,7 +25,7 @@ const ForgotPassword = () => {
           setSuccessMessage("Password reset instructions sent to your email.");
         }
       } catch (error) {
-        setErrorMessage("Failed to reset password. Please try again.");
+        setErrorMessage("Forgot password failed. Please try again.");
         setSuccessMessage("");
       }
     } else {
