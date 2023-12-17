@@ -11,4 +11,5 @@ const usersBaseURL = baseURL + "/users";
 export const loginAPI = usersBaseURL + "/login";
 export const refreshAPI = usersBaseURL + "/login";
 export const signupAPI = usersBaseURL + "/signup";
+export const profileAPI = usersBaseURL + "/profile";
 export const forgotPasswordAPI = usersBaseURL + "/forgot-passwpord";

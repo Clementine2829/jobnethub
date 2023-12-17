@@ -10,6 +10,14 @@ const Searcher = (props) => {
     setIsDivHidden(!isDivHidden);
   };
 
+  const handleJob = (event) => {
+    event.preventDefault();
+  };
+
+  const handleLocation = (event) => {
+    event.preventDefault();
+  };
+
   const { search, location, variant } = props;
   const device = window.innerWidth;
 
@@ -48,6 +56,7 @@ const Searcher = (props) => {
                   type="text"
                   value={search}
                   className={`jobTitle`}
+                  onChange={handleJob}
                   placeholder="Job title, Skills or Company"
                 />
               </div>
@@ -57,6 +66,7 @@ const Searcher = (props) => {
                   type="text"
                   value={location}
                   className={`${listing.jobLocation}`}
+                  onChange={handleLocation}
                   placeholder="Location"
                 />
               </div>

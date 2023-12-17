@@ -11,6 +11,10 @@ import ViewJob from "./components/ViewJob/ViewJob";
 import Signup from "./components/Signup/Signup";
 import PostJob from "./components/PostJob/PostJob";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import ViewProfile from "./components/ViewProfile/ViewProfile";
+import MyJobApplications from "./components/MyJobApplications/MyJobApplications";
+import UpdateProfile from "./components/UpdaeProfile/UpdateProfile";
+import ChangePassword from "./components/ChangePassword/ChangePassword";
 
 function App() {
   return (
@@ -28,6 +32,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/profile" element={<ViewProfile />} />
+        <Route path="/update-profile" element={<UpdateProfile />} />
+        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/job-applications" element={<MyJobApplications />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

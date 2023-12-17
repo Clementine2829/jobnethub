@@ -69,17 +69,17 @@ const Header = (props) => {
             </a>
             <ul className={`dropdown-menu ${header.navListItems}`}>
               <li>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="./profile">
                   View Profile
                 </a>
               </li>
               <li>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="./update-profile">
                   Edit Profile
                 </a>
               </li>
               <li>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="./change-password">
                   Change Password
                 </a>
               </li>
