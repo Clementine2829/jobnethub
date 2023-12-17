@@ -59,7 +59,7 @@
 .otherJobContainer .container .subContainer:nth-child(2) .jobs .jobList,
 .otherJobContainer .container .subContainer:nth-child(3) .jobs .jobList {
     /* border-top: 1px solid #1b9ce3; */
-    padding-top: 4%;
+    /* padding-top: 4%; */
 }
 .otherJobContainer .container .subContainer:nth-child(2) .jobs .jobList .job,
 .otherJobContainer .container .subContainer:nth-child(3) .jobs .jobList .job {
@@ -78,6 +78,13 @@
     color: white;
     border-radius: 7px;
     padding: 5px;
+}
+.otherJobContainer .container .subContainer:nth-child(2) .jobs .jobList ul li:nth-child(1) div{
+    border: none;
+}
+.otherJobContainer .container .subContainer:nth-child(2) .jobs .jobList ul li {
+    list-style-type: none;
+    margin-left: -10%;
 }
 
 /* .mainJobContainer {

@@ -35,16 +35,16 @@ export async function getJobById(jobId, token, admin = false) {
   return await response.json();
 }
 
-export async function getRelatedJobs() {
-  const response = await fetch(getRelatedJobsAPI);
+export async function getRelatedJobs(categoryId) {
+  const response = await fetch(getRelatedJobsAPI + "/" + categoryId);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
   return await response.json();
 }
 
-export async function getCompanyJobs() {
-  const response = await fetch(getCompanyJobsAPI);
+export async function getCompanyJobs(companyId) {
+  const response = await fetch(getCompanyJobsAPI + "/" + companyId);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }

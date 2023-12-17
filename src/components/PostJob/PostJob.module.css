@@ -23,10 +23,13 @@ h5{
     margin-bottom: 2%;
     margin-left: 3%;
 }
-.container .form .label input {
+.container .form .label input,
+.container .form .label select,
+.container .form .label textarea {
 	width: 45%;
     border: 1px solid #1b9ce3;
     padding: 10px 15px;
+	border-radius: 10px;
 }
 .container .form .label input[type=checkbox],
 .container .form .label input[type=radio] {
@@ -36,16 +39,9 @@ h5{
 .container .form .label .salary {
 	width: 22%;
 }
-.container .form .label select {
-	border: 1px solid #1b9ce3;
-	padding: 10px 15px;
-	width: 45%;
-}
 .container .form .label textarea {
 	width: 80%;
 	height: 200px;
-	border: 1px solid #1b9ce3;
-	padding: 10px 15px;
 }
 .container .form .last .add_more {
 	border: 2px solid gray;

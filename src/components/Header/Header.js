@@ -49,7 +49,6 @@ const Header = (props) => {
   };
 
   let stylePostJob = { display: "none" };
-
   if (userType === "manager") {
     stylePostJob = {
       display: "inline",
