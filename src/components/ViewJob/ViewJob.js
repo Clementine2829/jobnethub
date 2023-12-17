@@ -126,9 +126,7 @@ const ViewJob = () => {
   //   setCompanyJobs(parsedData);
   // };
 
-  const applyForJob = () => {
-    alert("Applying for job " + job.job_id);
-  };
+  const applyForJob = () => {};
 
   const datePosted = (date) => {
     const datePosted = new Date(date);
@@ -162,7 +160,7 @@ const ViewJob = () => {
   };
   const onJobFetched = (data) => {
     // Handle data as needed
-    console.log(data);
+    // console.log(data);
   };
   return (
     <>
