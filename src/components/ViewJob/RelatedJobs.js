@@ -1,53 +1,55 @@
 import React, { useEffect, useState } from "react";
-import job from './RelatedJobs.module.css'
+import jobCSS from "./RelatedJobs.module.css";
 
-function RelatedJobs(props){ 
-    
-    const getRelativeDate = (externalDate) => {
-        const currentDate = new Date();
-        const formattedDateTime = currentDate.toLocaleString();
+function RelatedJobs(props) {
+  const { job } = props;
 
-        const timeDifference = formattedDateTime - externalDate;
-        const daysDifference = timeDifference / (1000 * 3600 * 24);
+  let styleJobClosed = { color: "red" };
+  const closingDate = (date) => {
+    const closingDate = new Date(date);
+    const currentDate = new Date();
 
-        if (daysDifference === 0) {
-            return 'Posted today';
-        } else if (daysDifference === 1) {
-            return 'Posted yesterday';
-        } else if (daysDifference >= 2 && daysDifference <= 7) {
-            return 'Posted a week ago';
-        } else if (daysDifference > 7 && daysDifference <= 30) {
-            return 'Posted a month ago';
-        } else {
-            return externalDate;
-        }
+    if (currentDate > closingDate) {
+      const timeDifference = currentDate - closingDate;
+      const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      styleJobClosed = { color: "red" };
+      return `Closed ${daysAgo} day${daysAgo !== 1 ? "s" : ""} ago`;
+    } else {
+      const timeDifference = closingDate - currentDate;
+      const daysLeft = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+      styleJobClosed = { color: "green" };
+      return ` ${daysLeft} day${daysLeft !== 1 ? "s" : ""} left`;
     }
+  };
 
-    const [datePosted, setDatePosted] = useState(new Date());
-    
-    // if(props.datePosted != ""){
-    //     props.datePosted = getRelativeDate(props.datePosted);
-    // }
-    const transformedDate = props.datePosted !== "" ? getRelativeDate(props.datePosted) : "";
-    
-    return (
-        <div className={`${job.container}`}>
-            <a href={`./`+ props.id}>{props.jobTitle}</a>
-            {/* <span> - {props.jobType}</span><br /> */}
-            <p>
-                <span className={`fa fa-map-marker`} style={{"margin-right": "2%"}}></span>
-                {props.location}
-            </p>
-            {
-                transformedDate &&
-                <p>
-                    <span className={`fas fa-calendar-alt`} style={{"margin-right": "2%"}}></span>
-                    <span>{transformedDate}</span>
-                </p>
-            }
-        </div>
-    )
+  const [datePosted, setDatePosted] = useState(new Date());
+  const transformedDate =
+    job.date_created !== "" ? closingDate(job.date_created) : "";
 
+  return (
+    <div className={`${jobCSS.container}`}>
+      <a href={`./` + job.job_id}>{job.job_title}</a>
+      <br />
+      {/* <span> - {job.jobType}</span><br /> */}
+      <span>
+        <span
+          className={`fa fa-map-marker`}
+          style={{ "margin-right": "2%" }}
+        ></span>
+        {job.job_location}
+      </span>
+      {transformedDate && (
+        <span>
+          {`\t`}
+          <span
+            className={`fas fa-calendar-alt`}
+            style={{ "margin-right": "2%" }}
+          ></span>
+          <span style={styleJobClosed}>{transformedDate}</span>
+        </span>
+      )}
+    </div>
+  );
 }
 
-export default RelatedJobs
+export default RelatedJobs;

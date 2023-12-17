@@ -4,12 +4,20 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import styleJob from "./ViewJob.module.css";
 import JobsFunction from "./JobsFunction";
-import DataFetcher, { getJobById } from "../Server/Jobs";
+import DataFetcher, {
+  getCompanyJobs,
+  getJobById,
+  getRelatedJobs,
+} from "../Server/Jobs";
+import RelatedJobs from "./RelatedJobs";
 
 const ViewJob = () => {
   const { job: jobId } = useParams();
   const [job, setJob] = useState({ job_id: jobId });
-  const [dataFetched, setDataFetched] = useState(false);
+  const [jobDataFetched, setJobDataFetched] = useState(false);
+  const [relatedJobsDataFetched, setRelatedJobsDataFetched] = useState(false);
+  const [companyDataJobsDataFetched, setCompanyDataJobsDataFetched] =
+    useState(false);
   const [relatedJobs, setRelatedJobs] = useState([]);
   const [companyJobs, setCompanyJobs] = useState([]);
 
@@ -22,7 +30,7 @@ const ViewJob = () => {
   const [styleDutiesDev, setStyleDutiesDev] = useState({ display: "none" });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchJob = async () => {
       try {
         const jobData = await getJobById(job.job_id);
         const jobObject = {
@@ -31,7 +39,7 @@ const ViewJob = () => {
           category: JSON.parse(jobData.category),
         };
         setJob(jobObject);
-        setDataFetched(true);
+        setJobDataFetched(true);
 
         if (
           jobData.job_requirements !== undefined &&
@@ -39,7 +47,7 @@ const ViewJob = () => {
           jobData.job_requirements.length > 0 &&
           jobData.job_requirements[0].requirement !== ""
         ) {
-          setStyleRequirementDev({ display: "inline-block" });
+          setStyleRequirementDev({ display: "block" });
         }
         if (
           jobData.job_qualifications !== undefined &&
@@ -47,7 +55,7 @@ const ViewJob = () => {
           jobData.job_qualifications.length > 0 &&
           jobData.job_qualifications[0].qualification !== ""
         ) {
-          setStyleQualificationDev({ display: "inline-block" });
+          setStyleQualificationDev({ display: "block" });
         }
         if (
           jobData.job_duties !== undefined &&
@@ -55,36 +63,68 @@ const ViewJob = () => {
           jobData.job_duties.length > 0 &&
           jobData.job_duties[0].duty !== ""
         ) {
-          setStyleDutiesDev({ display: "inline-block" });
+          setStyleDutiesDev({ display: "block" });
+        }
+
+        if (jobData.relatedJobs) {
+          setRelatedJobs(jobData.relatedJobs);
+        }
+        if (jobData.companyJobs) {
+          setCompanyJobs(jobData.companyJobs);
         }
       } catch (error) {
         console.error("Error fetching job data:", error);
       }
     };
 
+    // const fetchRelatedJob = async () => {
+    //   try {
+    //     const jobs = await getRelatedJobs(job.category.category_id);
+    //     setRelatedJobs(jobs);
+    //     setRelatedJobsDataFetched(true);
+    //   } catch (error) {
+    //     console.error("Error fetching related job data:", error);
+    //   }
+    // };
+
+    // const fetchCompanyJob = async () => {
+    //   try {
+    //     const jobs = await getCompanyJobs(job.company.company_id);
+    //     setCompanyJobs(jobs);
+    //     setCompanyDataJobsDataFetched(true);
+    //   } catch (error) {
+    //     console.error("Error fetching  company job data:", error);
+    //   }
+    // };
+
     // Fetch data only if it hasn't been fetched before
-    if (!dataFetched) {
-      fetchData();
+    if (!jobDataFetched) {
+      fetchJob();
     }
-  }, [job.job_id, dataFetched]);
+  }, [
+    job.job_id,
+    jobDataFetched,
+    relatedJobsDataFetched,
+    companyDataJobsDataFetched,
+  ]);
 
-  const onRelatedJobsFetched = (data) => {
-    const parsedData = data.map((item) => ({
-      ...item,
-      company: JSON.parse(item.company),
-      category: JSON.parse(item.category),
-    }));
-    setRelatedJobs(parsedData);
-  };
+  // const onRelatedJobsFetched = (data) => {
+  //   const parsedData = data.map((item) => ({
+  //     ...item,
+  //     company: JSON.parse(item.company),
+  //     category: JSON.parse(item.category),
+  //   }));
+  //   setRelatedJobs(parsedData);
+  // };
 
-  const onCompanyJobsFetched = (data) => {
-    const parsedData = data.map((item) => ({
-      ...item,
-      company: JSON.parse(item.company),
-      category: JSON.parse(item.category),
-    }));
-    setCompanyJobs(parsedData);
-  };
+  // const onCompanyJobsFetched = (data) => {
+  //   const parsedData = data.map((item) => ({
+  //     ...item,
+  //     company: JSON.parse(item.company),
+  //     category: JSON.parse(item.category),
+  //   }));
+  //   setCompanyJobs(parsedData);
+  // };
 
   const applyForJob = () => {
     alert("Applying for job " + job.job_id);
@@ -131,6 +171,10 @@ const ViewJob = () => {
         fetchFunction={() => getJobById(jobId)}
         onDataFetched={onJobFetched}
       />
+      {/* <DataFetcher
+        fetchFunction={() => getRelatedJobs(jobId)}
+        onDataFetched={onJobFetched}
+      /> */}
 
       <div className={`row`}>
         <div className={`col-sm-1`}></div>
@@ -156,13 +200,37 @@ const ViewJob = () => {
             <div className={`${styleJob.subContainer}`}>
               <div className={`${styleJob.jobs}`}>
                 <h4>Jobs available in this company</h4>
-                <div className={`${styleJob.jobList}`}></div>
+                <div className={`${styleJob.jobList}`}>
+                  {companyJobs.length > 0 ? (
+                    <ul>
+                      {companyJobs.map((job, index) => (
+                        <li key={index}>
+                          <RelatedJobs job={job} />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p style={{ color: "red" }}>Company jobs not found</p>
+                  )}
+                </div>
               </div>
             </div>
             <div className={`${styleJob.subContainer}`}>
               <div className={`${styleJob.jobs}`}>
                 <h4>Related jobs</h4>
-                <div className={`${styleJob.jobList}`}></div>
+                <div className={`${styleJob.jobList}`}>
+                  {relatedJobs.length > 0 ? (
+                    <ul>
+                      {relatedJobs.map((job, index) => (
+                        <li key={index}>
+                          <RelatedJobs job={job} />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p style={{ color: "red" }}>Related jobs not found</p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
