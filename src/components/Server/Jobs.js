@@ -17,7 +17,6 @@ export async function getJobs(action = "") {
 }
 
 export async function getJobById(jobId, token, admin = false) {
-  console.log("getJobById", token);
   const url = admin
     ? `${getJobByIdAdminAPI}/${jobId}`
     : `${getJobByIdAPI}/${jobId}`;
