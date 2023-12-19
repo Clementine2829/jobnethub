@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import contact from "./Contact.module.css";
+import { performContatusUs } from "../Server/Common";
 
 const Contacts = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (!firstName || !lastName || !email || !message) {
       return;
     }
@@ -20,7 +24,23 @@ const Contacts = () => {
       email,
       message,
     };
-    const response = 
+    const response = await performContatusUs(
+      firstName,
+      lastName,
+      email,
+      message
+    );
+    if (response.ok) {
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setMessage("");
+      setSuccessMessage("Message sent successfully");
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Message sending failed. Please try again");
+      setSuccessMessage("");
+    }
   };
 
   return (
@@ -53,6 +73,8 @@ const Contacts = () => {
         </div>
         <div className={`col-sm-4`}>
           <div className={`${contact.mainContainer}`}>
+            <span style={{ color: "red" }}>{errorMessage} </span>
+            <span style={{ color: "blue" }}>{successMessage} </span>
             <div className={`${contact.names} ${contact.container}`}>
               <label htmlFor="firstName">First Name *</label>
               <br />
