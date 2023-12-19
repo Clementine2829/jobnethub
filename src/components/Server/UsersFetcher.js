@@ -3,6 +3,7 @@ import {
   signupAPI,
   forgotPasswordAPI,
   profileAPI,
+  contactUs,
 } from "./apiConstants";
 
 const performLogin = async (username, password) => {
@@ -74,7 +75,7 @@ export async function getUser(userId) {
 }
 
 const performRegistration = async (firstname, lastname, username, password) => {
-  const response = await fetch(signupAPI, {
+  const response = await fetch(contactUs, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
