@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import {
   getJobsAPI,
@@ -6,10 +7,12 @@ import {
   getRelatedJobsAPI,
   getCompanyJobsAPI,
   getJobByIdAdminAPI,
+  getApplyForAJobAPI,
 } from "./apiConstants";
 
-export async function getJobs(action = "") {
-  const response = await fetch(getJobsAPI + action);
+export async function getJobs(action = "", page = 1) {
+  const url = getJobsAPI + action + "&page=" + page;
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -33,6 +36,45 @@ export async function getJobById(jobId, token, admin = false) {
   }
   return await response.json();
 }
+
+// export async function applyForAJob(jobId) {
+//   const url = getApplyForAJobAPI + jobId + "/apply";
+//   const response = await fetch(url, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       // Authorization: `Bearer ${token}`,
+//       credentials: "include",
+//     },
+//   });
+
+//   if (!response.ok) {
+//     throw new Error("Network response was not ok");
+//   }
+//   return await response.json();
+// }
+export const applyForAJob = async (jobId) => {
+  const url = `${getApplyForAJobAPI}${jobId}/apply`;
+  try {
+    const response = await axios.post(
+      url,
+      null, // No request payload in this example
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    // Axios automatically parses JSON responses, so no need for response.json()
+    return response.data;
+  } catch (error) {
+    // Axios automatically throws an error for non-2xx responses
+    console.error("Network request failed:", error.message);
+    throw new Error("Network response was not ok");
+  }
+};
 
 export async function getRelatedJobs(categoryId) {
   const response = await fetch(getRelatedJobsAPI + "/" + categoryId);

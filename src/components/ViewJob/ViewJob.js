@@ -5,6 +5,7 @@ import Footer from "../Footer/Footer";
 import styleJob from "./ViewJob.module.css";
 import JobsFunction from "./JobsFunction";
 import DataFetcher, {
+  applyForAJob,
   getCompanyJobs,
   getJobById,
   getRelatedJobs,
@@ -126,7 +127,14 @@ const ViewJob = () => {
   //   setCompanyJobs(parsedData);
   // };
 
-  const applyForJob = () => {};
+  const applyForJob = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await applyForAJob(jobId);
+    } catch (error) {
+      console.error("Error applying for job:", error);
+    }
+  };
 
   const datePosted = (date) => {
     const datePosted = new Date(date);
@@ -165,10 +173,10 @@ const ViewJob = () => {
   return (
     <>
       <Header />
-      <DataFetcher
+      {/* <DataFetcher
         fetchFunction={() => getJobById(jobId)}
         onDataFetched={onJobFetched}
-      />
+      /> */}
       {/* <DataFetcher
         fetchFunction={() => getRelatedJobs(jobId)}
         onDataFetched={onJobFetched}
