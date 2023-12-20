@@ -5,12 +5,14 @@ import header from "./Header.module.css";
 import Paths from "./PathConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../ReduxStateManagement/actions/authActions";
+import { appBaseURL } from "../Server/apiConstants";
 
 const Header = (props) => {
   const navigate = useNavigate();
   const [activeWindow, setActiveWindow] = useState(getAbsolutePath());
   const [loggedIn, setLoggedIn] = useState(!!props.user);
   const [userType, setUserType] = useState("");
+  const [baseURL, setBaseURL] = useState(appBaseURL);
 
   const dispatch = useDispatch();
   const { userId, username, firstname, email, userRole } = useSelector(
@@ -45,7 +47,7 @@ const Header = (props) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    window.location.href = "./login";
+    window.location.href = baseURL + "./login";
   };
 
   let stylePostJob = { display: "none" };
@@ -69,17 +71,23 @@ const Header = (props) => {
             </a>
             <ul className={`dropdown-menu ${header.navListItems}`}>
               <li>
-                <a className="dropdown-item" href="./profile">
+                <a className="dropdown-item" href={`${baseURL}./profile`}>
                   View Profile
                 </a>
               </li>
               <li>
-                <a className="dropdown-item" href="./update-profile">
+                <a
+                  className="dropdown-item"
+                  href={`${baseURL}./update-profile`}
+                >
                   Edit Profile
                 </a>
               </li>
               <li>
-                <a className="dropdown-item" href="./change-password">
+                <a
+                  className="dropdown-item"
+                  href={`${baseURL}./change-password`}
+                >
                   Change Password
                 </a>
               </li>
@@ -123,7 +131,7 @@ const Header = (props) => {
           <div>
             <a
               className="navbar-brand"
-              onClick={() => (window.location.href = "./")}
+              onClick={() => (window.location.href = baseURL)}
               href="#"
             >
               <img src={logo} className={header.navLogo} alt="logo" />
