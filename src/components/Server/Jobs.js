@@ -92,6 +92,23 @@ export async function getCompanyJobs(companyId) {
   return await response.json();
 }
 
+export const getJobApplications = async () => {
+  try {
+    const response = await axios.get(
+      // getApplyForAJobAPI + "40896a558f798927270ccddf4703f44f3915a52fc2fe",
+      getApplyForAJobAPI,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          withCredentials: true,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error fetching job applications: ${error.message}`);
+  }
+};
 export default function DataFetcher({ fetchFunction, onDataFetched }) {
   const [data, setData] = useState([]);
 
