@@ -1,0 +1,83 @@
+.container{
+    margin: 2% 6% 0% 6%;
+}
+.container .sub_container{
+    text-align: start;
+}
+.container .sub_container .approved{
+    text-align: center;
+    color: blue;
+}
+.container .err{
+    margin-bottom: 0px;
+}    
+.container table{
+    margin-top: 2%;
+}    
+.container table,
+.container table tr{
+    border-collapse: collapse;
+    border: none;
+    width: 100%;
+} 
+.container table tr th{
+    background-color: lightgray;
+}
+.container table tr:hover{
+    background-color: rgb(240, 240, 240);
+}
+.container table col:nth-child(1){
+    width: 3%;
+}
+.container table col:nth-child(2){
+    width: 25%;
+}
+/*.container table col:nth-child(3){
+    width: 35%;
+}
+.container table col:nth-child(4){
+    width: 20%;
+}*/
+.container table col:nth-child(5){
+    width: auto;
+}
+.container table tr{
+    border-bottom: 1px solid #1b9ce3;
+    margin-bottom: 1%;
+}    
+.container table tr th:nth-child(1),
+.container table tr td:nth-child(1){
+    text-align: center;
+}    
+.container table tr td{
+    padding: 1% 0%;   
+}
+
+.actions{
+    padding-top: 3%;
+}
+.actions p{
+    margin-top: 2%;
+    margin-bottom: 0px;
+}    
+.container .sub_container .job_title,
+.container .sub_container .action,
+.container .sub_container .submit_results{
+    width: 20%;
+    border: 2px solid #1b9ce3;
+    padding: 2px 5px;
+    margin-right: 4px;
+    outline: none;
+}
+.container .sub_container .action{
+    width: 10%;
+}
+.container .sub_container .submit_results{
+    width: 7%;
+    color: white;
+    background-color: #1b9ce3;
+}
+.container .sub_container .submit_results:hover{
+    background-color: white;
+    color: #1b9ce3;
+}

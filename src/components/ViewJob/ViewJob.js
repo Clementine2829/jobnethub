@@ -3,13 +3,7 @@ import { useParams } from "react-router-dom";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import styleJob from "./ViewJob.module.css";
-import JobsFunction from "./JobsFunction";
-import DataFetcher, {
-  applyForAJob,
-  getCompanyJobs,
-  getJobById,
-  getRelatedJobs,
-} from "../Server/Jobs";
+import { applyForAJob, getJobById, getRelatedJobs } from "../Server/Jobs";
 import RelatedJobs from "./RelatedJobs";
 
 const ViewJob = () => {
