@@ -1,13 +1,15 @@
-const baseURL = "http://127.0.0.1:5001/api/v1";
+export const appBaseURL = "https://localhost:3000/";
+const serverBaseURL = "https://localhost:5001/api/v1";
 // jobs
-const jobsBaseURL = baseURL + "/jobs";
+const jobsBaseURL = serverBaseURL + "/jobs";
 export const getJobsAPI = jobsBaseURL + "?action=";
 export const getJobByIdAPI = jobsBaseURL;
 export const getJobByIdAdminAPI = jobsBaseURL + "/admin";
 export const getRelatedJobsAPI = jobsBaseURL + "/related/";
 export const getCompanyJobsAPI = jobsBaseURL + "/company/";
+export const getApplyForAJobAPI = jobsBaseURL + "/applications/";
 // users
-const usersBaseURL = baseURL + "/users";
+const usersBaseURL = serverBaseURL + "/users";
 export const loginAPI = usersBaseURL + "/login";
 export const refreshAPI = usersBaseURL + "/login";
 export const signupAPI = usersBaseURL + "/signup";
