@@ -5,6 +5,7 @@ import Footer from "../Footer/Footer";
 import styleJob from "./ViewJob.module.css";
 import { applyForAJob, getJobById, getRelatedJobs } from "../Server/Jobs";
 import RelatedJobs from "./RelatedJobs";
+import { useSelector } from "react-redux";
 
 const ViewJob = () => {
   const { job: jobId } = useParams();
@@ -15,7 +16,11 @@ const ViewJob = () => {
     useState(false);
   const [relatedJobs, setRelatedJobs] = useState([]);
   const [companyJobs, setCompanyJobs] = useState([]);
+  const [applicationMessage, setApplicationMessage] = useState("");
 
+  const [styleApplicationMessage, setStyleApplicationMessage] = useState({
+    color: "black",
+  });
   const [styleRequirementDev, setStyleRequirementDev] = useState({
     display: "none",
   });
@@ -72,27 +77,6 @@ const ViewJob = () => {
       }
     };
 
-    // const fetchRelatedJob = async () => {
-    //   try {
-    //     const jobs = await getRelatedJobs(job.category.category_id);
-    //     setRelatedJobs(jobs);
-    //     setRelatedJobsDataFetched(true);
-    //   } catch (error) {
-    //     console.error("Error fetching related job data:", error);
-    //   }
-    // };
-
-    // const fetchCompanyJob = async () => {
-    //   try {
-    //     const jobs = await getCompanyJobs(job.company.company_id);
-    //     setCompanyJobs(jobs);
-    //     setCompanyDataJobsDataFetched(true);
-    //   } catch (error) {
-    //     console.error("Error fetching  company job data:", error);
-    //   }
-    // };
-
-    // Fetch data only if it hasn't been fetched before
     if (!jobDataFetched) {
       fetchJob();
     }
@@ -103,30 +87,28 @@ const ViewJob = () => {
     companyDataJobsDataFetched,
   ]);
 
-  // const onRelatedJobsFetched = (data) => {
-  //   const parsedData = data.map((item) => ({
-  //     ...item,
-  //     company: JSON.parse(item.company),
-  //     category: JSON.parse(item.category),
-  //   }));
-  //   setRelatedJobs(parsedData);
-  // };
-
-  // const onCompanyJobsFetched = (data) => {
-  //   const parsedData = data.map((item) => ({
-  //     ...item,
-  //     company: JSON.parse(item.company),
-  //     category: JSON.parse(item.category),
-  //   }));
-  //   setCompanyJobs(parsedData);
-  // };
+  const { accessToken } = useSelector((state) => {
+    return state.auth;
+  });
 
   const applyForJob = async (event) => {
     event.preventDefault();
+    setApplicationMessage("");
+    setStyleApplicationMessage({ color: "black" });
     try {
-      const response = await applyForAJob(jobId);
+      const { response } = await applyForAJob(jobId, accessToken);
+      if (response.status === "success") {
+        setApplicationMessage("Job applications submited successfully");
+        setStyleApplicationMessage({ color: "blue" });
+      } else {
+        setApplicationMessage("Job applications failed. " + response);
+        setStyleApplicationMessage({ color: "red" });
+      }
+      console.log(response);
     } catch (error) {
-      console.error("Error applying for job:", error);
+      setApplicationMessage("Job applications failed.<br/>");
+      setStyleApplicationMessage({ color: "red" });
+      // console.error("Error applying for job:", error);
     }
   };
 
@@ -154,11 +136,17 @@ const ViewJob = () => {
 
     // Calculate days left
     const timeDifference = closingDate - currentDate;
-    const daysLeft = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-
-    return `(Closing date: ${closingDateString}, ${daysLeft} day${
-      daysLeft !== 1 ? "s" : ""
-    } left)`;
+    let daysLeft = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+    if (daysLeft >= 0) {
+      return `(Closing date: ${closingDateString}, ${daysLeft} day${
+        daysLeft !== 1 ? "s" : ""
+      } left)`;
+    } else {
+      daysLeft *= -1; // change to positive
+      return `(Closed: ${closingDateString}, ${daysLeft} day${
+        daysLeft !== 1 ? "s" : ""
+      } ago)`;
+    }
   };
   const onJobFetched = (data) => {
     // Handle data as needed
@@ -167,15 +155,6 @@ const ViewJob = () => {
   return (
     <>
       <Header />
-      {/* <DataFetcher
-        fetchFunction={() => getJobById(jobId)}
-        onDataFetched={onJobFetched}
-      /> */}
-      {/* <DataFetcher
-        fetchFunction={() => getRelatedJobs(jobId)}
-        onDataFetched={onJobFetched}
-      /> */}
-
       <div className={`row`}>
         <div className={`col-sm-1`}></div>
         <div className={`col-sm-3 ${styleJob.otherJobContainer}`}>
@@ -286,6 +265,7 @@ const ViewJob = () => {
                   className={`fa fa-envelope-o`}
                 ></span>
               </p>
+              <p style={styleApplicationMessage}>{applicationMessage}</p>
               <button
                 onClick={applyForJob}
                 className={`${styleJob.btnJobApply}`}

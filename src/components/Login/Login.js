@@ -14,9 +14,6 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { performLogin } from "../Server/UsersFetcher";
 
-import { useSelector } from "react-redux";
-import Cookies from "js-cookie";
-
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [username, setUsername] = useState("");
@@ -37,12 +34,6 @@ const Login = () => {
     window.location.href = href;
   };
 
-  // const { accessToken, refreshToken } = useSelector((state) => {
-  //   console.log("state.auth ", state.auth);
-  //   return state.auth;
-  // });
-  // console.log("true accessToken ", accessToken);
-
   const handleSubmitLogin = async (event) => {
     event.preventDefault();
     setErrorMessage("");
@@ -53,7 +44,7 @@ const Login = () => {
     // if (emailRegex.test(username) && passwordRegex.test(password)) {
     try {
       const {
-        refreshToken,
+        accessToken,
         success,
         userId,
         firstname,
@@ -62,18 +53,18 @@ const Login = () => {
         userRole,
       } = await performLogin(username, password);
       if (success) {
-        dispatch(setRefreshToken(refreshToken));
-        dispatch(setUser(userId, firstname, lastname, email, userRole));
+        // dispatch(setRefreshToken(refreshToken));
+        dispatch(setToken(accessToken));
+        dispatch(
+          setUser(accessToken, userId, firstname, lastname, email, userRole)
+        );
         redirectToHref();
       } else {
         setErrorMessage("Invalid credentials.");
       }
     } catch (error) {
-      setErrorMessage("Login failed. Please try again.");
-      dispatch({
-        type: "LOGIN_FAILURE",
-        payload: { error: "Login failed. Please try again." },
-      });
+      // setErrorMessage("Login failed. Please try again.");
+      setErrorMessage("Invalid credentials. Please try again.");
     }
     // } else {
     //   setErrorMessage("Invalid username or password");

@@ -34,7 +34,7 @@ function RelatedJobs(props) {
       <span>
         <span
           className={`fa fa-map-marker`}
-          style={{ "margin-right": "2%" }}
+          style={{ marginRight: "2%" }}
         ></span>
         {job.job_location}
       </span>
@@ -43,7 +43,7 @@ function RelatedJobs(props) {
           {`\t`}
           <span
             className={`fas fa-calendar-alt`}
-            style={{ "margin-right": "2%" }}
+            style={{ marginRight: "2%" }}
           ></span>
           <span style={styleJobClosed}>{transformedDate}</span>
         </span>

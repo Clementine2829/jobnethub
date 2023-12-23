@@ -5,14 +5,21 @@ import {
   SET_USER_DATA,
 } from "../constants";
 
-export const setUser = (userId, firstname, lastname, email, userRole) => ({
+export const setUser = (
+  accessToken,
+  userId,
+  firstname,
+  lastname,
+  email,
+  userRole
+) => ({
   type: SET_USER_DATA,
-  payload: { userId, firstname, lastname, email, userRole },
+  payload: { accessToken, userId, firstname, lastname, email, userRole },
 });
 
-export const setToken = (accessToken, refreshToken) => ({
+export const setToken = (accessToken) => ({
   type: SET_TOKEN,
-  payload: { accessToken, refreshToken },
+  payload: { accessToken },
 });
 
 export const setRefreshToken = (refreshToken) => ({

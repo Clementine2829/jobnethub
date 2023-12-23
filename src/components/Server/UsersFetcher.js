@@ -19,17 +19,10 @@ const performLogin = async (username, password) => {
     throw new Error("Login failed. Invalid credentials.");
   }
 
-  const {
-    refreshToken,
-    success,
-    userId,
-    firstname,
-    lastname,
-    email,
-    userRole,
-  } = await response.json();
+  const { accessToken, success, userId, firstname, lastname, email, userRole } =
+    await response.json();
   return {
-    refreshToken,
+    accessToken,
     success,
     userId,
     firstname,
@@ -58,12 +51,11 @@ export const logout = () => {
   // Dispatch a logout action
   return { type: "LOGOUT" };
 };
-export async function getUser(userId) {
-  const url = profileAPI + "/" + userId;
-  const response = await fetch(url, {
+export async function getUser(token) {
+  const response = await fetch(profileAPI, {
     headers: {
       "Content-Type": "application/json",
-      // Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       credentials: "include",
     },
   });

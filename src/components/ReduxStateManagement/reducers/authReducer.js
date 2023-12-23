@@ -2,8 +2,7 @@ import { LOGIN_SUCCESS, SET_TOKEN, SET_USER_DATA } from "../constants";
 
 const initialState = {
   accessToken: null,
-  refreshToken: null,
-  error: null,
+  // refreshToken: null,
   userId: null,
   firstname: null,
   lastname: null,
@@ -17,8 +16,8 @@ const authReducer = (state = initialState, action) => {
     case SET_TOKEN:
       const newState = {
         ...state,
-        // accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        accessToken: action.payload.accessToken,
+        // refreshToken: action.payload.refreshToken,
         userId: action.payload.userId,
         firstname: action.payload.firstname,
         lastname: action.payload.lastname,
@@ -30,13 +29,11 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         accessToken: null,
-        refreshToken: null,
-        error: action.payload.error,
+        // refreshToken: null,
+        // error: action.payload.error,
       };
     case "LOGOUT":
-      return {
-        user: null,
-      };
+      return {};
     default:
       return state;
   }
