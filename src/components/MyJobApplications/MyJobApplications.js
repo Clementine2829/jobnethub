@@ -4,15 +4,20 @@ import Footer from "../Footer/Footer";
 import StyleApplications from "./MyJobApplications.module.css";
 import { getJobApplications } from "../Server/Jobs";
 import JobApplications from "./JobApplications";
+import { useSelector } from "react-redux";
 
 const MyJobApplications = () => {
   const [jobApplications, setJobApplications] = useState([]);
   // const [styleApproved, setStyleApproved] = useEffect({ display: "none" });
   const styleApproved = { display: "none" };
+  const { accessToken } = useSelector((state) => {
+    console.log(state.auth);
+    return state.auth;
+  });
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const _jobApplications = await getJobApplications();
+        const _jobApplications = await getJobApplications(accessToken);
         setJobApplications(_jobApplications);
         // _jobApplications.map((job, index) => ({}));
         for (let i = 0; i < jobApplications.length; i++) {
@@ -27,8 +32,10 @@ const MyJobApplications = () => {
         console.error("Error fetching job data:", error);
       }
     };
-    fetchJob();
-  }, []);
+    if (accessToken != null) {
+      fetchJob();
+    }
+  }, [accessToken]);
 
   return (
     <>

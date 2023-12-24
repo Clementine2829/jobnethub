@@ -76,11 +76,12 @@ export async function getCompanyJobs(companyId) {
   return await response.json();
 }
 
-export const getJobApplications = async () => {
+export const getJobApplications = async (token) => {
   try {
     const response = await axios.get(getApplyForAJobAPI, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
         withCredentials: true,
       },
     });

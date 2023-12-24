@@ -7,7 +7,7 @@ export const getJobByIdAPI = jobsBaseURL;
 export const getJobByIdAdminAPI = jobsBaseURL + "/admin";
 export const getRelatedJobsAPI = jobsBaseURL + "/related/";
 export const getCompanyJobsAPI = jobsBaseURL + "/company/";
-export const getApplyForAJobAPI = jobsBaseURL + "/applications/";
+export const getApplyForAJobAPI = jobsBaseURL + "/applications";
 // users
 const usersBaseURL = serverBaseURL + "/users";
 export const loginAPI = usersBaseURL + "/login";

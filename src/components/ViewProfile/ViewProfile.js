@@ -33,10 +33,10 @@ const ViewProfile = () => {
         console.log(error);
       }
     };
-    if (!userFetched) {
+    if (accessToken != null) {
       fetchUser();
     }
-  }, []);
+  }, [accessToken]);
 
   return (
     <>
