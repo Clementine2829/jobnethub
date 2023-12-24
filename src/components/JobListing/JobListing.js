@@ -6,7 +6,7 @@ import container from "./JobListing.module.css";
 import "./jobListingStyles.css";
 import Jobs from "./JobsFunction";
 import CreateIndexedBtns from "./BtnsNextPrev";
-import DataFetcher, { getJobs } from "../Server/Jobs";
+import { getJobs } from "../Server/Jobs";
 
 const JobListing = () => {
   const [jobs, setJobs] = useState([]);
@@ -90,11 +90,6 @@ const JobListing = () => {
         variant="JobListing"
         device="mobile"
       />
-
-      {/* <DataFetcher
-        fetchFunction={() => getJobs("listing")}
-        onDataFetched={onJobsFetched}
-      /> */}
 
       <div className={`row`}>
         <div className={`col-sm-1`}></div>

@@ -1,0 +1,106 @@
+.data_container{
+	margin-top: 1%;
+}
+.data_container .sub_container:nth-child(1){
+	margin-top: 1%;
+	text-align: center;
+}
+.data_container .sub_container:nth-child(2){
+	margin-top: 2%;
+}
+.data_container .sub_container .search_employee{
+	outline: none;
+	width: 40%;
+	padding: .5% 2%;
+	border: 1px solid #1b9ce3;
+}	
+.data_container .sub_container .search_employee_btn{
+	outline: none;
+	padding: .5% 2%;
+    margin-top: 1%;
+	border: 1px solid #1b9ce3;
+	background-color: #1b9ce3;
+	color: white;
+}	
+.data_container .sub_container .search_employee_btn:hover{
+	background-color: white;
+	color: #1b9ce3;
+    border-left: none;
+}
+.sort_by{
+	outline: none;
+	width: 35%;
+	padding: .5% 2%;
+	border: none;
+}
+.data_container .sub_container {
+	width: 100%;
+	float: left;
+}
+.data_container .sub_container .inner_header{
+	width: 50%;
+	float: left;
+	display: inline;
+
+}
+.data_container .sub_container .inner_header:nth-child(2){
+	float: right;
+	text-align: right;
+}
+.data_container .sub_container .inner_container {
+	width: 100%;
+	float: left;
+}
+.data_container .sub_container .inner_container table{
+	background-color: lightgray;
+}
+.data_container .sub_container .inner_container table,
+.data_container .sub_container .inner_container table tr{
+	border-collapse: collapse;
+}
+.data_container .sub_container .inner_container table tr:hover{
+	background-color: rgb(225, 225, 225);
+}
+.data_container .sub_container .inner_container table tr th{
+	background-color: gray;
+	padding: 5px 1%;
+}
+.data_container .sub_container .inner_container table tr td{
+	padding: 5px 1%;
+}
+.data_container .sub_container .inner_container table tr td a{
+	text-decoration: none;
+}
+.data_container .sub_container .inner_container table tr td span{
+	font-size: 22px;
+}
+.data_container .sub_container .inner_container table colgroup col:nth-child(1){
+	width: 2%;
+}
+.data_container .sub_container .inner_container table colgroup col:nth-child(2){
+	width: 20%;
+}
+.data_container .sub_container .inner_container table colgroup col:nth-child(3){
+	width: 15%;
+}
+.data_container .sub_container .inner_container table colgroup col:nth-child(4){
+	width: 10%;
+}
+.data_container .sub_container .inner_container table colgroup col:nth-child(5){
+	width: 10%;
+}
+.data_container .sub_container .inner_container table colgroup col:nth-child(6){
+	width: 10%;
+}
+.data_container .sub_container .inner_container table colgroup col:nth-child(7){
+	width: 15%;
+}
+.data_container .sub_container .inner_container table tr td .complete_profile{
+	background-color: #1b9ce3;
+	color: white;
+	width: 0px;
+	padding: 4px 0px;
+	margin: 0px;
+	text-align: center;
+}
+.err{color: red}

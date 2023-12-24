@@ -37,42 +37,26 @@ export async function getJobById(jobId, token, admin = false) {
   return await response.json();
 }
 
-// export async function applyForAJob(jobId) {
-//   const url = getApplyForAJobAPI + jobId + "/apply";
-//   const response = await fetch(url, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       // Authorization: `Bearer ${token}`,
-//       credentials: "include",
-//     },
-//   });
-
-//   if (!response.ok) {
-//     throw new Error("Network response was not ok");
-//   }
-//   return await response.json();
-// }
-export const applyForAJob = async (jobId) => {
+export const applyForAJob = async (jobId, token) => {
   const url = `${getApplyForAJobAPI}${jobId}/apply`;
   try {
     const response = await axios.post(
       url,
-      null, // No request payload in this example
+      {}, // No request payload in this example
       {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          credentials: "include",
         },
         withCredentials: true,
       }
     );
-
-    // Axios automatically parses JSON responses, so no need for response.json()
-    return response.data;
+    return { response: response.data };
   } catch (error) {
-    // Axios automatically throws an error for non-2xx responses
-    console.error("Network request failed:", error.message);
-    throw new Error("Network response was not ok");
+    return { response: error.response.data.message };
+    // console.error("Network request failed:", error.response.data);
+    // throw new Error("Network response was not ok");
   }
 };
 
@@ -94,16 +78,12 @@ export async function getCompanyJobs(companyId) {
 
 export const getJobApplications = async () => {
   try {
-    const response = await axios.get(
-      // getApplyForAJobAPI + "40896a558f798927270ccddf4703f44f3915a52fc2fe",
-      getApplyForAJobAPI,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          withCredentials: true,
-        },
-      }
-    );
+    const response = await axios.get(getApplyForAJobAPI, {
+      headers: {
+        "Content-Type": "application/json",
+        withCredentials: true,
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error(`Error fetching job applications: ${error.message}`);
@@ -127,7 +107,6 @@ export default function DataFetcher({ fetchFunction, onDataFetched }) {
         console.error("Error fetching data: ", error);
       }
     };
-
     fetchData();
 
     // Cleanup function to set isMounted to false when the component is unmounted
@@ -138,22 +117,3 @@ export default function DataFetcher({ fetchFunction, onDataFetched }) {
 
   return null;
 }
-
-// export default function DataFetcher({ fetchFunction, onDataFetched }) {
-//   const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     fetchFunction()
-//       .then((jsonData) => {
-//         setData(jsonData);
-//         onDataFetched(jsonData); // Pass the fetched data to the callback
-//       })
-//       .catch((error) =>
-//       // {
-//       //   // do things with error
-//       // })
-//       console.error('Error fetching data: ', error));
-//   }, [fetchFunction, onDataFetched]);
-
-//   return null;
-// }

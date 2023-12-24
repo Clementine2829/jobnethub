@@ -45,7 +45,8 @@ const Home = () => {
       <div>
         <p className={`${home.createResume}`}>
           <strong>
-            Need a professional CV? click <a href="#">here</a> to create your CV
+            Need a professional CV? click <a href="./resume/update">here</a> to
+            create your CV
           </strong>
         </p>
       </div>
@@ -54,6 +55,23 @@ const Home = () => {
         <div className={`col-sm-10`}>
           <div>{/* <pre>{JSON.stringify(jobs, null, 2)}</pre> */}</div>
           <JobFunctions jobs={jobs} />
+        </div>
+        <div className={`col-sm-1`}></div>
+      </div>
+
+      <div className={`row`}>
+        <div className={`col-sm-1`}></div>
+        <div className={`col-sm-10`}>
+          <div className={`${home.browse_employees}`}>
+            <h4>Are you looking for employees?</h4>
+            <p>
+              We have a database full of potential employees that would match
+              your criteria. <br />
+              <a href="./employees">
+                Click to browse for potential employees you might like
+              </a>
+            </p>
+          </div>
         </div>
         <div className={`col-sm-1`}></div>
       </div>

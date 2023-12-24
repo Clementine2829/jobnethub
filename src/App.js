@@ -15,6 +15,9 @@ import ViewProfile from "./components/ViewProfile/ViewProfile";
 import MyJobApplications from "./components/MyJobApplications/MyJobApplications";
 import UpdateProfile from "./components/UpdaeProfile/UpdateProfile";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
+import FindEmployees from "./components/FindEmployees/FindEmployees";
+import CreateResume from "./components/CreateResume/CreateResume";
+import ViewResume from "./components/ViewResume/ViewResume";
 
 function App() {
   return (
@@ -36,6 +39,9 @@ function App() {
         <Route path="/update-profile" element={<UpdateProfile />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/job-applications" element={<MyJobApplications />} />
+        <Route path="/employees" element={<FindEmployees />} />
+        <Route path="/resume/update" element={<CreateResume />} />
+        <Route path="/resume" element={<ViewResume />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

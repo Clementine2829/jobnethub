@@ -3,21 +3,30 @@ import styleProfile from "./ViewProfile.module.css";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import { getUser } from "../Server/UsersFetcher";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const ViewProfile = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    firstname: "",
+    lastname: "",
+    dateOfBirth: "",
+    email: "",
+    phone: "",
+    gender: "",
+    role: "",
+    address: "",
+    status: "",
+  });
   const [userFetched, setUserFetched] = useState(false);
 
-  const dispatch = useDispatch;
-  const { userId } = useSelector((state) => {
+  const { accessToken } = useSelector((state) => {
     return state.auth;
   });
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const _user = await getUser(userId);
+        const _user = await getUser(accessToken);
         setUser(_user);
         console.log(user);
       } catch (error) {
@@ -27,7 +36,7 @@ const ViewProfile = () => {
     if (!userFetched) {
       fetchUser();
     }
-  }, [userId]);
+  }, []);
 
   return (
     <>
@@ -57,45 +66,45 @@ const ViewProfile = () => {
               <p>
                 <strong>Full name</strong>
               </p>
-              <span>{user && user.firstname + " " + user.lastname}</span>
+              <span>{user.firstname + " " + user.lastname}</span>
             </div>
             <div className={`${styleProfile.sub_container}`}>
               <p>
                 <strong>Date of birth</strong>
               </p>
-              <span>{user && user.dateOfBirth}</span>
+              <span>{user.dateOfBirth}</span>
             </div>
             <div className={`${styleProfile.sub_container}`}>
               <p>
                 <strong>Contact</strong>
               </p>
               <span>
-                <span className={`fas fa-envelope`}></span> {user && user.email}
+                <span className={`fas fa-envelope`}></span> {user.email}
                 <br />
-                <span className={`fas fa-phone`}></span> {user && user.phone}
+                <span className={`fas fa-phone`}></span> {user.phone}
               </span>
             </div>
             <div className={`${styleProfile.sub_container}`}>
               <p>
                 <strong>Gender</strong>
               </p>
-              <span>{user && user.gender}</span>
+              <span>{user.gender}</span>
             </div>
             <div className={`${styleProfile.sub_container}`}>
               <p>
                 <strong>Role</strong>
               </p>
-              <span>{user && user.role}</span>
+              <span>{user.role}</span>
             </div>
 
             <div className={`${styleProfile.sub_container}`}>
               <p>
                 <strong>Address</strong>
               </p>
-              <span>{user && user.address}</span>
+              <span>{user.address}</span>
             </div>
             <div className={`${styleProfile.sub_container}`}>
-              {user && user.status === "notActivated" ? (
+              {user.status === "notActivated" ? (
                 <>
                   <p style={{ marginTop: "10px" }}>
                     <strong>Activate account:</strong>

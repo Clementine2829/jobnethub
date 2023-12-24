@@ -12,6 +12,12 @@
 .createResume a{
     text-decoration: none;
 }
+.browse_employees{
+    margin-top: 5%;
+}
+.browse_employees a{
+    text-decoration: none;
+}
 @media screen and (max-width: 499px){
     .backgroundContainer{
         height: 470px; 
