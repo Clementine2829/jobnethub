@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   loginAPI,
   signupAPI,
@@ -52,18 +53,19 @@ export const logout = () => {
   return { type: "LOGOUT" };
 };
 export async function getUser(token) {
-  const response = await fetch(profileAPI, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-      credentials: "include",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
+  console.log(token);
+  try {
+    const response = await axios.get(profileAPI, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        withCredentials: true,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error fetching job applications: ${error.message}`);
   }
-  return await response.json();
 }
 
 const performRegistration = async (firstname, lastname, username, password) => {
