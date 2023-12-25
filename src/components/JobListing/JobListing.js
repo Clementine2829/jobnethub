@@ -44,12 +44,7 @@ const JobListing = () => {
           }
         }
 
-        buttons =
-          jobs.length === 0
-            ? 0
-            : _totalJobs % tempJobsPerPage === 0
-            ? buttons
-            : buttons + 1;
+        buttons = _totalJobs % tempJobsPerPage === 0 ? buttons : buttons + 1;
         setJobs(parsedJobs);
         setTotalJobs(_totalJobs);
         setPagesCounter(buttons);
@@ -251,16 +246,16 @@ const JobListing = () => {
               )}
               <Jobs jobs={filterJobs()} />
               <CreateIndexedBtns
-                // key={Math.floor(Math.random() * 10000)}
-                // activePage={activePage}
-                // pagesCounter={pagesCounter}
-                // nextOrPrevPage={nextOrPrevPage}
                 key={Math.floor(Math.random() * 10000)}
-                jobs={jobs.length}
                 activePage={activePage}
                 pagesCounter={pagesCounter}
-                jobsPerPage={jobsPerPage}
                 nextOrPrevPage={nextOrPrevPage}
+                // key={Math.floor(Math.random() * 10000)}
+                // jobs={jobs.length}
+                // activePage={activePage}
+                // pagesCounter={pagesCounter}
+                // jobsPerPage={jobsPerPage}
+                // nextOrPrevPage={nextOrPrevPage}
               />
             </div>
           </div>

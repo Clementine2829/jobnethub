@@ -1,13 +1,7 @@
 import React from "react";
 import btns from "./BtnsNextPrev.module.css";
 
-function CreateIndexedBtns({
-  jobs,
-  activePage,
-  pagesCounter,
-  jobsPerPage,
-  nextOrPrevPage,
-}) {
+function CreateIndexedBtns({ activePage, pagesCounter, nextOrPrevPage }) {
   const resultText = [];
   let prevCondition = activePage === 1;
   let nextCondition = false;
@@ -29,11 +23,11 @@ function CreateIndexedBtns({
       );
     }
   } else {
-    // resultText.push(
-    //   <button key={0} className={`${btns.btnsList} ${btns.active}`}>
-    //     1
-    //   </button>
-    // );
+    resultText.push(
+      <button key={0} className={`${btns.btnsList} ${btns.active}`}>
+        1
+      </button>
+    );
     prevCondition = true;
     nextCondition = true;
   }
