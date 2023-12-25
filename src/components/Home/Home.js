@@ -12,21 +12,21 @@ const Home = () => {
   const [jobs, setJobs] = useState([]);
   const [dataFetched, setDataFetched] = useState(false);
 
-  const onDataFetched = (data) => {
-    console.log("data", data);
-    if (dataFetched) return;
-
-    const parsedData = data.jobs.map((item) => ({
-      ...item,
-      company: JSON.parse(item.company) || {},
-      category: JSON.parse(item.category) || {},
-    }));
-
-    setJobs(parsedData);
-    setDataFetched(true);
-  };
-
   useEffect(() => {
+    const onDataFetched = (data) => {
+      try {
+        if (dataFetched) return;
+        const parsedData = data.jobs.map((item) => ({
+          ...item,
+          company: JSON.parse(item.company) || {},
+          category: JSON.parse(item.category) || {},
+        }));
+
+        setJobs(parsedData);
+        setDataFetched(true);
+      } catch (error) {}
+    };
+
     getJobs("home").then(onDataFetched);
     // Cleanup function if needed
     return () => {
@@ -53,7 +53,6 @@ const Home = () => {
       <div className={`row`}>
         <div className={`col-sm-1`}></div>
         <div className={`col-sm-10`}>
-          <div>{/* <pre>{JSON.stringify(jobs, null, 2)}</pre> */}</div>
           <JobFunctions jobs={jobs} />
         </div>
         <div className={`col-sm-1`}></div>

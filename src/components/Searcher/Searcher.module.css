@@ -1,5 +1,6 @@
 .listingContainer {
     padding: 2%;
+    width: 100%;
 }
 .listingContainer .subContainer{
     text-align: center;

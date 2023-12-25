@@ -11,12 +11,16 @@ import {
 } from "./apiConstants";
 
 export async function getJobs(action = "", page = 1) {
-  const url = getJobsAPI + action + "&page=" + page;
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
+  try {
+    const url = getJobsAPI + action + "&page=" + page;
+    const response = await fetch(url);
+    if (!response.ok) {
+      // throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    return null;
   }
-  return await response.json();
 }
 
 export async function getJobById(jobId, token, admin = false) {
@@ -42,7 +46,7 @@ export const applyForAJob = async (jobId, token) => {
   try {
     const response = await axios.post(
       url,
-      {}, // No request payload in this example
+      {},
       {
         headers: {
           "Content-Type": "application/json",

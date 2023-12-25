@@ -29,11 +29,11 @@ function CreateIndexedBtns({
       );
     }
   } else {
-    resultText.push(
-      <button key={0} className={`${btns.btnsList} ${btns.active}`}>
-        1
-      </button>
-    );
+    // resultText.push(
+    //   <button key={0} className={`${btns.btnsList} ${btns.active}`}>
+    //     1
+    //   </button>
+    // );
     prevCondition = true;
     nextCondition = true;
   }

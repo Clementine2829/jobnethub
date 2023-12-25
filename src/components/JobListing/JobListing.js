@@ -44,33 +44,27 @@ const JobListing = () => {
           }
         }
 
-        buttons = _totalJobs % tempJobsPerPage === 0 ? buttons : buttons + 1;
-
+        buttons =
+          jobs.length === 0
+            ? 0
+            : _totalJobs % tempJobsPerPage === 0
+            ? buttons
+            : buttons + 1;
         setJobs(parsedJobs);
         setTotalJobs(_totalJobs);
         setPagesCounter(buttons);
-        // setJobsFetched(true);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:");
       }
     });
   }, [activePage]);
-
-  const onJobsFetched = async () => {
-    // try {
-    //   const data = await getJobs("listing", activePage);
-    //   console.log("loading new data");
-    //   // Handle the new data if needed
-    // } catch (error) {
-    //   console.error("Error fetching data:", error);
-    // }
-  };
 
   const filterJobs = () => {
     return jobs;
   };
 
   const jobsCounter = () => {
+    if (jobs.length == 0) return 0;
     const startIndex = (activePage - 1) * jobsPerPage;
     return `${startIndex + 1} - ${
       startIndex + jobsPerPage
@@ -231,29 +225,42 @@ const JobListing = () => {
               </div>
             </div>
             <div className={`${container.browseJobs}`}>
-              <p>
-                <span>Showing {jobsCounter()} </span>
-                <span className={`${container.sortBy}`}>
-                  Sort: {`\t`}
-                  <select>
-                    <option value="relevance">Relevance</option>
-                    <option value="date">Date Posted</option>
-                    <option value="company">Company</option>
-                    <option value="location">Location</option>
-                    <option value="salary">Salary</option>
-                  </select>
-                </span>
-              </p>
+              {jobsCounter() === 0 ? (
+                <div style={{ textAlign: "center", color: "red" }}>
+                  <br />
+                  <br />
+                  <p>Showing 0 jobs </p>
+                  <p>Please check back later...</p>
+                  <br />
+                  <br />
+                </div>
+              ) : (
+                <p>
+                  <span>Showing {jobsCounter()} </span>
+                  <span className={`${container.sortBy}`}>
+                    Sort: {`\t`}
+                    <select>
+                      <option value="relevance">Relevance</option>
+                      <option value="date">Date Posted</option>
+                      <option value="company">Company</option>
+                      <option value="location">Location</option>
+                      <option value="salary">Salary</option>
+                    </select>
+                  </span>
+                </p>
+              )}
               <Jobs jobs={filterJobs()} />
               <CreateIndexedBtns
+                // key={Math.floor(Math.random() * 10000)}
+                // activePage={activePage}
+                // pagesCounter={pagesCounter}
+                // nextOrPrevPage={nextOrPrevPage}
                 key={Math.floor(Math.random() * 10000)}
                 jobs={jobs.length}
                 activePage={activePage}
                 pagesCounter={pagesCounter}
                 jobsPerPage={jobsPerPage}
                 nextOrPrevPage={nextOrPrevPage}
-                // activePage="2"
-                // pagesCounter="4"
               />
             </div>
           </div>

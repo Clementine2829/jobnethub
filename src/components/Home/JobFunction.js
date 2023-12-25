@@ -21,13 +21,20 @@ function Jobs(props) {
       />
     );
   });
-
   return (
     <>
-      <div className={`${job.container}`}>
-        <h5>FEATURED JOBS</h5>
-        <a href="./jobs">View Listing</a>
-      </div>
+      {featuredJobs.length > 0 ? (
+        <div className={`${job.container}`}>
+          <h5>FEATURED JOBS</h5>
+          <a style={{ textDecoration: "none" }} href="./jobs">
+            View jobs
+          </a>
+        </div>
+      ) : (
+        <a style={{ textDecoration: "none" }} href="./jobs">
+          View our jobs
+        </a>
+      )}
       {featuredJobs}
     </>
   );
