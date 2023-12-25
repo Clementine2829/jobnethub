@@ -79,6 +79,7 @@ const JobListing = () => {
 
   const nextOrPrevPage = (newPage) => {
     setActivePage(newPage);
+    window.location.href = "#";
   };
 
   return (
@@ -87,7 +88,7 @@ const JobListing = () => {
       <Searcher
         search={search}
         location={location}
-        variant="JobListing"
+        currentPage="JobListing"
         device="mobile"
       />
 
@@ -95,7 +96,10 @@ const JobListing = () => {
         <div className={`col-sm-1`}></div>
         <div className={`col-sm-10`}>
           <div className={`${container.browseJobs}`}>
-            <div className={`${container.browseJobs}`}>
+            <div
+              className={`${container.browseJobs}`}
+              style={{ display: "none" }}
+            >
               <h4 className={`${container.heading}`}>Browse for jobs: </h4>
               <button className={`${container.btnFilter}`}>Relevant</button>
               <button className={`${container.btnFilter}`}>Most recent</button>
@@ -227,8 +231,19 @@ const JobListing = () => {
               </div>
             </div>
             <div className={`${container.browseJobs}`}>
-              <p>Showing {jobsCounter()} </p>
-              {/* <Jobs jobs={jobs} /> */}
+              <p>
+                <span>Showing {jobsCounter()} </span>
+                <span className={`${container.sortBy}`}>
+                  Sort: {`\t`}
+                  <select>
+                    <option value="relevance">Relevance</option>
+                    <option value="date">Date Posted</option>
+                    <option value="company">Company</option>
+                    <option value="location">Location</option>
+                    <option value="salary">Salary</option>
+                  </select>
+                </span>
+              </p>
               <Jobs jobs={filterJobs()} />
               <CreateIndexedBtns
                 key={Math.floor(Math.random() * 10000)}

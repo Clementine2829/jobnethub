@@ -13,6 +13,7 @@
     width: 40%;
     margin: 0% .5% 2% .5%; 
     padding: 1%;
+    border-radius: 10px;
 }
 .listingContainer .subContainer .subForm .search {
     display: none;
@@ -64,7 +65,7 @@
 .listingContainer .subContainer .subForm:nth-child(4) .jobType {
     margin-right: 2%;
 }
-@media screen and (max-width: 499px){
+@media screen and (max-width: 499px){    
     .listingContainer .subContainer .subForm:nth-child(1),
     .listingContainer .subContainer .subForm:nth-child(2),
     .listingContainer .subContainer .subForm:nth-child(3) {

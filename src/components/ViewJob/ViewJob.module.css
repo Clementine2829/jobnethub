@@ -87,9 +87,6 @@
     margin-left: -10%;
 }
 
-/* .mainJobContainer {
-
-} */
 .mainJobContainer .container {
 	padding: 0px 2%;
 }
@@ -118,5 +115,34 @@
     border-radius: 45px;
     margin-top: 1%;
 }
+
+.hiddenDiv {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Off-screen position */
+    width: 300px;
+    height: 100vh;
+    background-color: #f0f0f0;
+    transition: transform 0.3s ease-in-out; /* Use transform for sliding effect */
+  }
+  
+  .visible {
+    transform: translateX(0); /* Slide the div into visibility */
+  }
+  
+
+@media screen and (max-width: 499px){    
+    .otherJobContainer {
+        display: none;
+    }
+    .mainJobContainerAtServer{
+        margin: 5% 4%;
+        width: 92%;
+    }
+    .description{
+        margin-top: 8%;
+    }
+}
+
 
 

@@ -39,7 +39,7 @@ const Home = () => {
       <Header />
 
       <div className={`${home.backgroundContainer}`}>
-        <Searcher variant="Home" />
+        <Searcher currentPage="Home" />
       </div>
 
       <div>

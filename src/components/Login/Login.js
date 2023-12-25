@@ -78,6 +78,7 @@ const Login = () => {
         <div className={`col-sm-1`}></div>
         <div className={`col-sm-10`}>
           <div className={`${login.form_container}`}>
+            <h4>Use the form below to login</h4>
             <form onSubmit={handleSubmitLogin}>
               <div className={`${login.sub_container}`}>
                 <span className={`${login.error_login_message}`}>
@@ -119,7 +120,7 @@ const Login = () => {
               </div>
             </form>
             <div className={`${login.last_container}`}>
-              <div>
+              <div className={`${login.forgotPassword}`}>
                 <a href="./forgot-password">Forgot password</a>
               </div>
               <div className={`${login.register}`}>

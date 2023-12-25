@@ -3,11 +3,59 @@ import listing from "./Searcher.module.css";
 import "./SearcherGlobal.css";
 
 const Searcher = (props) => {
+  const { search, location, currentPage } = props;
+
   const [isDivHidden, setIsDivHidden] = useState(true);
-  const [deviceSize] = useState(499);
+  const [smallScreen, setSmallScreen] = useState(599);
+  // const [currentURLPage, setCurrentURLPage] = useState("");
+  const [containerStyles, setContainerStyles] = useState({});
+  const [displayForSmallScreen, setDisplayForSmallScreen] = useState({});
+  const [styleDevs, setStyleDevs] = useState({});
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  const [style1, setStyle1] = useState(
+    currentPage === "Home" || windowSize.width > smallScreen
+      ? "inline-block"
+      : "none"
+  );
+
+  useEffect(() => {
+    setStyle1(
+      currentPage === "Home" || windowSize.width > smallScreen
+        ? "inline-block"
+        : "none"
+    );
+
+    if (currentPage === "Home") {
+      setStyleDevs({
+        backgroundColor: "white",
+        border: "none",
+      });
+      setContainerStyles({ display: style1, marginTop: "5%", color: "white" });
+    } else {
+      setContainerStyles({ display: style1 });
+      setStyleDevs({
+        backgroundColor: "white",
+        border: "1px solid #1b9ce3",
+      });
+    }
+    const style2 =
+      currentPage !== "Home" && windowSize.width <= smallScreen
+        ? "inline-block"
+        : "none";
+    setDisplayForSmallScreen({ display: style2 });
+  }, []);
 
   const filterSearch = () => {
-    setIsDivHidden(!isDivHidden);
+    if (windowSize.width < smallScreen) {
+      if (containerStyles.display === "inline-block") {
+        setContainerStyles({ display: "none" });
+      } else {
+        setContainerStyles({ display: "inline-block" });
+      }
+    }
   };
 
   const handleJob = (event) => {
@@ -18,22 +66,6 @@ const Searcher = (props) => {
     event.preventDefault();
   };
 
-  const { search, location, variant } = props;
-  const device = window.innerWidth;
-
-  let containerStyles = {};
-  let devs = {};
-  if (variant === "Home") {
-    devs = {
-      backgroundColor: "white",
-      border: "none",
-    };
-    containerStyles = {
-      marginTop: "5%",
-      color: "white",
-    };
-  }
-
   return (
     <>
       <div className={`row`}>
@@ -41,31 +73,29 @@ const Searcher = (props) => {
         <div className={`col-sm-10`}>
           <div
             style={containerStyles}
-            className={`${listing.listingContainer} ${
-              device >= deviceSize ? "visible" : "hidden"
-            }`}
+            className={`${listing.listingContainer}`}
           >
             <div className={`${listing.subContainer}`}>
               <h4>Your new job is waiting for you</h4>
               <p>Thousands of job opportunities available in South Africa</p>
             </div>
             <div className={`${listing.subContainer}`}>
-              <div style={devs} className={`${listing.subForm}`}>
+              <div style={styleDevs} className={`${listing.subForm}`}>
                 <span className={`fas fa-search`}></span>
                 <input
                   type="text"
                   value={search}
-                  className={`jobTitle`}
+                  className={`${listing.jobTitle}`}
                   onChange={handleJob}
                   placeholder="Job title, Skills or Company"
                 />
               </div>
-              <div style={devs} className={`${listing.subForm}`}>
+              <div style={styleDevs} className={`${listing.subForm}`}>
                 <span className={`fas fa-map-marker-alt`}></span>
                 <input
                   type="text"
                   value={location}
-                  className={`${listing.jobLocation}`}
+                  // className={`${listing.jobLocation}`}
                   onChange={handleLocation}
                   placeholder="Location"
                 />
@@ -79,15 +109,15 @@ const Searcher = (props) => {
               <div className={`subForm ${listing.subForm}`}>
                 <span className={`err ${listing.errorMessageSearch}`}></span>
                 <span className={`${listing.jobType}`}>
-                  <input type="checkbox" value="remote" />
+                  <input type="checkbox" value="remote" defaultChecked />
                   <span> Include remote jobs </span>
                 </span>
                 <span className={`${listing.jobType}`}>
-                  <input type="checkbox" value="parttime" />
+                  <input type="checkbox" value="parttime" defaultChecked />
                   <span> Part-time jobs </span>
                 </span>
                 <span className={`${listing.jobType}`}>
-                  <input type="checkbox" value="fulltime" />
+                  <input type="checkbox" value="fulltime" defaultChecked />
                   <span> Full-time jobs </span>
                 </span>
               </div>
@@ -98,9 +128,8 @@ const Searcher = (props) => {
       </div>
 
       <div
-        className={`${listing.displayForSmallScreen} ${
-          device < deviceSize ? "visible" : "hidden"
-        }`}
+        className={`${listing.displayForSmallScreen}`}
+        style={displayForSmallScreen}
       >
         <button className={`${listing.openFilterBtn}`}>
           <span className={`fas fa-filter`}></span>

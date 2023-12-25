@@ -148,10 +148,7 @@ const ViewJob = () => {
       } ago)`;
     }
   };
-  const onJobFetched = (data) => {
-    // Handle data as needed
-    // console.log(data);
-  };
+
   return (
     <>
       <Header />
@@ -215,114 +212,113 @@ const ViewJob = () => {
           </div>
         </div>
         <div className={`col-sm-7 ${styleJob.mainJobContainerAtServer}`}>
-          <div className={`${styleJob.jobContainer}`}>
-            <div className={`${styleJob.imageContainer}`}>
-              {/* <img src={imgURL} alt={`Company logo`} style={{"height": "100%", "width": "auto"}} />                                 */}
-            </div>
-            <div className={`${styleJob.description}`}>
-              <h4>
-                {job.job_title}
-                <span className={`${styleJob.remote}`}>
-                  {job.remote_work ? "Remote" : ""}
-                </span>
-              </h4>
-              <p>
-                <span
-                  className={`fas fa-building`}
-                  style={{ marginRight: " 5px" }}
-                ></span>
-                <a href="#" style={{ textDecoration: "none" }}>
-                  {job.company != null ? job.company.company_name : ""}
-                </a>
-              </p>
-              <p>
-                <span
-                  className={`fa fa-map-marker`}
-                  style={{ marginRight: " 5px" }}
-                ></span>
-                {job.job_location}
-              </p>
-              <p>{job.job_type != null ? `Job Type: ${job.job_type}` : ""}</p>
-              <p>
-                Salary: <span>{job.job_salary}</span>
-              </p>
-              <p>
-                Date posted: {datePosted(job.date_updated)}
-                {job.closing_date != null
-                  ? ` ${closingDate(job.closing_date, job.date_updated)}`
-                  : ""}
-              </p>
-              <p>
-                Reference: <span>{job.job_ref}</span>
-              </p>
-              <p className={`${styleJob.share}`}>
-                <span
-                  style={{ marginRight: " 2%", color: "red" }}
-                  className={`far fa-heart`}
-                ></span>
-                <span
-                  style={{ marginRight: " 2%", color: "#1b9ce3" }}
-                  className={`fa fa-envelope-o`}
-                ></span>
-              </p>
-              <p style={styleApplicationMessage}>{applicationMessage}</p>
-              <button
-                onClick={applyForJob}
-                className={`${styleJob.btnJobApply}`}
-              >
-                <span
-                  className={`fas fa-lock`}
-                  style={{ marginRight: " 5px" }}
-                ></span>
-                Apply
-              </button>
-            </div>
-            <div className={`${styleJob.description}`}>
-              <h4 style={{ marginTop: " 1.5%" }}>About</h4>
-              <p>
-                {job.company != null ? job.company.company_description : ""}
-                <br />
-                <br />
-                <strong>Job Description: </strong>
-                <br />
-                {job.job_description}
-              </p>
+          {/* <div className={`${styleJob.jobContainer}`}> */}
+          <div className={`${styleJob.imageContainer}`}>
+            {/* <img src={imgURL} alt={`Company logo`} style={{"height": "100%", "width": "auto"}} />                                 */}
+          </div>
+          <div className={`${styleJob.description}`}>
+            <h4>
+              {job.job_title}
+              <span className={`${styleJob.remote}`}>
+                {job.remote_work ? "Remote" : ""}
+              </span>
+            </h4>
+            <p>
+              <span
+                className={`fas fa-building`}
+                style={{ marginRight: " 5px" }}
+              ></span>
+              <a href="#" style={{ textDecoration: "none" }}>
+                {job.company != null ? job.company.company_name : ""}
+              </a>
+            </p>
+            <p>
+              <span
+                className={`fa fa-map-marker`}
+                style={{ marginRight: " 5px" }}
+              ></span>
+              {job.job_location}
+            </p>
+            <p>
+              {job.job_type == "fulltime" ? `Job Type: ${job.job_type}` : ""}
+            </p>
+            <p>
+              Salary: <span>{job.job_salary}</span>
+            </p>
+            <p>
+              Date posted: {datePosted(job.date_updated)}
+              {job.closing_date != null
+                ? ` ${closingDate(job.closing_date, job.date_updated)}`
+                : ""}
+            </p>
+            <p>
+              Reference: <span>{job.job_ref}</span>
+            </p>
+            <p className={`${styleJob.share}`}>
+              <span
+                style={{ marginRight: " 2%", color: "red" }}
+                className={`far fa-heart`}
+              ></span>
+              <span
+                style={{ marginRight: " 2%", color: "#1b9ce3" }}
+                className={`fa fa-envelope-o`}
+              ></span>
+            </p>
+            <p style={styleApplicationMessage}>{applicationMessage}</p>
+            <button onClick={applyForJob} className={`${styleJob.btnJobApply}`}>
+              <span
+                className={`fas fa-lock`}
+                style={{ marginRight: " 5px" }}
+              ></span>
+              Apply
+            </button>
+          </div>
+          <div className={`${styleJob.description}`}>
+            <h4 style={{ marginTop: " 1.5%" }}>About</h4>
+            <p>
+              {job.company != null ? job.company.company_description : ""}
+              <br />
+              <br />
+              <strong>Job Description: </strong>
+              <br />
+              {job.job_description}
+            </p>
 
-              <div style={styleRequirementDev}>
-                <p>
-                  <strong>Requirements: </strong>
-                </p>
-                <ul>
-                  {job.job_requirements &&
-                    job.job_requirements.map((requirementObj, index) => (
-                      <li key={index}>{requirementObj.requirement}</li>
-                    ))}
-                </ul>
-              </div>
-              <div style={styleQualificationDev}>
-                <p>
-                  <strong>Qualifications: </strong>
-                </p>
-                <ul>
-                  {job.job_qualifications &&
-                    job.job_qualifications.map((qualificationObj, index) => (
-                      <li key={index}>{qualificationObj.qualification}</li>
-                    ))}
-                </ul>
-              </div>
-              <div style={styleDutiesDev}>
-                <p>
-                  <strong>Duties & Responsibilities: </strong>
-                </p>
-                <ul>
-                  {job.job_duties &&
-                    job.job_duties.map((dutyObj, index) => (
-                      <li key={index}>{dutyObj.duty}</li>
-                    ))}
-                </ul>
-              </div>
+            <div style={styleRequirementDev}>
+              <p>
+                <strong>Requirements: </strong>
+              </p>
+              <ul>
+                {job.job_requirements &&
+                  job.job_requirements.map((requirementObj, index) => (
+                    <li key={index}>{requirementObj.requirement}</li>
+                  ))}
+              </ul>
+            </div>
+            <div style={styleQualificationDev}>
+              <p>
+                <strong>Qualifications: </strong>
+              </p>
+              <ul>
+                {job.job_qualifications &&
+                  job.job_qualifications.map((qualificationObj, index) => (
+                    <li key={index}>{qualificationObj.qualification}</li>
+                  ))}
+              </ul>
+            </div>
+            <div style={styleDutiesDev}>
+              <p>
+                <strong>Duties & Responsibilities: </strong>
+              </p>
+              <ul>
+                {job.job_duties &&
+                  job.job_duties.map((dutyObj, index) => (
+                    <li key={index}>{dutyObj.duty}</li>
+                  ))}
+              </ul>
             </div>
           </div>
+          {/* </div> */}
         </div>
         <div className={`col-sm-1`}></div>
       </div>

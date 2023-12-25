@@ -24,9 +24,9 @@ const PostJob = () => {
     job_location: "",
     closing_date: "",
     newItemValue: "",
-    requrementsItems: [{ requirement: "clemen" }],
-    qualificationsItems: [{ qualification: "mamo" }],
-    dutiesItems: [{ duty: "code waywaya" }],
+    requrementsItems: [{ requirement: "" }],
+    qualificationsItems: [{ qualification: "" }],
+    dutiesItems: [{ duty: "" }],
   });
 
   const [dataFetched, setDataFetched] = useState(false);
@@ -42,53 +42,61 @@ const PostJob = () => {
   const [dutiesItems, setDutiesItems] = useState([]);
   const [newItemValue, setNewItemValue] = useState("");
 
+  const { accessToken } = useSelector((state) => {
+    return state.auth;
+  });
+
   useEffect(() => {
     const fullURL = window.location.href;
     const fullURLArray = fullURL.split("/");
     const job_id = fullURLArray[fullURLArray.length - 1];
-    setJob((prevJob) => ({
-      ...prevJob,
-      job_id: job_id !== "update" || job_id !== "" ? job_id : "",
-    }));
-  }, []);
 
-  useEffect(() => {
-    // console.log("Updated requrementsItems:", requrementsItems);
-  }, [requrementsItems]); // Log the state whenever requrementsItems changes
+    const fetchJob = async () => {
+      try {
+        if (job_id !== "update" || job_id !== "") {
+          const fetchedJob = await getJobById(job_id, accessToken, true);
+          setJob((prevJob) => ({
+            ...prevJob,
+            job_id: fetchedJob.job_id,
+            job_title: fetchedJob.job_title,
+            job_ref: fetchedJob.job_ref,
+            job_description: fetchedJob.job_description,
+            remote_work: fetchedJob.remote_work,
+            job_type: fetchedJob.job_type,
+            work_type: fetchedJob.work_type,
+            job_salary: fixJobSalary(fetchedJob.job_salary),
+            job_location: fetchedJob.job_location,
+            closing_date: fetchedJob.closing_date,
+            company: JSON.parse(fetchedJob.company),
+            category: JSON.parse(fetchedJob.category),
+            requrementsItems: fetchedJob.job_requirements || [
+              { requirement: "" },
+            ],
+            qualificationsItems: fetchedJob.job_qualifications || [
+              { qualification: "" },
+            ],
+            dutiesItems: fetchedJob.job_duties || [{ duty: "" }],
+          }));
 
-  const onJobFetched = (data) => {
-    if (dataFetched) return;
-    try {
-      const fetchedJob = {
-        ...data,
-        company: JSON.parse(data.company),
-        category: JSON.parse(data.category),
-        requrementsItems: data.job_requirements || [{ requirement: "clemen" }],
-        qualificationsItems: data.job_qualifications || [
-          { qualification: "mamo" },
-        ],
-        dutiesItems: data.job_duties || [{ duty: "code waywaya" }],
-      };
-      setJob(fetchedJob);
-      setDataFetched(true);
-
-      updateRequirementsFromServer(fetchedJob.requrementsItems);
-      updateQualificationsFromServer(fetchedJob.qualificationsItems);
-      updateDutiesFromServer(fetchedJob.dutiesItems);
-
-      return fetchedJob;
-    } catch (error) {
-      // console.log(error);
+          updateRequirementsFromServer(fetchedJob.job_requirements);
+          updateQualificationsFromServer(fetchedJob.job_qualifications);
+          updateDutiesFromServer(fetchedJob.job_duties);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (accessToken != null) {
+      fetchJob();
     }
-    return {};
-  };
+  }, [accessToken]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  // useEffect(() => {
+  //   // console.log("Updated requrementsItems:", requrementsItems);
+  // }, [requrementsItems]); // Log the state whenever requrementsItems changes
 
-    console.log("this is submitting again ");
-    console.log(job);
-    return;
+  const fixJobSalary = (salary) => {
+    return salary.split("-")[1] !== "undefined" ? salary : salary + "-";
   };
 
   const handleInputChange = (event) => {
@@ -114,7 +122,7 @@ const PostJob = () => {
     const jobRequirements = job || [];
     const requirements = jobRequirements.slice(1).map((requirement, index) => ({
       text: requirement.requirement || "",
-      placeholder: `Requirement ${index + 2}`,
+      placeholder: `Add requirement ${index + 2}`,
     }));
     setRequrementsItems(requirements);
   };
@@ -125,7 +133,7 @@ const PostJob = () => {
       .slice(1)
       .map((qualification, index) => ({
         text: qualification.qualification || "",
-        placeholder: `Qualification ${index + 2}`,
+        placeholder: `Add qualification ${index + 2}`,
       }));
     setQualificationsItems(qualifications);
   };
@@ -133,7 +141,7 @@ const PostJob = () => {
     const jobDuties = job || [];
     const duties = jobDuties.slice(1).map((duty, index) => ({
       text: duty.duty || "",
-      placeholder: `Duty ${index + 2}`,
+      placeholder: `Add duty ${index + 2}`,
     }));
     setDutiesItems(duties);
   };
@@ -232,13 +240,43 @@ const PostJob = () => {
       return {};
     }
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    console.log("this is submitting again ");
+    console.log(job);
+    console.log(requrementsItems);
+    console.log(qualificationsItems);
+    console.log(dutiesItems);
+
+    const requirements = requrementsItems.map((item) => {
+      return { requirement: item.text };
+    });
+    const qualifications = qualificationsItems.map((item) => {
+      return { qualification: item.text };
+    });
+    const duties = dutiesItems.map((item) => {
+      return { duty: item.text };
+    });
+    if (requirements.length > 0) {
+      job.requrementsItems = [...job.requrementsItems, ...requirements];
+    }
+    if (qualifications.length > 0) {
+      job.qualificationsItems = [...job.qualificationsItems, ...requirements];
+    }
+    if (duties.length > 0) {
+      job.requrementsItems = [...job.requrementsItems, ...requirements];
+    }
+
+    console.log(job);
+
+    return;
+  };
+
   return (
     <>
       <Header />
-      <DataFetcher
-        fetchFunction={() => getJobById(job.job_id, "accessToken", true)}
-        onDataFetched={onJobFetched}
-      />
 
       <div className={`row`}>
         <div className={`col-sm-1`}></div>
@@ -272,7 +310,7 @@ const PostJob = () => {
                   />
                   <span>Remote work</span>
                 </div>
-                <div className={`${jobCSS.label}`}>
+                <div style={displaJobref()} className={`${jobCSS.label}`}>
                   <label htmlFor="job_ref"></label>
                   <span>Job Ref: {job.job_ref}</span>
                 </div>

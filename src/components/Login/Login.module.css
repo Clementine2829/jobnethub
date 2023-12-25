@@ -56,3 +56,30 @@
 .form_container .last_container {
 	margin: 2%;
 }	
+.forgotPassword a{
+	text-decoration: none;
+}
+
+@media screen and (max-width: 499px){
+	.form_container .sub_container input[type=email], 
+	.form_container .sub_container input[type=password]{
+		width: 85%;
+	}
+	.login_submit{
+		width: 50%;
+	}
+	.form_container .last_container {
+		margin-top: 5%;
+		width: 100%;
+	}
+	.form_container .last_container div:nth-child(1) {
+		width: 40%;
+	}
+	.form_container .last_container div:nth-child(2) {
+		width: 60%;
+	}
+	.register{
+		width: 100%;
+	}
+	
+}

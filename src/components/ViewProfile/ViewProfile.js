@@ -17,7 +17,6 @@ const ViewProfile = () => {
     address: "",
     status: "",
   });
-  const [userFetched, setUserFetched] = useState(false);
 
   const { accessToken } = useSelector((state) => {
     return state.auth;
@@ -41,11 +40,6 @@ const ViewProfile = () => {
   return (
     <>
       <Header />
-
-      {/* <DataFetcher
-        fetchFunction={() => getUser(userId)}
-        onDataFetched={onUserFetched}
-      /> */}
 
       <div className={`row`}>
         <div className={`col-sm-1`}></div>

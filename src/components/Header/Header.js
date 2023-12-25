@@ -13,7 +13,11 @@ const Header = (props) => {
   const [loggedIn, setLoggedIn] = useState(!!props.user);
   const [userType, setUserType] = useState("");
   const [baseURL, setBaseURL] = useState(appBaseURL);
-
+  const [smallScreen, setSmallScreen] = useState(599);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
   const dispatch = useDispatch();
   const { userId, username, firstname, email, userRole } = useSelector(
     (state) => {
@@ -25,6 +29,16 @@ const Header = (props) => {
     setActiveWindow(getAbsolutePath());
     setLoggedIn(!!userId || !!username || !!firstname || !!email);
     setUserType(userRole);
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [userId, username, firstname, email, userRole]);
 
   function getAbsolutePath() {
@@ -51,7 +65,7 @@ const Header = (props) => {
   };
 
   let stylePostJob = { display: "none" };
-  if (userType === "manager") {
+  if (userType === "Manager") {
     stylePostJob = {
       display: "inline",
     };
@@ -60,14 +74,18 @@ const Header = (props) => {
   const renderAuthButtons = () => {
     if (loggedIn) {
       return (
-        <div className="d-flex">
+        <div className={`d-flex ${header.dFlex}`}>
           <li className={`nav-item dropdown ${header.navListItems}`}>
             <a
               className="nav-link dropdown-toggle"
               data-bs-toggle="dropdown"
               href="#"
             >
-              <span className={`fas fa-user-alt`}></span>
+              {windowSize.width < smallScreen ? (
+                <span>{`Hi ${firstname}\t`}</span>
+              ) : (
+                <span className={`fas fa-user-alt`}></span>
+              )}
             </a>
             <ul className={`dropdown-menu ${header.navListItems}`}>
               <li>
@@ -106,7 +124,7 @@ const Header = (props) => {
       );
     } else {
       return (
-        <div className="d-flex">
+        <div className={`d-flex ${header.loginBtns}`}>
           <button
             onClick={() => navigateTo(Paths.REGISTER)}
             className={`${header.btnHeader} ${header.btnCreateAccount}`}
