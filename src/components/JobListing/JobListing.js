@@ -7,53 +7,65 @@ import "./jobListingStyles.css";
 import Jobs from "./JobsFunction";
 import CreateIndexedBtns from "./BtnsNextPrev";
 import { getJobs } from "../Server/Jobs";
+import { useSearchParams } from "react-router-dom";
 
 const JobListing = () => {
   const [jobs, setJobs] = useState([]);
-  const [jobsFetched, setJobsFetched] = useState(false);
-  const [search, setSearch] = useState("");
-  const [location, setLocation] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [pattern, setPattern] = useState(/^[a-zA-Z0-9.,_-\s]*$/);
+  // const [search, setSearch] = useState("");
+  // const [location, setLocation] = useState("");
   const [activePage, setActivePage] = useState(1);
   const [totalJobs, setTotalJobs] = useState(0);
   const [pagesCounter, setPagesCounter] = useState(0);
   const [jobsPerPage] = useState(5);
 
+  const search = searchParams.get("q");
+  const location = searchParams.get("location");
   useEffect(() => {
-    // const fetchJob = async () => {
-    // const data = await getJobs("listing", activePage);
-    getJobs("listing", activePage).then((data) => {
-      try {
-        const _totalJobs = data.totalJobs;
-
-        const parsedJobs = data.jobs.map((item) => ({
-          ...item,
-          company: JSON.parse(item.company),
-          category: JSON.parse(item.category),
-        }));
-
-        let counter = 0;
-        let tempJobsPerPage = jobsPerPage;
-        let buttons = 0;
-
-        for (let i = 0; i < _totalJobs; i++) {
-          if (counter === tempJobsPerPage - 1) {
-            counter = 0;
-            buttons++;
-          } else {
-            counter++;
-          }
-        }
-
-        buttons = _totalJobs % tempJobsPerPage === 0 ? buttons : buttons + 1;
-        setJobs(parsedJobs);
-        setTotalJobs(_totalJobs);
-        setPagesCounter(buttons);
-      } catch (error) {
-        // console.error("Error fetching data:");
-      }
-    });
+    if (search != null || location != null) {
+      // setSearch(search);
+      // setLocation(location);
+      console.log("this is running..", search, location);
+      let params = `&q=${search}&location=${location}`;
+      getJobs("listing", activePage, params).then((data) => {
+        initJobs(data);
+      });
+    } else {
+      getJobs("listing", activePage).then((data) => {
+        initJobs(data);
+      });
+    }
   }, [activePage]);
 
+  const initJobs = (data) => {
+    try {
+      const _totalJobs = data.totalJobs;
+      const parsedJobs = data.jobs.map((item) => ({
+        ...item,
+        company: JSON.parse(item.company),
+        category: JSON.parse(item.category),
+      }));
+
+      let counter = 0;
+      let tempJobsPerPage = jobsPerPage;
+      let buttons = 0;
+      for (let i = 0; i < _totalJobs; i++) {
+        if (counter === tempJobsPerPage - 1) {
+          counter = 0;
+          buttons++;
+        } else {
+          counter++;
+        }
+      }
+      buttons = _totalJobs % tempJobsPerPage === 0 ? buttons : buttons + 1;
+      setJobs(parsedJobs);
+      setTotalJobs(_totalJobs);
+      setPagesCounter(buttons);
+    } catch (error) {
+      // console.error("Error fetching data:");
+    }
+  };
   const filterJobs = () => {
     return jobs;
   };
@@ -75,8 +87,8 @@ const JobListing = () => {
     <>
       <Header />
       <Searcher
-        search={search}
-        location={location}
+        _search={search}
+        _location={location}
         currentPage="JobListing"
         device="mobile"
       />

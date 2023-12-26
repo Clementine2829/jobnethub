@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import listing from "./Searcher.module.css";
 import "./SearcherGlobal.css";
+import { appBaseURL } from "../Server/apiConstants";
 
 const Searcher = (props) => {
-  const { search, location, currentPage } = props;
+  const { _search, _location, currentPage } = props;
 
   const [isDivHidden, setIsDivHidden] = useState(true);
   const [smallScreen, setSmallScreen] = useState(599);
+  const [search, setSearch] = useState(_search || "");
+  const [location, setLocation] = useState(_location || "");
+  const [errorMessageSearch, setErrorMessageSearch] = useState("");
+  const [pattern, setPattern] = useState(/^[a-zA-Z0-9.,_-\s]*$/);
   // const [currentURLPage, setCurrentURLPage] = useState("");
   const [containerStyles, setContainerStyles] = useState({});
   const [displayForSmallScreen, setDisplayForSmallScreen] = useState({});
@@ -60,10 +65,36 @@ const Searcher = (props) => {
 
   const handleJob = (event) => {
     event.preventDefault();
+    const text = event.target.value;
+    setErrorMessageSearch("");
+    if (text.match(pattern)) setSearch(text.match(pattern));
+    else {
+      setErrorMessageSearch("Invalid use of special chars");
+    }
   };
 
   const handleLocation = (event) => {
     event.preventDefault();
+    const text = event.target.value;
+    setErrorMessageSearch("");
+    if (text.match(pattern)) setLocation(text.match(pattern));
+    else {
+      setErrorMessageSearch("Invalid use of special chars");
+    }
+  };
+
+  const submitSearchForm = (event) => {
+    event.preventDefault();
+    // if (
+    //   (!search.input && !location.input) ||
+    //   search.input.match(pattern) ||
+    //   location.input.match(pattern)
+    // ) {
+    setErrorMessageSearch("");
+    window.location.href = `${appBaseURL}jobs?q=${search}&location=${location}`;
+    //   return;
+    // }
+    // setErrorMessageSearch("Enter keywords to search");
   };
 
   return (
@@ -78,6 +109,7 @@ const Searcher = (props) => {
             <div className={`${listing.subContainer}`}>
               <h4>Your new job is waiting for you</h4>
               <p>Thousands of job opportunities available in South Africa</p>
+              <span style={{ color: "red" }}>{errorMessageSearch}</span>
             </div>
             <div className={`${listing.subContainer}`}>
               <div style={styleDevs} className={`${listing.subForm}`}>
@@ -101,9 +133,11 @@ const Searcher = (props) => {
                 />
               </div>
               <div className={`subForm ${listing.subForm}`}>
-                <button className={`${listing.search}`}>
-                  <span className={`fas fa-search`}></span>
-                  <span className={`${listing.search}`}> Find job </span>
+                <button
+                  onClick={submitSearchForm}
+                  className={`fas fa-search ${listing.search}`}
+                >
+                  Find job
                 </button>
               </div>
               <div className={`subForm ${listing.subForm}`}>

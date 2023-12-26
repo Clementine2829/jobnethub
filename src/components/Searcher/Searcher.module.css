@@ -6,18 +6,23 @@
     text-align: center;
     width: 100%;
 }
+.listingContainer .subContainer .subForm:nth-child(1) {
+    width: 44%;
+}
+.listingContainer .subContainer .subForm:nth-child(2) {
+    width: 36%;
+}
 .listingContainer .subContainer .subForm:nth-child(1),
 .listingContainer .subContainer .subForm:nth-child(2),
 .listingContainer .subContainer .subForm:nth-child(3) {
     display: inline-block;
     border: 1px solid #1b9ce3;
-    width: 40%;
     margin: 0% .5% 2% .5%; 
     padding: 1%;
     border-radius: 10px;
 }
 .listingContainer .subContainer .subForm .search {
-    display: none;
+    /* display: none; */
 }
 .listingContainer .subContainer .subForm:nth-child(1) span,
 .listingContainer .subContainer .subForm:nth-child(2) span,
@@ -27,7 +32,8 @@
 .listingContainer .subContainer .subForm:nth-child(3) {
     width: auto;
     border: none;
-    padding-top: 0px; 
+    padding: 0px;
+    margin: 0px; 
 }
 .listingContainer .subContainer .subForm:nth-child(3) button {
     border: 1px solid #1b9ce3;
@@ -35,16 +41,21 @@
     height: auto;
     background-color: #1b9ce3;
     color: white;
+    border-radius: 10px;
+    padding: 10% 5px;
+    margin-top: 1%;
 }
 .listingContainer .subContainer .subForm:nth-child(3) button:hover {
     background-color: white;
     color: #1b9ce3;
 }
-.listingContainer .subContainer .subForm:nth-child(3) button span{
+/* .listingContainer .subContainer .subForm:nth-child(3) button span{
     color: white;
-/*	width: 50px;
-    height: 50px;*/
 }
+
+.listingContainer .subContainer .subForm:nth-child(3) button span:hover{
+    color: #1b9ce3;
+} */
 
 .listingContainer .subContainer .subForm span {
     padding-top: 1%;
