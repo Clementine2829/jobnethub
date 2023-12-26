@@ -5,6 +5,7 @@ import {
   forgotPasswordAPI,
   profileAPI,
   contactUs,
+  sendSubscriptionEmailAPI,
 } from "./apiConstants";
 
 const performLogin = async (username, password) => {
@@ -82,9 +83,26 @@ const performRegistration = async (firstname, lastname, username, password) => {
     }),
   });
 
-  console.log("response ok", response.ok);
   if (!response.ok) {
     throw new Error("Registration failed");
+  }
+
+  return await response.json();
+};
+
+const sendSubscriptionEmail = async (email) => {
+  const response = await fetch(sendSubscriptionEmailAPI, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Subscription failed");
   }
 
   return await response.json();
@@ -109,4 +127,9 @@ const performForgotPassword = async (email) => {
   return await response.json();
 };
 
-export { performLogin, performRegistration, performForgotPassword };
+export {
+  performLogin,
+  performRegistration,
+  performForgotPassword,
+  sendSubscriptionEmail,
+};
