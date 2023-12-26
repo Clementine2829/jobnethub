@@ -6,7 +6,7 @@ import { appBaseURL } from "../Server/apiConstants";
 const Searcher = (props) => {
   const { _search, _location, currentPage } = props;
 
-  const [isDivHidden, setIsDivHidden] = useState(true);
+  // const [isDivHidden, setIsDivHidden] = useState(true);
   const [smallScreen, setSmallScreen] = useState(599);
   const [search, setSearch] = useState(_search || "");
   const [location, setLocation] = useState(_location || "");
@@ -85,16 +85,12 @@ const Searcher = (props) => {
 
   const submitSearchForm = (event) => {
     event.preventDefault();
-    // if (
-    //   (!search.input && !location.input) ||
-    //   search.input.match(pattern) ||
-    //   location.input.match(pattern)
-    // ) {
-    setErrorMessageSearch("");
-    window.location.href = `${appBaseURL}jobs?q=${search}&location=${location}`;
-    //   return;
-    // }
-    // setErrorMessageSearch("Enter keywords to search");
+    if (pattern.test(search) || pattern.test(location)) {
+      setErrorMessageSearch("");
+      window.location.href = `${appBaseURL}jobs?q=${search}&location=${location}`;
+      return;
+    }
+    setErrorMessageSearch("Enter keywords to search");
   };
 
   return (

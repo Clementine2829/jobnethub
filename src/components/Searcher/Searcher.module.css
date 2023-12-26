@@ -92,6 +92,9 @@
     .listingContainer .subContainer .subForm:nth-child(3) button span:first-child {
         display: none;
     }
+    .listingContainer .subContainer .subForm:nth-child(3) button {
+        padding: 0px;
+    }
     .listingContainer .subContainer .subForm .search {
         display: inline;
     }
