@@ -10,9 +10,9 @@ import {
   getApplyForAJobAPI,
 } from "./apiConstants";
 
-export async function getJobs(action = "", page = 1) {
+export async function getJobs(action = "", page = 1, search = "") {
   try {
-    const url = getJobsAPI + action + "&page=" + page;
+    const url = getJobsAPI + action + search + "&page=" + page;
     const response = await fetch(url);
     if (!response.ok) {
       // throw new Error("Network response was not ok");
