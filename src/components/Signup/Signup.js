@@ -187,7 +187,7 @@ const Register = () => {
             </div>
           </div>
         </div>
-        <div className={`col-sm-4`}>hey hey new image</div>
+        <div className={`col-sm-4`}></div>
         <div className={`col-sm-1`} />
       </div>
       <Footer />

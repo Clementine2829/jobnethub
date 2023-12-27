@@ -23,49 +23,49 @@
     padding: 3%;
     margin-bottom: 5%; 
 }  
-  .form_container .sub_container {
-    margin-top: 1%;
-  }
-  
-  .form_container .sub_container label {
-    margin-left: 3px;
-  }
-  
-  .form_container .sub_container input[type="text"],
-  .form_container .sub_container input[type="email"],
-  .form_container .sub_container input[type="password"] {
-    /* border: 1px solid #3dabe7; */
-    border: 1px solid lightblue;
-    padding: 10px 15px;
-    width: 60%;
-    border-radius: 10px;
-    text-align: left;
-  }
-  
-  .register_submit {
-    margin-top: 2%;
-    padding: 1% 6%;
-    border: 1px solid #3dabe7;
-    background-color: #3dabe7;
-    border-radius: 4px;
-    color: white;
+.form_container .sub_container {
+  margin-top: 1%;
+}
 
-  }
+.form_container .sub_container label {
+  margin-left: 3px;
+}
+
+.form_container .sub_container input[type="text"],
+.form_container .sub_container input[type="email"],
+.form_container .sub_container input[type="password"] {
+  /* border: 1px solid #3dabe7; */
+  border: 1px solid lightblue;
+  padding: 10px 15px;
+  width: 60%;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.register_submit {
+  margin-top: 2%;
+  padding: 1% 6%;
+  border: 1px solid #3dabe7;
+  background-color: #3dabe7;
+  border-radius: 4px;
+  color: white;
+
+}
+
+.register_submit:hover {
+  color: black;
+}
+
+.form_container .last_container {
+  width: auto;
+  padding: 2%;
+  margin: 2%;
+  margin-top: 5%;
+}
   
-  .register_submit:hover {
-    color: black;
-  }
-  
-  .form_container .last_container {
-    width: auto;
-    padding: 2%;
-    margin: 2%;
-    margin-top: 5%;
-  }
-  
-  .form_container .last_container div {
-    width: 100%;
-    float: left;
+.form_container .last_container div {
+  width: 100%;
+  float: left;
 }
 
 .form_container .last_container a {
@@ -74,3 +74,23 @@
     float: left;
 }
   
+
+@media screen and (max-width: 499px){
+  .heading{
+    margin-top: 6%;
+  }
+  .heading p{
+      text-align: center;
+      margin: auto 2%;
+  }
+  .form_container{
+    box-shadow: none;
+    width: 100%;
+  }  
+  .form_container .sub_container input[type="text"],
+  .form_container .sub_container input[type="email"],
+  .form_container .sub_container input[type="password"] {
+    width: 90%;
+  }
+  
+}  

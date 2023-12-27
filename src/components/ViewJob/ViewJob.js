@@ -73,7 +73,7 @@ const ViewJob = () => {
           setCompanyJobs(jobData.companyJobs);
         }
       } catch (error) {
-        console.error("Error fetching job data:", error);
+        // console.error("Error fetching job data:", error);
       }
     };
 
@@ -148,74 +148,82 @@ const ViewJob = () => {
       } ago)`;
     }
   };
-  const onJobFetched = (data) => {
-    // Handle data as needed
-    // console.log(data);
-  };
+
   return (
     <>
       <Header />
-      <div className={`row`}>
-        <div className={`col-sm-1`}></div>
-        <div className={`col-sm-3 ${styleJob.otherJobContainer}`}>
-          <div className={`${styleJob.container}`}>
-            <div className={`${styleJob.subContainer}`}>
-              <div className={`${styleJob.header}`}>
-                <h4>Get notifications for jobs related to this</h4>
-              </div>
-              <div className={`${styleJob.body}`}>
-                <label htmlFor="email">Email address</label>
-                <span> * </span>
-                <input type="email" placeholder="Enter your email" />
-                <button>
-                  <span
-                    className={`fas fa-bell`}
-                    style={{ marginRight: "5%" }}
-                  ></span>
-                  Create a new job alert
-                </button>
-              </div>
-            </div>
-            <div className={`${styleJob.subContainer}`}>
-              <div className={`${styleJob.jobs}`}>
-                <h4>Jobs available in this company</h4>
-                <div className={`${styleJob.jobList}`}>
-                  {companyJobs.length > 0 ? (
-                    <ul>
-                      {companyJobs.map((job, index) => (
-                        <li key={index}>
-                          <RelatedJobs job={job} />
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p style={{ color: "red" }}>Company jobs not found</p>
-                  )}
+
+      {!jobDataFetched ? (
+        <div style={{ textAlign: "center", color: "red" }}>
+          <br />
+          <br />
+          <p>Job not found. </p>
+          <p>Please check back later...</p>
+          <br />
+          <br />
+        </div>
+      ) : (
+        <div className={`row`}>
+          <div className={`col-sm-1`}></div>
+          <div className={`col-sm-3 ${styleJob.otherJobContainer}`}>
+            <div className={`${styleJob.container}`}>
+              <div className={`${styleJob.subContainer}`}>
+                <div className={`${styleJob.header}`}>
+                  <h4>Get notifications for jobs related to this</h4>
+                </div>
+                <div className={`${styleJob.body}`}>
+                  <label htmlFor="email">Email address</label>
+                  <span> * </span>
+                  <input type="email" placeholder="Enter your email" />
+                  <button>
+                    <span
+                      className={`fas fa-bell`}
+                      style={{ marginRight: "5%" }}
+                    ></span>
+                    Create a new job alert
+                  </button>
                 </div>
               </div>
-            </div>
-            <div className={`${styleJob.subContainer}`}>
-              <div className={`${styleJob.jobs}`}>
-                <h4>Related jobs</h4>
-                <div className={`${styleJob.jobList}`}>
-                  {relatedJobs.length > 0 ? (
-                    <ul>
-                      {relatedJobs.map((job, index) => (
-                        <li key={index}>
-                          <RelatedJobs job={job} />
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p style={{ color: "red" }}>Related jobs not found</p>
-                  )}
+              <div className={`${styleJob.subContainer}`}>
+                <div className={`${styleJob.jobs}`}>
+                  <h4>Jobs available in this company</h4>
+                  <div className={`${styleJob.jobList}`}>
+                    {companyJobs.length > 0 ? (
+                      <ul>
+                        {companyJobs.map((job, index) => (
+                          <li key={index}>
+                            <RelatedJobs job={job} />
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p style={{ color: "red" }}>Company jobs not found</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className={`${styleJob.subContainer}`}>
+                <div className={`${styleJob.jobs}`}>
+                  <h4>Related jobs</h4>
+                  <div className={`${styleJob.jobList}`}>
+                    {relatedJobs.length > 0 ? (
+                      <ul>
+                        {relatedJobs.map((job, index) => (
+                          <li key={index}>
+                            <RelatedJobs job={job} />
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p style={{ color: "red" }}>Related jobs not found</p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className={`col-sm-7 ${styleJob.mainJobContainerAtServer}`}>
-          <div className={`${styleJob.jobContainer}`}>
+          <div className={`col-sm-7 ${styleJob.mainJobContainerAtServer}`}>
+            {/* <div className={`${styleJob.jobContainer}`}> */}
             <div className={`${styleJob.imageContainer}`}>
               {/* <img src={imgURL} alt={`Company logo`} style={{"height": "100%", "width": "auto"}} />                                 */}
             </div>
@@ -242,7 +250,9 @@ const ViewJob = () => {
                 ></span>
                 {job.job_location}
               </p>
-              <p>{job.job_type != null ? `Job Type: ${job.job_type}` : ""}</p>
+              <p>
+                {job.job_type == "fulltime" ? `Job Type: ${job.job_type}` : ""}
+              </p>
               <p>
                 Salary: <span>{job.job_salary}</span>
               </p>
@@ -322,11 +332,11 @@ const ViewJob = () => {
                 </ul>
               </div>
             </div>
+            {/* </div> */}
           </div>
+          <div className={`col-sm-1`}></div>
         </div>
-        <div className={`col-sm-1`}></div>
-      </div>
-
+      )}
       <Footer />
     </>
   );

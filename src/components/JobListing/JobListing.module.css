@@ -144,6 +144,15 @@
     background-color: darkgray;
     color: white;
 }
+.browseJobs .browseJobs .sortBy{
+	float: right;
+	margin-right: 1%;
+}
+.browseJobs .browseJobs .sortBy select{
+    border-color: #1b9ce3;
+	border-radius: 8px;
+	padding: 2px 8px;
+}
 .page_btns{
 	text-align: center;
 }
@@ -171,4 +180,7 @@
 		padding: 2%;
 
 	} 
+	.browseJobs .browseJobs .sortBy{
+		display: none;
+	}
 }

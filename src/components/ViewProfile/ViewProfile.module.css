@@ -72,6 +72,7 @@
     width: 25%;
     background-color: gray;
     color: white;
+    border-radius: 8px;
 }
 .user_info .sub_container:last-child button:hover,
 .change_password{
@@ -100,17 +101,19 @@
     .heading{
         margin: 6%;
         margin-top: 10%;
+        width: 100%;
     }
     .image,
     .user_info{
         margin: 6%;
+        width: 85%;
     }
     .user_info .sub_container{
-        width: 100%;
+        width: 85%;
     }
     .user_info .sub_container div input,
     .user_info .sub_container div select{
-        width: 55%;
+        width: 100%;
     }
     .user_info .sub_container:last-child button,
     .change_password{

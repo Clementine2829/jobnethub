@@ -7,9 +7,9 @@
     background-color: #3dabe7;
     padding: 2% 6%;
 }
-/* .navLinks{
-    
-} */
+.navLinks li:hover{
+    box-shadow: 0px 0px 2px lightblue;
+}
 .navLinkItem{
     margin: 1% 0%;
     font-weight: bold;
@@ -62,5 +62,14 @@
         float: right;
         text-align: right;
     } 
+    .dFlex{
+        float: right;
+    }
+    .navListItems ul{
+        margin-left: -80px;
+    }   
+    .loginBtns{
+        float: right;
+    }
 }
 

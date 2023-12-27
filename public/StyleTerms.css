@@ -3,7 +3,7 @@ body{
     font-family: sans-serif;
     max-width: 100%;
     background-color: white;
-    color: blue;
+    /* color: blue; */
 /*			text-align: justify;
 */		}
 .logo_container{
@@ -41,7 +41,8 @@ body{
 .footer{
     width: 100%;
     background-color: white;
-    color: blue;
     padding: 2%;
 }
-a{color: blue;}
+a{
+    text-decoration: none;
+}

@@ -15,6 +15,7 @@ export const refreshAPI = usersBaseURL + "/login";
 export const signupAPI = usersBaseURL + "/signup";
 export const profileAPI = usersBaseURL + "/profile";
 export const forgotPasswordAPI = usersBaseURL + "/forgot-passwpord";
+export const sendSubscriptionEmailAPI = usersBaseURL + "/subscribe";
 
-//contuct us
-export const contactUs = usersBaseURL + "/contact-us";
+//others
+export const contactUs = "/contact-us";

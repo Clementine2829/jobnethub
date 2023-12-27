@@ -7,70 +7,71 @@ import "./jobListingStyles.css";
 import Jobs from "./JobsFunction";
 import CreateIndexedBtns from "./BtnsNextPrev";
 import { getJobs } from "../Server/Jobs";
+import { useSearchParams } from "react-router-dom";
 
 const JobListing = () => {
   const [jobs, setJobs] = useState([]);
-  const [jobsFetched, setJobsFetched] = useState(false);
-  const [search, setSearch] = useState("");
-  const [location, setLocation] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [pattern, setPattern] = useState(/^[a-zA-Z0-9.,_-\s]*$/);
+  // const [search, setSearch] = useState("");
+  // const [location, setLocation] = useState("");
   const [activePage, setActivePage] = useState(1);
   const [totalJobs, setTotalJobs] = useState(0);
   const [pagesCounter, setPagesCounter] = useState(0);
   const [jobsPerPage] = useState(5);
 
+  const search = searchParams.get("q");
+  const location = searchParams.get("location");
   useEffect(() => {
-    // const fetchJob = async () => {
-    // const data = await getJobs("listing", activePage);
-    getJobs("listing", activePage).then((data) => {
-      try {
-        const _totalJobs = data.totalJobs;
-
-        const parsedJobs = data.jobs.map((item) => ({
-          ...item,
-          company: JSON.parse(item.company),
-          category: JSON.parse(item.category),
-        }));
-
-        let counter = 0;
-        let tempJobsPerPage = jobsPerPage;
-        let buttons = 0;
-
-        for (let i = 0; i < _totalJobs; i++) {
-          if (counter === tempJobsPerPage - 1) {
-            counter = 0;
-            buttons++;
-          } else {
-            counter++;
-          }
-        }
-
-        buttons = _totalJobs % tempJobsPerPage === 0 ? buttons : buttons + 1;
-
-        setJobs(parsedJobs);
-        setTotalJobs(_totalJobs);
-        setPagesCounter(buttons);
-        // setJobsFetched(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    });
+    if (search != null || location != null) {
+      // setSearch(search);
+      // setLocation(location);
+      console.log("this is running..", search, location);
+      let params = `&q=${search}&location=${location}`;
+      getJobs("listing", activePage, params).then((data) => {
+        initJobs(data);
+      });
+    } else {
+      getJobs("listing", activePage).then((data) => {
+        initJobs(data);
+      });
+    }
   }, [activePage]);
 
-  const onJobsFetched = async () => {
-    // try {
-    //   const data = await getJobs("listing", activePage);
-    //   console.log("loading new data");
-    //   // Handle the new data if needed
-    // } catch (error) {
-    //   console.error("Error fetching data:", error);
-    // }
-  };
+  const initJobs = (data) => {
+    try {
+      const _totalJobs = data.totalJobs;
+      const parsedJobs = data.jobs.map((item) => ({
+        ...item,
+        company: JSON.parse(item.company),
+        category: JSON.parse(item.category),
+      }));
 
+      let counter = 0;
+      let tempJobsPerPage = jobsPerPage;
+      let buttons = 0;
+      for (let i = 0; i < _totalJobs; i++) {
+        if (counter === tempJobsPerPage - 1) {
+          counter = 0;
+          buttons++;
+        } else {
+          counter++;
+        }
+      }
+      buttons = _totalJobs % tempJobsPerPage === 0 ? buttons : buttons + 1;
+      setJobs(parsedJobs);
+      setTotalJobs(_totalJobs);
+      setPagesCounter(buttons);
+    } catch (error) {
+      // console.error("Error fetching data:");
+    }
+  };
   const filterJobs = () => {
     return jobs;
   };
 
   const jobsCounter = () => {
+    if (jobs.length == 0) return 0;
     const startIndex = (activePage - 1) * jobsPerPage;
     return `${startIndex + 1} - ${
       startIndex + jobsPerPage
@@ -79,15 +80,16 @@ const JobListing = () => {
 
   const nextOrPrevPage = (newPage) => {
     setActivePage(newPage);
+    window.location.href = "#";
   };
 
   return (
     <>
       <Header />
       <Searcher
-        search={search}
-        location={location}
-        variant="JobListing"
+        _search={search}
+        _location={location}
+        currentPage="JobListing"
         device="mobile"
       />
 
@@ -95,7 +97,10 @@ const JobListing = () => {
         <div className={`col-sm-1`}></div>
         <div className={`col-sm-10`}>
           <div className={`${container.browseJobs}`}>
-            <div className={`${container.browseJobs}`}>
+            <div
+              className={`${container.browseJobs}`}
+              style={{ display: "none" }}
+            >
               <h4 className={`${container.heading}`}>Browse for jobs: </h4>
               <button className={`${container.btnFilter}`}>Relevant</button>
               <button className={`${container.btnFilter}`}>Most recent</button>
@@ -227,18 +232,42 @@ const JobListing = () => {
               </div>
             </div>
             <div className={`${container.browseJobs}`}>
-              <p>Showing {jobsCounter()} </p>
-              {/* <Jobs jobs={jobs} /> */}
+              {jobsCounter() === 0 ? (
+                <div style={{ textAlign: "center", color: "red" }}>
+                  <br />
+                  <br />
+                  <p>Showing 0 jobs </p>
+                  <p>Please check back later...</p>
+                  <br />
+                  <br />
+                </div>
+              ) : (
+                <p>
+                  <span>Showing {jobsCounter()} </span>
+                  <span className={`${container.sortBy}`}>
+                    Sort: {`\t`}
+                    <select>
+                      <option value="relevance">Relevance</option>
+                      <option value="date">Date Posted</option>
+                      <option value="company">Company</option>
+                      <option value="location">Location</option>
+                      <option value="salary">Salary</option>
+                    </select>
+                  </span>
+                </p>
+              )}
               <Jobs jobs={filterJobs()} />
               <CreateIndexedBtns
                 key={Math.floor(Math.random() * 10000)}
-                jobs={jobs.length}
                 activePage={activePage}
                 pagesCounter={pagesCounter}
-                jobsPerPage={jobsPerPage}
                 nextOrPrevPage={nextOrPrevPage}
-                // activePage="2"
-                // pagesCounter="4"
+                // key={Math.floor(Math.random() * 10000)}
+                // jobs={jobs.length}
+                // activePage={activePage}
+                // pagesCounter={pagesCounter}
+                // jobsPerPage={jobsPerPage}
+                // nextOrPrevPage={nextOrPrevPage}
               />
             </div>
           </div>

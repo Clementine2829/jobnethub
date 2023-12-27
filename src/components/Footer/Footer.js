@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import footer from "./Footer.module.css";
 import CookieConsent from "./CookieConsent";
+import { sendSubscriptionEmail } from "../Server/UsersFetcher";
 
 const Footer = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [subscribeEmail, setSubscribeEmail] = useState("");
   const [subscribeEmailError, setSubscribeEmailError] = useState("");
+  const [subscribeEmailSuccess, setSubscribeEmailSuccess] = useState("");
 
   useEffect(() => {
     // Set up a timer to update the year every second (adjust as needed)
@@ -26,18 +28,30 @@ const Footer = () => {
     return email.match(pattern);
   };
 
-  const handleSubscribe = (event) => {
-    alert(subscribeEmail);
+  const handleSubscribe = async (event) => {
+    event.preventDefault();
+    setSubscribeEmailSuccess("");
+    setSubscribeEmailError("");
     if (subscribeEmail === "") {
       setSubscribeEmailError("Email address is required");
     } else if (!validateEmail(subscribeEmail)) {
       setSubscribeEmailError("Invalid email address");
     } else {
-      // send to server and clear form
-      setSubscribeEmailError("");
-      setSubscribeEmail("");
+      try {
+        const response = await sendSubscriptionEmail(subscribeEmail);
+        console.log("response", response);
+        if (response.status === "success") {
+          setSubscribeEmailSuccess("Thank you for subscribing to our email");
+          setSubscribeEmail("");
+        } else {
+          setSubscribeEmailError("Internal error occured. Please try agin");
+        }
+      } catch (error) {}
     }
-    event.preventDefault();
+    setTimeout(() => {
+      setSubscribeEmailSuccess("");
+      setSubscribeEmailError("");
+    }, 20000);
   };
 
   return (
@@ -67,58 +81,71 @@ const Footer = () => {
             <h4>Navigator</h4>
             <span>
               <span className={`${footer.links}`}>
-                <a href="#">Home</a>
+                <a href="./">Home</a>
+              </span>
+              {/* <br />
+              <span className={`${footer.links}`}>
+                <a href="./jobs">Jobs Listing</a>
+              </span> */}
+              <br />
+              <span className={`${footer.links}`}>
+                <a href="./about">About us</a>
               </span>
               <br />
               <span className={`${footer.links}`}>
-                <a href="#">Our Services</a>
+                <a href="./contact">Contact us</a>
               </span>
               <br />
-              <span className={`${footer.links}`}>
-                <a href="#">About us</a>
-              </span>
-              <br />
-              <span className={`${footer.links}`}>
-                <a href="#">Contact us</a>
-              </span>
               <br />
             </span>
+            <span className={`${footer.links}`}>
+              <a href="./resume/update">Create resume</a>
+            </span>
+            <br />
+            <span className={`${footer.links}`}>
+              <a href="./jobs">Job Listing</a>
+            </span>
+            <br />
+            <span className={`${footer.links}`}>
+              <a href="./employees">Employer & Recruters</a>
+            </span>
+            <br />
           </div>
-          <div className={`${footer.footer1SubFooter}`}>
+          {/* <div className={`${footer.footer1SubFooter}`}>
             <h4 className={`${footer.hideThis}`}>Hi</h4>
             <span className={`${footer.links}`}>
-              <a href="#">Create resume</a>
+              <a href="./resume/update">Create resume</a>
             </span>
             <br />
             <span className={`${footer.links}`}>
-              <a href="#">Job Listing</a>
+              <a href="./jobs">Job Listing</a>
             </span>
             <br />
             <span className={`${footer.links}`}>
-              <a href="#">Employer & Recruters</a>
+              <a href="./employees">Employer & Recruters</a>
             </span>
             <br />
             <span className={`${footer.links}`}>
               <a href="#">Post Job</a>
             </span>
             <br />
-          </div>
+          </div> */}
           <div className={`${footer.footer1SubFooter}`}>
             <h4 className={`${footer.hideThis}`}>Hi</h4>
-            <span className={`${footer.links}`}>
+            {/* <span className={`${footer.links}`}>
               <a href="#">FAQs</a>
             </span>
-            <br />
+            <br /> */}
             <span className={`${footer.links}`}>
-              <a href="#">Terms of Use</a>
+              <a href="./terms-and-conditions.html">Terms of Use</a>
             </span>
             <br />
             <span className={`${footer.links}`}>
-              <a href="#">Privacy Policy</a>
+              <a href="./privacy-policy.html">Privacy Policy</a>
             </span>
             <br />
             <span className={`${footer.links}`}>
-              <a href="#">Cookie Policy</a>
+              <a href="cookies.html">Cookie Policy</a>
             </span>
             <br />
           </div>
@@ -130,6 +157,9 @@ const Footer = () => {
             </p>
             <div>
               <span className={`${footer.err}`}>{subscribeEmailError}</span>
+              <span style={{ color: "lightblue" }}>
+                {subscribeEmailSuccess}
+              </span>
               <input
                 type="email"
                 value={subscribeEmail}
@@ -137,7 +167,6 @@ const Footer = () => {
                 placeholder="Enter your email address..."
               />
               <br />
-              <span className={`${footer.err}`}>{subscribeEmailError}</span>
               <input
                 type="button"
                 onClick={handleSubscribe}
@@ -175,7 +204,7 @@ const Footer = () => {
                 <a hre="#">
                   <span className="fa fa-whatsapp"></span>
                 </a>
-                <a hre="#">
+                <a href="https://github.com/Clementine2829">
                   <span className="fa fa-github"></span>
                 </a>
               </div>
