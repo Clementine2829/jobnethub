@@ -5,9 +5,15 @@ const jobsBaseURL = serverBaseURL + "/jobs";
 export const getJobsAPI = jobsBaseURL + "?action=";
 export const getJobByIdAPI = jobsBaseURL;
 export const getJobByIdAdminAPI = jobsBaseURL + "/admin";
+export const updateJobAPI = jobsBaseURL + "/update";
 export const getRelatedJobsAPI = jobsBaseURL + "/related/";
 export const getCompanyJobsAPI = jobsBaseURL + "/company/";
 export const getApplyForAJobAPI = jobsBaseURL + "/applications";
+
+// companies
+const companiesBaseURL = serverBaseURL + "/companies";
+export const getCompaniesAIP = companiesBaseURL;
+
 // users
 const usersBaseURL = serverBaseURL + "/users";
 export const loginAPI = usersBaseURL + "/login";
