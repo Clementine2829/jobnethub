@@ -4,9 +4,10 @@ import Footer from "../Footer/Footer";
 import jobCSS from "./PostJob.module.css";
 import "./PostJob.css";
 import ListItem from "./ListItem";
-import DataFetcher, { getJobById } from "../Server/Jobs";
+import DataFetcher, { getJobById, updateJob } from "../Server/Jobs";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "../ReduxStateManagement/tokenService";
+import { getCompanies } from "../Server/Companies";
 
 const PostJob = () => {
   const [job, setJob] = useState({
@@ -16,7 +17,8 @@ const PostJob = () => {
     remote_work: false,
     job_type: "",
     work_type: "",
-    job_salary: "-",
+    job_salary_min: "",
+    job_salary_max: "",
     category: {
       category_id: "",
       category_name: "",
@@ -24,10 +26,14 @@ const PostJob = () => {
     job_location: "",
     closing_date: "",
     newItemValue: "",
-    requrementsItems: [{ requirement: "" }],
-    qualificationsItems: [{ qualification: "" }],
-    dutiesItems: [{ duty: "" }],
+    jobRequrementsItems: { requirement: "" },
+    jobQualificationsItems: { qualification: "" },
+    jobDutiesItems: { duty: "" },
   });
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [dataFetched, setDataFetched] = useState(false);
   const [todayDate] = useState(new Date().toISOString().slice(0, 10));
@@ -37,7 +43,7 @@ const PostJob = () => {
   // const { accessToken, refreshToken } = useSelector((state) => state.auth);
   // console.log("true accessToken ", accessToken);
 
-  const [requrementsItems, setRequrementsItems] = useState([]);
+  const [requirementsItems, setRequrementsItems] = useState([]);
   const [qualificationsItems, setQualificationsItems] = useState([]);
   const [dutiesItems, setDutiesItems] = useState([]);
   const [newItemValue, setNewItemValue] = useState("");
@@ -64,40 +70,54 @@ const PostJob = () => {
             remote_work: fetchedJob.remote_work,
             job_type: fetchedJob.job_type,
             work_type: fetchedJob.work_type,
-            job_salary: fixJobSalary(fetchedJob.job_salary),
+            job_salary_min: fetchedJob.job_salary_min,
+            job_salary_max: fetchedJob.job_salary_max,
             job_location: fetchedJob.job_location,
             closing_date: fetchedJob.closing_date,
             company: JSON.parse(fetchedJob.company),
             category: JSON.parse(fetchedJob.category),
-            requrementsItems: fetchedJob.job_requirements || [
-              { requirement: "" },
-            ],
-            qualificationsItems: fetchedJob.job_qualifications || [
-              { qualification: "" },
-            ],
-            dutiesItems: fetchedJob.job_duties || [{ duty: "" }],
+            jobRequrementsItems: fetchedJob.job_requirements[0] || {
+              requirement: "",
+            },
+            jobQualificationsItems: fetchedJob.job_qualifications[0] || {
+              qualification: "",
+            },
+            jobDutiesItems: fetchedJob.job_duties[0] || { duty: "" },
           }));
 
           updateRequirementsFromServer(fetchedJob.job_requirements);
           updateQualificationsFromServer(fetchedJob.job_qualifications);
           updateDutiesFromServer(fetchedJob.job_duties);
+          setDataFetched(true);
+          console.log("fetchedJob", fetchedJob);
         }
+        const fetchedCompanies = await getCompanies(accessToken);
+        setCompanies(fetchedCompanies);
+        // if (fetchedCompanies.length > 0) {
+        //   setSelectedValue(data[0].value);
+        // }
+
+        const foundItem = companies.find(
+          (company) => company.company_id === job.company.company_id
+        );
+
+        // If found, set it as the initial selected value
+        // if (foundItem) {
+        setSelectedCompany(job.company.company_id);
+        // }
       } catch (error) {
         console.log(error);
       }
     };
-    if (accessToken != null) {
+
+    if (!dataFetched && accessToken !== null) {
       fetchJob();
     }
   }, [accessToken]);
 
   // useEffect(() => {
-  //   // console.log("Updated requrementsItems:", requrementsItems);
-  // }, [requrementsItems]); // Log the state whenever requrementsItems changes
-
-  const fixJobSalary = (salary) => {
-    return salary.split("-")[1] !== "undefined" ? salary : salary + "-";
-  };
+  //   // console.log("Updated requirementsItems:", requirementsItems);
+  // }, [requirementsItems]); // Log the state whenever requirementsItems changes
 
   const handleInputChange = (event) => {
     event.preventDefault();
@@ -148,7 +168,7 @@ const PostJob = () => {
 
   const handleAddRequirements = (event) => {
     event.preventDefault();
-    if (requrementsItems.length === limitList) {
+    if (requirementsItems.length === limitList) {
       return;
     }
     setRequrementsItems((prevItems) => [
@@ -199,6 +219,13 @@ const PostJob = () => {
   };
 
   const handleChangeRequirements = (index, updatedText) => {
+    if (index === -1) {
+      setJob((prevJob) => ({
+        ...prevJob,
+        jobRequrementsItems: { requirement: updatedText },
+      }));
+      return;
+    }
     setRequrementsItems((prevItems) => {
       const updatedItems = [...prevItems];
       updatedItems[index] = {
@@ -209,6 +236,13 @@ const PostJob = () => {
     });
   };
   const handleChangeQualifications = (index, updatedText) => {
+    if (index === -1) {
+      setJob((prevJob) => ({
+        ...prevJob,
+        jobQualificationsItems: { qualification: updatedText },
+      }));
+      return;
+    }
     setQualificationsItems((prevItems) => {
       const updatedItems = [...prevItems];
       updatedItems[index] = {
@@ -219,6 +253,14 @@ const PostJob = () => {
     });
   };
   const handleChangeDuties = (index, updatedText) => {
+    if (index === -1) {
+      console.log("updatedText", updatedText);
+      setJob((prevJob) => ({
+        ...prevJob,
+        jobDutiesItems: { duty: updatedText },
+      }));
+      return;
+    }
     setDutiesItems((prevItems) => {
       const updatedItems = [...prevItems];
       updatedItems[index] = {
@@ -241,16 +283,11 @@ const PostJob = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
     console.log("this is submitting again ");
-    console.log(job);
-    console.log(requrementsItems);
-    console.log(qualificationsItems);
-    console.log(dutiesItems);
 
-    const requirements = requrementsItems.map((item) => {
+    const requirements = requirementsItems.map((item) => {
       return { requirement: item.text };
     });
     const qualifications = qualificationsItems.map((item) => {
@@ -259,17 +296,37 @@ const PostJob = () => {
     const duties = dutiesItems.map((item) => {
       return { duty: item.text };
     });
-    if (requirements.length > 0) {
-      job.requrementsItems = [...job.requrementsItems, ...requirements];
-    }
-    if (qualifications.length > 0) {
-      job.qualificationsItems = [...job.qualificationsItems, ...requirements];
-    }
-    if (duties.length > 0) {
-      job.requrementsItems = [...job.requrementsItems, ...requirements];
-    }
 
-    console.log(job);
+    requirements.splice(0, 0, job.jobRequrementsItems);
+    qualifications.splice(0, 0, job.jobQualificationsItems);
+    duties.splice(0, 0, job.jobDutiesItems);
+
+    setJob((prevJob) => ({
+      ...prevJob,
+      job_requirements: requirements,
+      job_qualifications: qualifications,
+      job_duties: duties,
+      company: selectedCompany,
+    }));
+
+    try {
+      const response = await updateJob(job, job.job_id, accessToken);
+      if (response.message == "successfully") {
+        setSuccessMessage("Job updated successfully");
+        setErrorMessage("");
+      } else {
+        setSuccessMessage("");
+        setErrorMessage("Job update failed");
+      }
+    } catch (error) {
+      setSuccessMessage("");
+      setErrorMessage("Job update failed");
+      console.log("error ", error);
+    }
+    setTimeout(() => {
+      setSuccessMessage("");
+      setErrorMessage("");
+    }, 35000);
 
     return;
   };
@@ -283,6 +340,9 @@ const PostJob = () => {
         <div className={`col-sm-10`}>
           <h5>Manage job</h5>
           <p>Use this form below to manage and post new jobs</p>
+
+          <p className={`err`}>{errorMessage}</p>
+          <p className={`success`}>{successMessage}</p>
           <form onSubmit={handleSubmit}>
             <input type="hidden" value={job.job_id} />
             <div className={`${jobCSS.container}`}>
@@ -299,6 +359,28 @@ const PostJob = () => {
                     className={`${jobCSS.job_title}`}
                     placeholder="Enter job title"
                   />
+                </div>
+                <div className={`${jobCSS.label}`}>
+                  <label htmlFor="job_type">Select company</label>
+                  <span className={`err`}> * </span>
+                  <br />
+                  <select
+                    value={selectedCompany}
+                    // onChange={handleSelectChange}
+                    // value={job.job_type}
+                    // name="job_type"
+                    // onChange={handleInputChange}
+                  >
+                    <option value="">--Select--</option>
+                    {companies.map((option) => (
+                      <option
+                        key={option.company_id}
+                        value={option.company_name}
+                      >
+                        {option.company_name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className={`${jobCSS.label}`}>
                   <label htmlFor="remote_work"></label>
@@ -378,9 +460,9 @@ const PostJob = () => {
                   <span className={`err`}></span>
                   <br />
                   <input
-                    type="text"
+                    type="number"
                     name="job_salary_min"
-                    value={job.job_salary.split("-")[0]}
+                    value={job.job_salary_min}
                     // onChange={handleMinSalary}
                     onChange={handleInputChange}
                     className={`${jobCSS.salary}`}
@@ -388,9 +470,9 @@ const PostJob = () => {
                   />
                   <span> - </span>
                   <input
-                    type="text"
+                    type="number"
                     name="job_salary_max"
-                    value={job.job_salary.split("-")[1]}
+                    value={job.job_salary_max}
                     // onChange={handleMaxSalary}
                     onChange={handleInputChange}
                     className={`${jobCSS.salary}`}
@@ -457,7 +539,7 @@ const PostJob = () => {
                       <input
                         type="text"
                         placeholder="Add requirement"
-                        value={job.requrementsItems[0].requirement || ""}
+                        value={job.jobRequrementsItems.requirement || ""}
                         onChange={(e) => {
                           handleChangeRequirements(-1, e.target.value);
                         }}
@@ -469,7 +551,7 @@ const PostJob = () => {
                         <span className="fas fa-plus"></span>
                       </button>
                     </li>
-                    {requrementsItems.map((item, index) => {
+                    {requirementsItems.map((item, index) => {
                       return (
                         <ListItem
                           key={index}
@@ -499,8 +581,10 @@ const PostJob = () => {
                       <input
                         type="text"
                         placeholder="Add qualification"
-                        value={job.qualificationsItems[0].qualification || ""}
-                        onChange={(e) => {}}
+                        value={job.jobQualificationsItems.qualification || ""}
+                        onChange={(e) =>
+                          handleChangeQualifications(-1, e.target.value)
+                        }
                       />
                       <button
                         className={`add_more`}
@@ -538,8 +622,8 @@ const PostJob = () => {
                       <input
                         type="text"
                         placeholder="Add duty/responsibility"
-                        value={job.dutiesItems[0].duty || ""}
-                        onChange={(e) => {}}
+                        value={job.jobDutiesItems.duty || ""}
+                        onChange={(e) => handleChangeDuties(-1, e.target.value)}
                       />
                       <button className={`add_more`} onClick={handleAddDuties}>
                         <span className="fas fa-plus"></span>
@@ -559,6 +643,8 @@ const PostJob = () => {
                   </ul>
                 </div>
                 <div className={`${jobCSS.label}`}>
+                  <p className={`err`}>{errorMessage}</p>
+                  <p className={`success`}>{successMessage}</p>
                   <button className={`${jobCSS.submit_job_update}`}>
                     Submit
                   </button>

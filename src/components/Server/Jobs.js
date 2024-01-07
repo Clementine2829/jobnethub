@@ -8,6 +8,7 @@ import {
   getCompanyJobsAPI,
   getJobByIdAdminAPI,
   getApplyForAJobAPI,
+  updateJobAPI,
 } from "./apiConstants";
 
 export async function getJobs(action = "", page = 1, search = "") {
@@ -59,6 +60,26 @@ export const applyForAJob = async (jobId, token) => {
     return { response: response.data };
   } catch (error) {
     return { response: error.response.data.message };
+    // console.error("Network request failed:", error.response.data);
+    // throw new Error("Network response was not ok");
+  }
+};
+
+export const updateJob = async (job, jobId, token) => {
+  const url = jobId === "" ? `${updateJobAPI}` : `${updateJobAPI}/${jobId}`;
+
+  try {
+    const response = await axios.post(url, job, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        credentials: "include",
+      },
+      withCredentials: true,
+    });
+    return { response: response.success };
+  } catch (error) {
+    return { response: error.response.error };
     // console.error("Network request failed:", error.response.data);
     // throw new Error("Network response was not ok");
   }
