@@ -192,19 +192,22 @@ const Footer = () => {
                 <a hre="#">
                   <span className="fa fa-facebook"></span>
                 </a>
-                <a hre="#">
+                <a href="#">
                   <span className="fa fa-twitter"></span>
                 </a>
-                <a hre="#">
+                <a
+                  href="https://za.linkedin.com/in/clementine-mamogale-6131aa174"
+                  target="_blank"
+                >
                   <span className="fa fa-linkedin"></span>
                 </a>
-                <a hre="#">
+                <a href="#">
                   <span className="fa fa-instagram"></span>
                 </a>
-                <a hre="#">
+                <a href="#">
                   <span className="fa fa-whatsapp"></span>
                 </a>
-                <a href="https://github.com/Clementine2829">
+                <a href="https://github.com/Clementine2829" target="_blank">
                   <span className="fa fa-github"></span>
                 </a>
               </div>
