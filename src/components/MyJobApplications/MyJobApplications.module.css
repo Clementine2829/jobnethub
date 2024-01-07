@@ -69,6 +69,10 @@
     margin-right: 4px;
     outline: none;
 }
+.container .sub_container .job_title,
+.container .sub_container .action{
+    padding: 5px;
+}
 .container .sub_container .action{
     width: 10%;
 }
@@ -80,4 +84,22 @@
 .container .sub_container .submit_results:hover{
     background-color: white;
     color: #1b9ce3;
+}
+
+@media screen and (max-width: 499px){
+    .container{
+        margin: 6% 2% 2% 2%;
+    }
+    .container .sub_container .job_title{
+         width: 48%;
+         margin-right: 2PX;
+        }
+    .container .sub_container .action {
+        width: 28%;
+        margin-right: 2PX;
+    }
+    .container .sub_container .submit_results{
+        width: 21%;
+        margin-right: 2PX;
+    }
 }
