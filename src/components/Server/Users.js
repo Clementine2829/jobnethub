@@ -108,11 +108,13 @@ const sendSubscriptionEmail = async (email) => {
   return await response.json();
 };
 
-const performForgotPassword = async (email) => {
+const performForgotPassword = async (email, token) => {
   const response = await fetch(forgotPasswordAPI, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+      withCredentials: true,
     },
     body: JSON.stringify({
       email,

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import registerStyles from "./Signup.module.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { performRegistration } from "../Server/UsersFetcher";
+import { performRegistration } from "../Server/Users";
 
 const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
