@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setToken } from "./actions/authActions";
-import { logout } from "../Server/UsersFetcher";
+import { logout } from "../Server/Users";
 
 const TOKEN_STORAGE_KEY = "accessToken";
 

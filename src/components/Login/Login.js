@@ -12,7 +12,7 @@ import { refreshAccessTokenIfNeeded } from "../Server/TokenContext";
 import login from "./Login.module.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { performLogin } from "../Server/UsersFetcher";
+import { performLogin } from "../Server/Users";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import forgotPasswordStyles from "./ForgotPassword.module.css"; // Create a new CSS module for the forgot password styles
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { performForgotPassword } from "../Server/UsersFetcher";
+import { performForgotPassword } from "../Server/Users";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
