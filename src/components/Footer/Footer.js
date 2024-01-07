@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import footer from "./Footer.module.css";
 import CookieConsent from "./CookieConsent";
-import { sendSubscriptionEmail } from "../Server/UsersFetcher";
+import { sendSubscriptionEmail } from "../Server/Users";
 
 const Footer = () => {
   const [year, setYear] = useState(new Date().getFullYear());

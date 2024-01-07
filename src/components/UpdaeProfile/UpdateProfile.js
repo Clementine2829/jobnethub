@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import styleProfile from "../ViewProfile/ViewProfile.module.css";
-import { getUser } from "../Server/UsersFetcher";
+import { getUser } from "../Server/Users";
 import { useDispatch, useSelector } from "react-redux";
 
 const UpdateProfile = () => {

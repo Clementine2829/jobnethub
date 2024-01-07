@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styleProfile from "./ViewProfile.module.css";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
-import { getUser } from "../Server/UsersFetcher";
+import { getUser } from "../Server/Users";
 import { useSelector } from "react-redux";
 
 const ViewProfile = () => {
