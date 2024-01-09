@@ -42,22 +42,18 @@ export async function getJobById(jobId, token, admin = false) {
   return await response.json();
 }
 
-export const applyForAJob = async (jobId, token) => {
-  const url = `${getApplyForAJobAPI}${jobId}/apply`;
+export const applyForAJob = async (formData, jobId, token) => {
+  const url = `${getApplyForAJobAPI}/${jobId}/apply`;
   try {
-    const response = await axios.post(
-      url,
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          credentials: "include",
-        },
-        withCredentials: true,
-      }
-    );
-    return { response: response.data };
+    const response = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+        credentials: "include",
+      },
+      withCredentials: true,
+    });
+    return { response: response.message };
   } catch (error) {
     return { response: error.response.data.message };
     // console.error("Network request failed:", error.response.data);

@@ -42,8 +42,8 @@ const closingDate = (date) => {
   }
 };
 
-let salary = (salary) => {
-  return `R${salary}`;
+const salary = (min, max) => {
+  return max !== "" ? `R${min} - R${max}` : `R${min}`;
 };
 
 function JobItem(props) {
@@ -64,8 +64,12 @@ function JobItem(props) {
         </span>
         <span className={`fa fa-map-marker`}></span>
         <span>{props.location}</span>
-        <span className={`fa fa-money`}></span>
-        <span>{salary(props.salary)}</span>
+        {(props.job_salary_min || props.job_salary_max) && (
+          <span>
+            <span className={`fa fa-money`}></span>
+            <span>{salary(props.job_salary_min, props.job_salary_max)}</span>
+          </span>
+        )}
       </p>
       <p>{CheckDescription(props.description)}</p>
       <p className={`${jobs.datePosted}`}>

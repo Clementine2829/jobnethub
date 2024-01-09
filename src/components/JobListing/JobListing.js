@@ -39,6 +39,7 @@ const JobListing = () => {
   }, [activePage]);
 
   const initJobs = (data) => {
+    console.log("data", data);
     try {
       const _totalJobs = data.totalJobs;
       const parsedJobs = data.jobs.map((item) => ({

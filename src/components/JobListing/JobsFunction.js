@@ -1,10 +1,11 @@
 import React from "react";
 import JobList from "./JobItem";
 
-function Jobs(props){
-    const {jobs} = props 
-    const tempjobs = jobs.map(job => {
-        return <JobList
+function Jobs(props) {
+  const { jobs } = props;
+  const tempjobs = jobs.map((job) => {
+    return (
+      <JobList
         key={job.job_id}
         id={job.job_id}
         remoteJob={job.remote_work}
@@ -13,13 +14,16 @@ function Jobs(props){
         company={job.company}
         jobType={job.job_type}
         location={job.job_location}
-        salary={job.job_salary}
+        job_salary_min={job.job_salary_min}
+        job_salary_max={job.job_salary_max}
         description={job.job_description}
         likes={job.likes}
-        datePosted={job.date_updated} />
-})
+        datePosted={job.date_updated}
+      />
+    );
+  });
 
-    return(<>{tempjobs}</>)
+  return <>{tempjobs}</>;
 }
 
-export default Jobs
+export default Jobs;

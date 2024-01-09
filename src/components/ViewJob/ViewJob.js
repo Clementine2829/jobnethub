@@ -18,6 +18,18 @@ const ViewJob = () => {
   const [companyJobs, setCompanyJobs] = useState([]);
   const [applicationMessage, setApplicationMessage] = useState("");
 
+  const [showModal, setShowModal] = useState(false);
+  const [formValues, setFormValues] = useState({
+    name: "",
+    subject: "",
+    fromEmail: "",
+    phone: "",
+  });
+
+  const [skills, setSkills] = useState([]);
+  const [newSkill, setNewSkill] = useState("");
+  const [cvFile, setCvFile] = useState(null);
+
   const [styleApplicationMessage, setStyleApplicationMessage] = useState({
     color: "black",
   });
@@ -28,6 +40,10 @@ const ViewJob = () => {
     display: "none",
   });
   const [styleDutiesDev, setStyleDutiesDev] = useState({ display: "none" });
+
+  const { accessToken, firstname, lastname, email } = useSelector((state) => {
+    return state.auth;
+  });
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -72,6 +88,14 @@ const ViewJob = () => {
         if (jobData.companyJobs) {
           setCompanyJobs(jobData.companyJobs);
         }
+        if (firstname != null && lastname != null && email != null) {
+          setFormValues((prevValues) => ({
+            ...prevValues,
+            subject: `Application for ${jobData.job_title}`,
+            name: `${firstname} ${lastname}`,
+            fromEmail: email,
+          }));
+        }
       } catch (error) {
         // console.error("Error fetching job data:", error);
       }
@@ -87,19 +111,65 @@ const ViewJob = () => {
     companyDataJobsDataFetched,
   ]);
 
-  const { accessToken } = useSelector((state) => {
-    return state.auth;
-  });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handleSendClick = (event) => {
+    event.preventDefault();
+    const { name, subject, email, phone, body } = formValues;
+
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(`Name: ${name}\nPhone: ${phone}\n\n${body}`)}`;
+
+    window.location.href = mailtoLink;
+
+    setShowModal(false);
+  };
 
   const applyForJob = async (event) => {
     event.preventDefault();
-    setApplicationMessage("");
-    setStyleApplicationMessage({ color: "black" });
+
+    console.log("Skills Data:", skills);
+    console.log("CV File:", cvFile);
+
+    // Create FormData object to send as multipart/form-data
+    const formData = new FormData();
+
+    const toEmail = job.email;
+    const body = `Dear hiring manager,\n\nI hope this email finds you well. My name is ${
+      formValues.name
+    }, and I am writing to express my strong interest in the ${
+      job.job_title
+    } position ${
+      job.company != null ? "at " + job.company.company_name : ""
+    }.\n\nI am confident about this job because it aligns with my skills and experiences that I have aquired throught my career which make me a strong candidate for this role. With the following key strengths/skills that I believe make me an excellent fit for the ${
+      job.job_title
+    } job post:\n${
+      skills.length > 0 ? skills.map((skill, index) => `- ${skill}\n`) : ""
+    }\nThank you for considering my application. I look forward to the opportunity to discuss how my skills, qualifications, and expertise align with the needs of your organization.\n\nBest regards,\n${
+      formValues.name
+    }\n${formValues.fromEmail}\n${formValues.phone}`;
+
+    formData.append("formValues", JSON.stringify(formValues));
+    formData.append("toEmail", JSON.stringify(toEmail));
+    formData.append("body", JSON.stringify(body));
+    if (cvFile !== null) {
+      formData.append("cvFile", cvFile);
+      formData.append("fileName", cvFile.name);
+    }
+
     try {
-      const { response } = await applyForAJob(jobId, accessToken);
+      const { response } = await applyForAJob(formData, jobId, accessToken);
       if (response.status === "success") {
-        setApplicationMessage("Job applications submited successfully");
+        setApplicationMessage(response.status);
         setStyleApplicationMessage({ color: "blue" });
+        setCvFile(null);
       } else {
         setApplicationMessage("Job applications failed. " + response);
         setStyleApplicationMessage({ color: "red" });
@@ -108,8 +178,35 @@ const ViewJob = () => {
     } catch (error) {
       setApplicationMessage("Job applications failed.<br/>");
       setStyleApplicationMessage({ color: "red" });
-      // console.error("Error applying for job:", error);
+      console.error("Error applying for job:", error);
     }
+  };
+
+  const toggleModal = () => {
+    console.log("toggleModal");
+    setShowModal(!showModal);
+  };
+
+  const handleSkillChange = (e) => {
+    setNewSkill(e.target.value);
+  };
+
+  const handleAddSkill = () => {
+    if (newSkill.trim() !== "" && skills.length < 5) {
+      setSkills([...skills, newSkill]);
+      setNewSkill("");
+    }
+  };
+
+  const handleDeleteSkill = (index) => {
+    const updatedSkills = [...skills];
+    updatedSkills.splice(index, 1);
+    setSkills(updatedSkills);
+  };
+
+  const handleCvFileChange = (e) => {
+    const file = e.target.files[0];
+    setCvFile(file);
   };
 
   const datePosted = (date) => {
@@ -121,6 +218,9 @@ const ViewJob = () => {
     const datePostedYear = datePosted.getFullYear();
     const datePostedString = `${datePostedDay} ${datePostedMonth} ${datePostedYear}`;
     return datePostedString;
+  };
+  const salary = (min, max) => {
+    return max !== "" ? `R${min} - R${max}` : `R${min}`;
   };
 
   const closingDate = (date) => {
@@ -253,9 +353,12 @@ const ViewJob = () => {
               <p>
                 {job.job_type == "fulltime" ? `Job Type: ${job.job_type}` : ""}
               </p>
-              <p>
-                Salary: <span>{job.job_salary}</span>
-              </p>
+              {(job.job_salary_min || job.job_salary_max) && (
+                <p>
+                  Salary:{" "}
+                  <span>{salary(job.job_salary_min, job.job_salary_max)}</span>
+                </p>
+              )}
               <p>
                 Date posted: {datePosted(job.date_updated)}
                 {job.closing_date != null
@@ -263,7 +366,8 @@ const ViewJob = () => {
                   : ""}
               </p>
               <p>
-                Reference: <span>{job.job_ref}</span>
+                {/* Reference: <span>{job.job_ref}</span> */}
+                Subject: <span> Application for {job.job_title}</span>
               </p>
               <p className={`${styleJob.share}`}>
                 <span
@@ -275,18 +379,229 @@ const ViewJob = () => {
                   className={`fa fa-envelope-o`}
                 ></span>
               </p>
-              <p style={styleApplicationMessage}>{applicationMessage}</p>
+              {/* <p style={styleApplicationMessage}>{applicationMessage}</p> */}
+              <p>
+                {" "}
+                <strong>
+                  To apply, send E-mail to:{" "}
+                  <span style={{ color: "blue " }}>{job.email}</span> or click
+                  the button below to apply{" "}
+                </strong>
+              </p>
               <button
-                onClick={applyForJob}
+                onClick={toggleModal}
                 className={`${styleJob.btnJobApply}`}
               >
-                <span
+                {/* <span
                   className={`fas fa-lock`}
                   style={{ marginRight: " 5px" }}
-                ></span>
+                ></span> */}
                 Apply
               </button>
             </div>
+
+            <div>
+              {/* <button onClick={toggleModal}>Apply Now</button> */}
+
+              {showModal && (
+                <div>
+                  {applicationMessage === "success" ? (
+                    <div className={`${styleJob.message}`}>
+                      <div
+                        className={`${styleJob.modal} ${styleJob.modal_content} ${styleJob.message}`}
+                      >
+                        <span
+                          className={`${styleJob.close}`}
+                          onClick={toggleModal}
+                        >
+                          &times;
+                        </span>
+                        <p>
+                          Email send successfully...
+                          <br /> Please find copy in your provided email.
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={`${styleJob.modal}`}>
+                      <div
+                        className={`${styleJob.modal} ${styleJob.modal_content}`}
+                      >
+                        <br />
+                        <h3>
+                          Use this form below to send your job application{" "}
+                        </h3>
+                        <span
+                          className={`${styleJob.close}`}
+                          onClick={toggleModal}
+                        >
+                          &times;
+                        </span>
+                        <div>
+                          <label>Full Name:</label>
+                          <br />
+                          <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter your full name"
+                            value={formValues.name}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+
+                        <div>
+                          <label>Subject:</label>
+                          <br />
+                          <input
+                            type="text"
+                            name="subject"
+                            placeholder="Enter email subject from the job "
+                            value={formValues.subject}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div>
+                          <label>Your Email address:</label>
+                          <br />
+                          <input
+                            type="email"
+                            name="fromEmail"
+                            placeholder="Enter your valid email address "
+                            value={formValues.fromEmail}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div>
+                          <label>Your phone number:</label>
+                          <br />
+                          <input
+                            type="tel"
+                            name="phone"
+                            placeholder="Enter you valid phone number "
+                            value={formValues.phone}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div>
+                          <small style={{ color: "red" }}>
+                            Enter maximum of five (5) skills if needed.{" "}
+                          </small>
+                          <br />
+                          <input
+                            type="text"
+                            value={newSkill}
+                            placeholder={`Enter your skill number ${
+                              skills.length + 1
+                            } here`}
+                            className={`${styleJob.addSkillInput}`}
+                            onChange={handleSkillChange}
+                          />
+                          <button
+                            className={`${styleJob.addSkills}`}
+                            onClick={handleAddSkill}
+                            disabled={skills.length >= 5}
+                          >
+                            Add Skill new
+                          </button>
+                          <ul>
+                            {skills.map((skill, index) => (
+                              <li key={index}>
+                                <strong>{index + 1}.</strong> {skill}
+                                <button
+                                  className={`${styleJob.deleteSkillInput}`}
+                                  onClick={() => handleDeleteSkill(index)}
+                                >
+                                  <span className="fas fa-trash-alt"></span>
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div style={{ textAlign: "center" }}>
+                          <label>Upload CV: </label>
+                          <input
+                            type="file"
+                            accept=".pdf,.doc,.docx"
+                            onChange={handleCvFileChange}
+                          />
+                        </div>
+                        <div>
+                          <small>Below is an example of your email</small>
+                          <p className={`${styleJob.mailBody}`}>
+                            Dear hiring manager,
+                            <br />
+                            <br />I hope this email finds you well. My name is{" "}
+                            {formValues.name}, and I am writing to express my
+                            strong interest in the {job.job_title} position
+                            {job.company != null
+                              ? " at " + job.company.company_name
+                              : ""}
+                            .
+                            {skills.length > 0 ? (
+                              <span>
+                                <br />
+                                <br />I am confident about this job because it
+                                aligns with my skills and experiences that I
+                                have aquired throught my career which make me a
+                                strong candidate for this role. With the
+                                following key strengths/skills that I believe
+                                make me an excellent fit for the {
+                                  job.job_title
+                                }{" "}
+                                job post:
+                                <br />
+                                {skills.map((skill, index) => (
+                                  <span>
+                                    {" "}
+                                    - {skill} <br />
+                                  </span>
+                                ))}
+                              </span>
+                            ) : (
+                              <br />
+                            )}
+                            <br />
+                            Thank you for considering my application. I look
+                            forward to the opportunity to discuss how my skills,
+                            qualifications, and expertise align with the needs
+                            of your organization.
+                            {cvFile != null && (
+                              <span>
+                                {" "}
+                                Please find my resume attached for your
+                                reference.
+                              </span>
+                            )}
+                            <br />
+                            <br />
+                            Best regards,
+                            <br />
+                            {formValues.name}
+                            <br />
+                            {formValues.fromEmail}
+                            <br />
+                            {formValues.phone}
+                          </p>
+                        </div>
+                        <button
+                          className={`${styleJob.sendMail}`}
+                          onClick={applyForJob}
+                        >
+                          Send
+                        </button>
+                        <button
+                          className={`${styleJob.openWithOtherMain}`}
+                          onClick={handleSendClick}
+                        >
+                          Open with Gmail/Yahoo/Outlook
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
             <div className={`${styleJob.description}`}>
               <h4 style={{ marginTop: " 1.5%" }}>About</h4>
               <p>

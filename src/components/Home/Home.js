@@ -42,7 +42,7 @@ const Home = () => {
         <Searcher currentPage="Home" />
       </div>
 
-      <div>
+      <div style={{ display: "none" }}>
         <p className={`${home.createResume}`}>
           <strong>
             Need a professional CV? click <a href="./resume/update">here</a> to
@@ -58,7 +58,7 @@ const Home = () => {
         <div className={`col-sm-1`}></div>
       </div>
 
-      <div className={`row`}>
+      <div className={`row`} style={{ display: "none" }}>
         <div className={`col-sm-1`}></div>
         <div className={`col-sm-10`}>
           <div className={`${home.browse_employees}`}>
